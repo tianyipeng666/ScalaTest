@@ -11,7 +11,11 @@ object SparkMain {
     val conf: SparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkExcel")
     val session = SparkSession.builder().config(conf).enableHiveSupport().getOrCreate()
 
-    val file = new File("/Users/tianyipeng/IdeaProjects/ScalaSTest/SparkTest/files/")
+    // macOS
+    // val path = "/Users/tianyipeng/IdeaProjects/ScalaSTest/SparkTest/files/"
+    // windows
+    val path = "D:\\项目\\idea\\idea-project\\ScalaTest\\SparkTest\\files"
+    val file = new File(path)
     file.listFiles.foreach(file => {
       println(file.getName)
       val df = session.read
