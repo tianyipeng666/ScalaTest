@@ -1,43 +1,84 @@
+import ftp.FtpUtils
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.types.{StringType, StructField, StructType}
+import org.apache.spark.sql.types.{DataType, DataTypes, StringType, StructField, StructType}
 import org.apache.spark.{SparkConf, SparkContext}
 import utils.ExcelCheckUtil
+import org.apache.spark.sql.functions._
+import _root_.udf.{GetListGenericUDF, GetListUDF}
+import bean.Person
+import inter.UDFName
+import org.apache.poi.ss.formula.functions.T
 
 import java.io.File
+import java.lang.String
+import java.util
+import scala.collection.mutable.ArrayBuffer
 
 object SparkMain {
+
+  val macOSPath = "/Users/tianyipeng/IdeaProjects/ScalaSTest/SparkTest/testFiles/"
+  val windowsPath = "D:\\项目\\idea\\idea-project\\ScalaTest\\SparkTest\\files"
+  val ftpPath = ""
+  val desPath = "/Users/tianyipeng/IdeaProjects/ScalaSTest/SparkTest/desFiles"
 
   def main(args: Array[String]): Unit = {
     val conf: SparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkExcel")
     val session = SparkSession.builder().config(conf).enableHiveSupport().getOrCreate()
 
-    // macOS
-    // val path = "/Users/tianyipeng/IdeaProjects/ScalaSTest/SparkTest/files/"
-    // windows
-    val path = "D:\\项目\\idea\\idea-project\\ScalaTest\\SparkTest\\files"
-    val file = new File(path)
+    // excel处理
+    // excelResolve(session)
+
+    // class
+    val clazzMap = getClazz()
+
+    // udf处理
+    udfArray(session, clazzMap)
+  }
+
+  private def excelResolve(session: SparkSession): Unit = {
+    val file = new File(macOSPath)
+    //根据字段校验文件
     file.listFiles.foreach(file => {
-      println(file.getName)
-      val df = session.read
-        .format("com.crealytics.spark.excel")
-        .option("header", "true")  // Required   // Optional, default: true
-        .option("treatEmptyValuesAsNulls", "false")
-        //.schema(peopleSchema) // Optional, default: Either inferred schema, or all columns are Strings
-        .load(file.getAbsolutePath)
-        //.option("dataAddress", "'My Sheet'!B3:C35") // Optional, default: "A1"
-        //.option("setErrorCellsToFallbackValues", "true") // Optional, default: false, where errors will be converted to null. If true, any ERROR cell values (e.g. #N/A) will be converted to the zero values of the column's data type.
-        //.option("usePlainNumberFormat", "false") // Optional, default: false, If true, format the cells without rounding and scientific notations
-        //.option("inferSchema", "true") // Optional, default: false
-        //.option("addColorColumns", "true") // Optional, default: false
-        //.option("timestampFormat", "yyyy-mm-dd") // Optional, default: yyyy-mm-dd hh:mm:ss[.fffffffff]
-        //.option("maxRowsInMemory", 20) // Optional, default None. If set, uses a streaming reader which can help with big files (will fail if used with xls format files)
-        //.option("maxByteArraySize", 2147483647) // Optional, default None. See https://poi.apache.org/apidocs/5.0/org/apache/poi/util/IOUtils.html#setByteArrayMaxOverride-int-
-        //.option("tempFileThreshold", 10000000) // Optional, default None. Number of bytes at which a zip entry is regarded as too large for holding in memory and the data is put in a temp file instead
-        //.option("excerptSize", 10) // Optional, default: 10. If set and if schema inferred, number of rows to infer schema from
-        //.option("workbookPassword", "pass") // Optional, default None. Requires unlimited strength JCE for older JVMs
-      df.show(1)
-      ExcelCheckUtil.accumulateAllFields(df.columns, file.getName)
+      val df = session.read.format("excel")
+        .option("dataAddress", "A6")
+        .option("header", "true")
+        .option("columnNameOfRowNumber", "RowNum")
+        .load(file.getParent + "/*.xlsx")
+    df.show(10000)
     })
-    ExcelCheckUtil.getErrorFile()
+  }
+
+  private def udfArray(session: SparkSession, clazzMap:util.HashMap[String, String]): Unit = {
+//    val getListUDF = udf((tbName: String, path: String) => {
+//      val list = new util.ArrayList[String]()
+//      list.add(tbName)
+//      list.add(path)
+//      list
+//    })
+//    session.udf.register("getList", getListUDF)
+    clazzMap.entrySet().forEach(entry => {
+      val tempSql = s"CREATE OR REPLACE FUNCTION ${entry.getKey} AS '${entry.getValue}'"
+      println(tempSql)
+      session.sql(tempSql)
+    })
+
+    val df = session.createDataFrame(Seq(Person("Michael", "29"), Person("Andy", "30"), Person("Justin", "19")))
+    df.createOrReplaceTempView("testView")
+    val res = session.sql(
+      """
+        |select GET_LIST(name, age) from testView
+        |""".stripMargin).collect().map(row => row.getString(0).split(","))
+    res.foreach(elem => {
+      println(elem(0) + "==" + elem(1))
+    })
+  }
+
+  private def getClazz():util.HashMap[String, String] = {
+    val clazzMap = new util.HashMap[String, String]()
+    val clazz = Class.forName("udf.GetListGenericUDF")
+    val udf = clazz.getAnnotation(classOf[UDFName])
+    clazzMap.put(udf.value, clazz.getName)
+    clazzMap
   }
 }
+

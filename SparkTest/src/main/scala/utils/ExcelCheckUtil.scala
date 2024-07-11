@@ -1,7 +1,11 @@
 package utils
 
+import org.apache.spark.sql.{DataFrame, Row}
+
+import java.text.SimpleDateFormat
 import scala.collection.mutable
-import scala.collection.mutable.ListBuffer
+import scala.collection.mutable.{ArrayBuffer, ListBuffer}
+import java.sql.Timestamp
 
 object ExcelCheckUtil {
 
@@ -20,14 +24,41 @@ object ExcelCheckUtil {
   }
 
   def getErrorFile(): ListBuffer[String] = {
-    if (fieldsMap.size == 1) {
-      return null
+    try {
+      if (fieldsMap.size == 1) {
+        return null
+      }
+      val resBuffer = new ListBuffer[String]
+      fieldsMap.foreach(entry => {
+        val listBuffer = entry._2
+        if (tempErrorMap.contains(listBuffer.size)) {
+          val value = tempErrorMap.get(listBuffer.size).get
+          listBuffer.foreach(elem => {
+            value += elem
+          })
+        } else {
+          tempErrorMap += entry._2.size -> entry._2
+        }
+      })
+      val maxInt = tempErrorMap.keySet.max
+      tempErrorMap.filter(_._1 != maxInt).foreach(entry => {
+        resBuffer ++= entry._2
+      })
+      resBuffer
+    } catch {
+      case e: Exception =>
+        e.printStackTrace()
+        null
+    } finally {
+      fieldsMap.clear()
+      tempErrorMap.clear()
     }
-    fieldsMap.map(entry => {
-      tempErrorMap += entry._2.size -> entry._2
-    })
-    println(fieldsMap.keySet.size)
-    null
+  }
+
+  def main(args: Array[String]): Unit = {
+    val fileName = "aaa.xls"
+    val filterSet = mutable.Set("XLS", "XLSX")
+    println(filterSet.contains(fileName.split("\\.").last.toUpperCase()))
   }
 
 }
