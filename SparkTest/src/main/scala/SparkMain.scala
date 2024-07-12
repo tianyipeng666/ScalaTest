@@ -16,36 +16,40 @@ import scala.collection.mutable.ArrayBuffer
 
 object SparkMain {
 
-  val macOSPath = "/Users/tianyipeng/IdeaProjects/ScalaSTest/SparkTest/testFiles/"
+  val macOSPath = "/Users/tianyipeng/IdeaProjects/ScalaSTest/SparkTest/testFiles"
   val windowsPath = "D:\\项目\\idea\\idea-project\\ScalaTest\\SparkTest\\files"
   val ftpPath = ""
   val desPath = "/Users/tianyipeng/IdeaProjects/ScalaSTest/SparkTest/desFiles"
+  val hdfsPath = "hdfs://172.16.34.121:8020/excel/"
 
   def main(args: Array[String]): Unit = {
     val conf: SparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkExcel")
     val session = SparkSession.builder().config(conf).enableHiveSupport().getOrCreate()
 
     // excel处理
-    // excelResolve(session)
+    excelResolve(session)
 
     // class
-    val clazzMap = getClazz()
-
+    // val clazzMap = getClazz()
     // udf处理
-    udfArray(session, clazzMap)
+    // udfArray(session, clazzMap)
   }
 
   private def excelResolve(session: SparkSession): Unit = {
-    val file = new File(macOSPath)
-    //根据字段校验文件
-    file.listFiles.foreach(file => {
-      val df = session.read.format("excel")
-        .option("dataAddress", "A6")
-        .option("header", "true")
-        .option("columnNameOfRowNumber", "RowNum")
-        .load(file.getParent + "/*.xlsx")
+    val df = session.read.format("excel")
+      .option("dataAddress", "A6")
+      .option("header", "true")
+      .option("columnNameOfRowNumber", "行号")
+      .load(macOSPath + "/*.xlsx")
     df.show(10000)
-    })
+    df.write.
+      option("header", "true").
+      csv(desPath + "/testCsv")
+    session.read.
+      option("header", "true").
+      csv(desPath + "/testCsv")
+      .show(10000)
+
   }
 
   private def udfArray(session: SparkSession, clazzMap:util.HashMap[String, String]): Unit = {
