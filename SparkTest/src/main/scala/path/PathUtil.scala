@@ -6,7 +6,7 @@ object PathUtil {
 
   def main(args: Array[String]): Unit = {
     // hdfs:/hdfsCluster/temp/tbName
-    println(getParent("hdfs://hdfsCluster/temp/tbName/test.xlsx"))
+    println(getParent("test.xlsx"))
   }
 
   def getParent(absolutePath: String): String = {

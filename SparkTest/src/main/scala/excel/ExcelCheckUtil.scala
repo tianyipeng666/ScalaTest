@@ -1,11 +1,7 @@
-package utils
+package excel
 
-import org.apache.spark.sql.{DataFrame, Row}
-
-import java.text.SimpleDateFormat
 import scala.collection.mutable
-import scala.collection.mutable.{ArrayBuffer, ListBuffer}
-import java.sql.Timestamp
+import scala.collection.mutable.ListBuffer
 
 object ExcelCheckUtil {
 
