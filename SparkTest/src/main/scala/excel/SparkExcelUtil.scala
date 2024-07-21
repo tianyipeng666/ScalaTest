@@ -20,6 +20,7 @@ object SparkExcelUtil {
       .option("header", "true")
       .option("columnNameOfRowNumber", "行号")
       .load(src)
+    df.show(10000)
     df.schema.fields.foreach(field => {
       i += 1
       resBuffer.append(Schema(field.name, i, field.dataType.simpleString))

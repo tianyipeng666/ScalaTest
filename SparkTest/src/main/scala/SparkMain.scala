@@ -8,7 +8,6 @@ import bean.Person
 import excel.{ExcelCheckUtil, SparkExcelUtil}
 import hive.HiveUtil
 import inter.UDFName
-import org.apache.poi.ss.formula.functions.T
 
 import java.io.File
 import java.lang.String
@@ -28,8 +27,9 @@ object SparkMain {
     val conf: SparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkExcel")
     val session = SparkSession.builder().config(conf).enableHiveSupport().getOrCreate()
 
+    SparkExcelUtil.previewExcel(session, macOSPath)
     // hive建表
-    HiveUtil.createTableAndRefresh(session, hdfsPath, SparkExcelUtil.previewExcel(session, macOSPath), "TestExcel3")
+    // HiveUtil.createTableAndRefresh(session, hdfsPath, SparkExcelUtil.previewExcel(session, macOSPath), "TestExcel3")
 
   }
 }
