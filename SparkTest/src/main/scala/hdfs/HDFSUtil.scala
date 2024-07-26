@@ -3,6 +3,7 @@ package hdfs
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{FileSystem, Path}
 
+import java.io.OutputStream
 import scala.collection.mutable.ArrayBuffer
 
 object HDFSUtil {
@@ -21,6 +22,12 @@ object HDFSUtil {
     resBuffer.foreach(elem => {
       rename("hdfs://hdcluster/excel/testExcel2/" + elem, "hdfs://hdcluster/excel/externalExcel/" + elem)
     })
+  }
+
+  def getFs(): FileSystem = {
+    val config = new Configuration
+    val fs = FileSystem.get(config)
+    fs
   }
 
   def getFilesName(path: String): Seq[String] = {
@@ -42,6 +49,13 @@ object HDFSUtil {
     if (fs.exists(hdfsPath)) {
       fs.rename(hdfsPath, new Path(des))
     }
+  }
+
+  def openOutputStreamByUDF(filePath: String, overwrite: Boolean = true): OutputStream = {
+    val config = new Configuration()
+    val fs = FileSystem.get(config)
+    val path = new Path(filePath)
+    fs.create(path, overwrite)
   }
 
 }

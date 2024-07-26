@@ -17,7 +17,7 @@ object HiveUtil {
     builder.append(")")
     builder.append(s"\n USING CSV")
     // 分区键需再表名后的括号内(col1, col2, pk)，不能带属性
-    builder.append(s"\n PARTITIONED BY (`pk` STRING)")
+    // builder.append(s"\n PARTITIONED BY (`pk` STRING)")
     builder.append(s"\n OPTIONS ('path' '$hdfsPath', 'header' 'true', 'delimiter' ',')")
     println(builder.toString())
     session.sql(builder.toString())
@@ -29,7 +29,39 @@ object HiveUtil {
     session.sql(s""" MCSK REPAIR TABLE bdp.$tableName """)
     session.sql(s""" SELECT * FROM bdp.$tableName """)
       .show(10000)
+  }
 
+  def createTableTest(session: SparkSession, hdfsPath: String, tableName: String, count: Int): Unit = {
+    val builder = new mutable.StringBuilder
+    // 无法带external
+    builder.append(s"CREATE EXTERNAL TABLE IF NOT EXISTS bdp.$tableName (")
+    builder.append(s"`name1` STRING,")
+    builder.append(s"`name2` STRING,")
+    builder.append(s"`name3` STRING,")
+    builder.append(s"`name4` STRING,")
+    builder.append(s"`name5` STRING,")
+    builder.append(s"`name6` STRING,")
+    builder.append(s"`name7` STRING,")
+    builder.append(s"`name8` STRING,")
+    builder.append(s"`name9` STRING,")
+    builder.append(s"`name10` STRING,")
+    builder.append(s"`name11` STRING,")
+    builder.append(s"`name12` STRING,")
+    builder.append(s"`name13` STRING,")
+    builder.deleteCharAt(builder.size - 1)
+    builder.append(")")
+    builder.append(s"\n USING CSV")
+    builder.append(s"\n OPTIONS ('path' '$hdfsPath', 'header' 'true', 'delimiter' ',')")
+    println(builder.toString())
+    session.sql(builder.toString())
+
+    val alterLocationSql = s"ALTER TABLE bdp.$tableName SET LOCATION '$hdfsPath'"
+    println(alterLocationSql)
+    session.sql(alterLocationSql)
+
+    session.sql(s""" REFRESH TABLE bdp.$tableName """)
+    session.sql(s""" SELECT * FROM bdp.$tableName """)
+      .show(10000)
   }
 
   def createCSVSpark246(): String = {

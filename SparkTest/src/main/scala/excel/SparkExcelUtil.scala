@@ -1,6 +1,7 @@
 package excel
 
 import bean.Schema
+import com.crealytics.spark.excel.WorkbookReader
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.types.StructField
 
@@ -11,21 +12,22 @@ import scala.collection.mutable.ArrayBuffer
 object SparkExcelUtil {
 
   private val filesPath = new mutable.ArrayBuffer[String]()
+
   def previewExcel(session: SparkSession, src: String): Seq[Schema] = {
-    val resBuffer = new ArrayBuffer[Schema]()
-    var i = 0
-    val df = session.read
-      .format("excel")
-      .option("dataAddress", "A6")
-      .option("header", "true")
-      .option("columnNameOfRowNumber", "行号")
-      .load(src)
-    df.show(10000)
-    df.schema.fields.foreach(field => {
-      i += 1
-      resBuffer.append(Schema(field.name, i, field.dataType.simpleString))
+    // 获取指定文件的sheetNames, 只能读取本地
+     val sheetNames = WorkbookReader(Map("path" -> src)
+      , session.sparkContext.hadoopConfiguration
+    ).sheetNames
+    sheetNames.foreach(elem => {
+      val df = session.read
+        .format("excel")
+        .option("dataAddress", s"'${elem}'!A6")
+        .option("header", "true")
+        .option("columnNameOfRowNumber", "行号")
+        .load(src)
+      df.show(10000)
     })
-    resBuffer
+    null
   }
 
   def excelResolve(session: SparkSession, isFlatten: Boolean, src: String, des: String): Unit = {
