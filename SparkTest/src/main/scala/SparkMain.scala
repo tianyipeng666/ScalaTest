@@ -47,7 +47,8 @@ object SparkMain {
   }
 
   private def redisDispose(): Unit = {
-    RedisServices.checkConnection()
+    // redis连通性测试
+    println(RedisServices.checkConnection())
   }
 }
 

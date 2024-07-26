@@ -1,11 +1,12 @@
 package scheduler.base
 
 import redis.RedisServices
+
 import java.util.concurrent._
 import java.util.concurrent.atomic.{AtomicBoolean, AtomicInteger}
 import scala.util.control.NonFatal
 import com.google.common.util.concurrent.{ListeningExecutorService, MoreExecutors}
-import io.lettuce.core.RedisException
+import com.lambdaworks.redis.RedisException
 import log.LazyLogging
 import org.json4s.DefaultFormats
 import thread.NamingThreadFactory
