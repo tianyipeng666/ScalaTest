@@ -10,15 +10,19 @@ import excel.{ExcelCheckUtil, SparkExcelUtil}
 import hive.HiveUtil
 import inter.UDFName
 import redis.RedisServices
+import scheduler.CommitScheduler
 
 object SparkMain {
 
 
   def main(args: Array[String]): Unit = {
-    //    val conf: SparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkExcel")
-    //    val session = SparkSession.builder().config(conf).enableHiveSupport().getOrCreate()
+    //  val conf: SparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkExcel")
+    //  val session = SparkSession.builder().config(conf).enableHiveSupport().getOrCreate()
+    schedulerDispose
+  }
 
-    redisDispose()
+  private def schedulerDispose(): Unit = {
+    CommitScheduler.start()
   }
 
   private def excelDispose(session: SparkSession): Unit = {
