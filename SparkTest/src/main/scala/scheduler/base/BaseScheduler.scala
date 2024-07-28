@@ -6,7 +6,8 @@ import java.util.concurrent._
 import java.util.concurrent.atomic.{AtomicBoolean, AtomicInteger}
 import scala.util.control.NonFatal
 import com.google.common.util.concurrent.{ListeningExecutorService, MoreExecutors}
-import com.lambdaworks.redis.RedisException
+import io.lettuce.core.RedisException
+// import com.lambdaworks.redis.RedisException
 import log.LazyLogging
 import org.json4s.DefaultFormats
 import thread.NamingThreadFactory
@@ -30,7 +31,7 @@ abstract class BaseScheduler(maxRunningNum: Int, threadName: String, queue: Stri
           var msg: String = null
           try {
             // 进行任务消费
-            msg = RedisServices.getAsyncTask(queue)
+            // msg = RedisServices.getAsyncTask(queue)
             if (msg != null) {
               logger.info(s"$threadName queueType: $queue, consume message: $msg")
               onReceive(msg)
