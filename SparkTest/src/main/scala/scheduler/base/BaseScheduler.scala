@@ -41,7 +41,7 @@ abstract class BaseScheduler(maxRunningNum: Int, threadName: String, queue: Stri
             }
           } catch {
             case rse: RedisException =>
-              logger.error(s"$threadName Mobius abnormal stop!", rse)
+              logger.error(s"$threadName abnormal stop!", rse)
               System.exit(-1)
             case NonFatal(e) =>
               logger.error(s"$threadName Unexpected error in $msg", e)
