@@ -11,6 +11,12 @@ import redis.RedisServices
 import scheduler.base.BaseScheduler
 import scheduler.callback.CommitCallback
 import scheduler.runner.CommitRunner
+
+/**
+ * step2 创建Scheduler执行与回调
+ *  Runner
+ *  Callback
+ */
 class CommitScheduler(maxRunningNum: Int, threadName: String, queue: String) extends BaseScheduler(maxRunningNum, threadName, queue) {
   override def onReceive(msg: String): Unit = {
     RedisServices.pushToList(ConstantKey.ASYNC_COMMIT_TMP_TASK, msg)
@@ -39,6 +45,9 @@ class CommitScheduler(maxRunningNum: Int, threadName: String, queue: String) ext
 }
 
 
+/**
+ * step1 创建Scheduler-Start
+ */
 object CommitScheduler extends LazyLogging {
   private val maxRunningNum = 10
   private val threadName = "commit-async"

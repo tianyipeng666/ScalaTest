@@ -2,7 +2,7 @@ package constant
 
 object ConstantPath {
 
-  val macOSPath = "file:///Users/tianyipeng/IdeaProjects/ScalaSTest/SparkTest/testFiles/20240713/test.xlsx"
+  val macOSPath = "file:///Users/tianyipeng/IdeaProjects/ScalaSTest/SparkTest/testFiles/20240713"
 
   val windowsPath = "D:\\项目\\idea\\idea-project\\ScalaTest\\SparkTest\\files"
 

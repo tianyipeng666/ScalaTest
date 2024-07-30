@@ -12,9 +12,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <scala.binary.version>2.11</scala.binary.version>
-        <scala.version>2.11.12</scala.version>
-        <spark.version>2.4.6</spark.version>
+        <scala.binary.version>2.12</scala.binary.version>
+        <scala.version>2.12.17</scala.version>
+        <spark.version>3.2.2</spark.version>
         <hdfs.version>2.7.2</hdfs.version>
         <scala.test.version>3.2.5</scala.test.version>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -26,6 +26,12 @@
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-reflect</artifactId>
             <version>${scala.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -56,21 +62,19 @@
         </dependency>
 
         <!--excel-->
-<!--        <dependency>-->
-<!--            <groupId>com.haizhi</groupId>-->
-<!--            <artifactId>spark-excel</artifactId>-->
-<!--            <version>2.4.6_0.18.5</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.haizhi</groupId>
+            <artifactId>spark-excel</artifactId>
+            <version>3.2.2_0.18.5</version>
+            <scope>compile</scope>
+        </dependency>
         <!-- 原始 -->
-            <dependency>
-                <groupId>com.crealytics</groupId>
-                <artifactId>spark-excel_2.12</artifactId>
-                <version>3.2.2_0.18.5</version>
-                <scope>compile</scope>
-            </dependency>
-        <!-- 2.4.6-2.11.12 dependency -->
-
+<!--            <dependency>-->
+<!--                <groupId>com.crealytics</groupId>-->
+<!--                <artifactId>spark-excel_2.12</artifactId>-->
+<!--                <version>3.2.2_0.18.5</version>-->
+<!--                <scope>compile</scope>-->
+<!--            </dependency>-->
 
         <!--spark-->
         <dependency>
@@ -128,11 +132,24 @@
             <artifactId>lettuce</artifactId>
             <version>4.5.0.Final</version>
         </dependency>
-        <!-- 连接池依赖 -->
+        <!-- 连接池依赖 低版本该包的GenericPool会存在编译不通过情况-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
             <version>2.7.0</version>
+        </dependency>
+
+        <!-- json -->
+        <dependency>
+            <groupId>org.json4s</groupId>
+            <artifactId>json4s-jackson_2.12</artifactId>
+            <version>4.0.6</version>
+        </dependency>
+        <!-- 扩展包，用于枚举类序列化 -->
+        <dependency>
+            <groupId>org.json4s</groupId>
+            <artifactId>json4s-ext_2.12</artifactId>
+            <version>4.0.6</version>
         </dependency>
     </dependencies>
 
@@ -149,7 +166,8 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-            <!-- scala compile 添加导致自测报错, 只能有一个源目录（scala与java就导致问题） -->
+
+            <!-- scala compile 添加导致自测报错, 只能有一个源目录（scala与java就导致问题）:is already defined as object -->
 <!--            <plugin>-->
 <!--                <groupId>net.alchim31.maven</groupId>-->
 <!--                <artifactId>scala-maven-plugin</artifactId>-->
@@ -172,6 +190,8 @@
 <!--                    </execution>-->
 <!--                </executions>-->
 <!--            </plugin>-->
+
+            <!-- assembly -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>

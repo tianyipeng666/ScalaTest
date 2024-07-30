@@ -38,9 +38,9 @@ object RedisServices extends LazyLogging {
 
   def pushToList(key: String, value: String): Long = {
     val connection = redisPool.allocateConnection
-    val value = connection.rpush(key, value)
+    val res = connection.rpush(key, value)
     connection.close()
-    value
+    res
   }
 
   def recoveryTmpTask(fromQueue: String, toQueue: String): Seq[String] = {

@@ -13,21 +13,31 @@ object SparkExcelUtil {
 
   private val filesPath = new mutable.ArrayBuffer[String]()
 
-  def previewExcel(session: SparkSession, src: String): Seq[Schema] = {
-    // 获取指定文件的sheetNames, 只能读取本地
-     val sheetNames = WorkbookReader(Map("path" -> src)
-      , session.sparkContext.hadoopConfiguration
-    ).sheetNames
-    sheetNames.foreach(elem => {
+  def previewExcel(session: SparkSession, src: String, isGetSheet: Boolean): Unit = {
+    if (!isGetSheet) {
       val df = session.read
         .format("excel")
-        .option("dataAddress", s"'${elem}'!A6")
+        .option("dataAddress", "A6")
         .option("header", "true")
         .option("columnNameOfRowNumber", "行号")
         .load(src)
       df.show(10000)
-    })
-    null
+    } else {
+      // 获取指定文件的sheetNames, 只能读取本地
+      val sheetNames = WorkbookReader(Map("path" -> src)
+        , session.sparkContext.hadoopConfiguration
+      ).sheetNames
+      sheetNames.foreach(elem => {
+        val df = session.read
+          .format("excel")
+          .option("dataAddress", s"'${elem}'!A6")
+          .option("header", "true")
+          .option("columnNameOfRowNumber", "行号")
+          .load(src)
+        df.show(10000)
+      })
+    }
+
   }
 
   def excelResolve(session: SparkSession, isFlatten: Boolean, src: String, des: String): Unit = {
