@@ -20,14 +20,13 @@ import scheduler.runner.CommitRunner
  */
 class CommitScheduler(maxRunningNum: Int, threadName: String, queue: String) extends BaseScheduler(maxRunningNum, threadName, queue) {
   override def onReceive(msg: String): Unit = {
-    println(s"msg in tmp key:${ConstantKey.ASYNC_COMMIT_TMP_TASK}, msg==${msg}")
+    logger.info(s"msg in tmp key:${ConstantKey.ASYNC_COMMIT_TMP_TASK}, msg==${msg}")
     RedisServices.pushToList(ConstantKey.ASYNC_COMMIT_TMP_TASK, msg)
     val parseMsg = JsonMethods.parse(msg).extract[AsyncQueueMessage]
     val traceId = parseMsg.traceId
     MDC.put("traceId", s" [$traceId]")
     logger.info(s"consume commit task: $traceId")
     val commitInfo = JsonMethods.parse(parseMsg.data).extract[CommitInfo]
-    println(commitInfo)
     val tbName = commitInfo.str
     remainingExecutors.decrementAndGet()
     val resultFuture = try {
@@ -63,8 +62,6 @@ object CommitScheduler extends LazyLogging {
     RedisServices.recoveryTmpTask(ConstantKey.ASYNC_COMMIT_TMP_TASK, ConstantKey.ASYNC_COMMIT_TASK).foreach {task =>
       val parseMsg = JsonMethods.parse(task).extract[AsyncQueueMessage]
       val syncInfo = JsonMethods.parse(parseMsg.data).extract[CommitInfo]
-      // 把0初始化和1执行中的状态均改为3失败
-      // DbService().updateFTPFileStatusByTbName(syncInfo.tbName, 3, Seq(0, 1))
       logger.warn(s"recovery commit task: ${syncInfo.str} [${syncInfo.enumType.toString}]")
     }
     println("commit scheduler start...")
@@ -73,6 +70,7 @@ object CommitScheduler extends LazyLogging {
 
   def stop(): Unit = {
     if (scheduler != null) {
+      logger.info(s"------------stop $threadName scheduling-----------------")
       scheduler.stop()
     }
   }

@@ -12,6 +12,7 @@ import inter.UDFName
 import json.JsonService
 import redis.RedisServices
 import scheduler.CommitScheduler
+import thread.ShutdownThread
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -19,11 +20,15 @@ object SparkMain {
 
 
   def main(args: Array[String]): Unit = {
-//    val conf: SparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkExcel")
-//    val session = SparkSession.builder().config(conf).enableHiveSupport().getOrCreate()
+    // jvm退出监测
+    ShutdownThread.listenShutdown()
     schedulerDispose()
-    // jsonDispose()
-    // redisDispose()
+
+  }
+
+  private def getSparkSession(): SparkSession = {
+    val conf: SparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkTest")
+    SparkSession.builder().config(conf).enableHiveSupport().getOrCreate()
   }
 
   private def schedulerDispose(): Unit = {
@@ -76,7 +81,6 @@ object SparkMain {
     val beanTransform = JsonService.getDeSerToObject(str)
 
     println("after transform==>" + beanTransform.data)
-
   }
 }
 

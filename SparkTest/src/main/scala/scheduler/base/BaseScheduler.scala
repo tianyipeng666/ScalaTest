@@ -28,14 +28,18 @@ abstract class BaseScheduler(maxRunningNum: Int, threadName: String, queue: Stri
     MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(maxRunningNum + 1, namingThreadFactory))
 
   // 回调执行
-  val callBackService: ExecutorService = Executors.newFixedThreadPool(1, namingThreadFactory)
+  val callBackService: ExecutorService = Executors.newFixedThreadPool(3, namingThreadFactory)
 
   val stopped: AtomicBoolean = new AtomicBoolean(false)
 
+
+  logger.info(s"threadName: $threadName, queue: $queue")
+
   private val eventThread = new Thread(threadName) {
 
-    // 程序退出...
-    // setDaemon(true)
+    // 需保证有常驻进程持续执行才可保证该线程的执行
+    // 设定该线程为守护线程，当唯一运行的线程都是守护程序线程时，Java虚拟机将退出
+    setDaemon(true)
 
     override def run(): Unit = {
       while (!stopped.get && !service.isShutdown) {
@@ -48,8 +52,9 @@ abstract class BaseScheduler(maxRunningNum: Int, threadName: String, queue: Stri
               logger.info(s"$threadName queueType: $queue, consume message: $msg")
               onReceive(msg)
             } else {
+              // 队列里面没有任务
               logger.trace(s"$threadName task list is empty")
-              Thread.sleep(1000) // 队列里面没有任务
+              Thread.sleep(1000)
             }
           } catch {
             case rse: RedisException =>

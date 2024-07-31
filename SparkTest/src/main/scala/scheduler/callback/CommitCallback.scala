@@ -24,7 +24,6 @@ class CommitCallback(tbName: String,
     remainingExecutors.incrementAndGet()
     // 执行成功移除
     RedisServices.removeFromList(ConstantKey.ASYNC_COMMIT_TMP_TASK, msg)
-
     logger.debug(s"commit sync result: $result")
     if (result.status == 0) {
       logger.info(s"commit sync success, $traceId")

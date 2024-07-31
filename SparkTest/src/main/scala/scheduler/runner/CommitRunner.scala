@@ -17,10 +17,11 @@ class CommitRunner(syncInfo: CommitInfo) extends Callable[AsyncQueueResponse] wi
 
     try {
       RedisServices.setValue(ConstantKey.asyncResult(syncInfo.str, syncInfo.enumType.toString), "1")
+      // 锁key存在时则无限重试，直到key不存在并上锁才会向下执行
       RedisServices.lock(ConstantKey.lockTable(syncInfo.str), "/tb/commit", 1800000)
       // commit执行逻辑
       println(s"commit ${syncInfo.str} execute...")
-      val statusCode = 1
+      val statusCode = 0
       AsyncQueueResponse(statusCode, "errorMsg", "", syncInfo.enumType.toString, "/tb/commit")
     } catch {
       case e: Exception =>
