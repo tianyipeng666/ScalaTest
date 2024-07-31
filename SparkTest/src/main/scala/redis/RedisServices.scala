@@ -14,26 +14,32 @@ object RedisServices extends LazyLogging {
   private val redisPool = getPoolConnectOld("bdp-redis", 6679, "h1iz6i2dp4redis")
 
   def getPoolConnectOld(redisHost: String, redisPort: Int, password: String): RedisConnectionPool[RedisCommands[String, String]] = {
-    val redisUri = if (password.isEmpty) {
+    val redisUri = if (!password.isEmpty) {
       RedisURI.Builder.redis(redisHost, redisPort)
         .withPassword(password).build()
     } else {
       RedisURI.Builder.redis(redisHost, redisPort).build()
     }
     val redisClient = RedisClient.create(redisUri)
-    redisClient.pool()
+    redisClient.pool(1, 3)
   }
 
   def getAsyncTask(queue: String): String = {
     var task: String = null
-    // val connection = redisPool.borrowObject().asInstanceOf[StatefulRedisClusterConnection[String, String]]
-    val connection = redisPool.allocateConnection
-    if (!connection.isOpen) {
-      logger.error("redis connect error")
+    try {
+      // val connection = redisPool.borrowObject().asInstanceOf[StatefulRedisClusterConnection[String, String]]
+      val connection = redisPool.allocateConnection
+      if (!connection.isOpen) {
+        logger.error("redis connect error")
+      }
+      task = connection.rpop(queue)
+      connection.close()
+      task
+    } catch {
+      case e: Exception =>
+        e.printStackTrace()
+        task
     }
-    task = connection.rpop(queue)
-    connection.close()
-    task
   }
 
   def pushToList(key: String, value: String): Long = {
@@ -97,6 +103,13 @@ object RedisServices extends LazyLogging {
     val count = connection.del(key)
     connection.close()
     count
+  }
+
+  def putAsyncValue(value: String, key: String): Long = {
+    val connection = redisPool.allocateConnection
+    val long = connection.lpush(key, value)
+    connection.close()
+    long
   }
 
   def checkConnection(): Boolean = {

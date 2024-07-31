@@ -1,30 +1,42 @@
 package scheduler.base
 
+import bean.EnumBean
 import redis.RedisServices
 
 import java.util.concurrent._
 import java.util.concurrent.atomic.{AtomicBoolean, AtomicInteger}
 import scala.util.control.NonFatal
 import com.google.common.util.concurrent.{ListeningExecutorService, MoreExecutors}
+import org.json4s.Formats
+import org.json4s.ext.EnumNameSerializer
 // import io.lettuce.core.RedisException
 import com.lambdaworks.redis.RedisException
 import log.LazyLogging
 import org.json4s.DefaultFormats
 import thread.NamingThreadFactory
 abstract class BaseScheduler(maxRunningNum: Int, threadName: String, queue: String) extends LazyLogging {
-  implicit val formats: DefaultFormats.type = DefaultFormats
+
+  implicit val formats: Formats = DefaultFormats + new EnumNameSerializer(EnumBean)
 
   val namingThreadFactory = new NamingThreadFactory(s"${this.getClass.getSimpleName}")
+
+  // 并发原子计数，保证多线程共享操作时不出现问题，cas机制
   val remainingExecutors: AtomicInteger = new AtomicInteger(maxRunningNum)
+
+  // Executors为构建的线程池，MoreExecutors.listeningDecorator对ExecutorService做装饰，转换为ListeningExecutorService，可监听任务的执行
   val service: ListeningExecutorService =
     MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(maxRunningNum + 1, namingThreadFactory))
-  val callBackService: ExecutorService = Executors.newFixedThreadPool(5, namingThreadFactory)
+
+  // 回调执行
+  val callBackService: ExecutorService = Executors.newFixedThreadPool(1, namingThreadFactory)
+
   val stopped: AtomicBoolean = new AtomicBoolean(false)
 
-  logger.info(s"threadName: $threadName, queue: $queue")
-
   private val eventThread = new Thread(threadName) {
-    setDaemon(true)
+
+    // 程序退出...
+    // setDaemon(true)
+
     override def run(): Unit = {
       while (!stopped.get && !service.isShutdown) {
         if (remainingExecutors.get() > 0) {
@@ -45,6 +57,8 @@ abstract class BaseScheduler(maxRunningNum: Int, threadName: String, queue: Stri
               System.exit(-1)
             case NonFatal(e) =>
               logger.error(s"$threadName Unexpected error in $msg", e)
+            case e: Exception =>
+              e.printStackTrace()
           }
         } else {
           logger.warn(s"$threadName 已达到并发上限: $maxRunningNum, 等待 1 秒.")
@@ -73,6 +87,7 @@ abstract class BaseScheduler(maxRunningNum: Int, threadName: String, queue: Stri
     if (eventThread.isAlive) {
       return
     }
+    println("Thread start...")
     eventThread.start()
   }
 

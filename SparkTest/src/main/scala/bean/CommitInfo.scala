@@ -1,6 +1,11 @@
 package bean
 
-case class CommitInfo(tbName: String,
-                      path: String,
-                      mode: Int,
-                      traceId: String)
+import bean.EnumBean.EnumBean
+
+case class CommitInfo(str: String,
+                      list: Seq[String],
+                      pojoType: Person,
+                      bool: Boolean,
+                      optionType: Option[String],
+                      time: Long,
+                      enumType: EnumBean)

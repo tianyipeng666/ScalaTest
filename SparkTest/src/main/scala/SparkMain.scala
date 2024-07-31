@@ -5,13 +5,14 @@ import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.functions._
 import _root_.udf.UdfRegister
 import bean.{EnumBean, Person, SerTestBean}
-import constant.ConstantPath
+import constant.{ConstantKey, ConstantPath}
 import excel.{ExcelCheckUtil, SparkExcelUtil}
 import hive.HiveUtil
 import inter.UDFName
 import json.JsonService
 import redis.RedisServices
 import scheduler.CommitScheduler
+
 import scala.collection.mutable.ArrayBuffer
 
 object SparkMain {
@@ -20,7 +21,9 @@ object SparkMain {
   def main(args: Array[String]): Unit = {
 //    val conf: SparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkExcel")
 //    val session = SparkSession.builder().config(conf).enableHiveSupport().getOrCreate()
-    jsonDispose()
+    schedulerDispose()
+    // jsonDispose()
+    // redisDispose()
   }
 
   private def schedulerDispose(): Unit = {
@@ -48,16 +51,18 @@ object SparkMain {
     println(FtpUtils.checkRootPathFile("/typ/excelUpload/test.xlsx", client))
   }
 
+
   private def redisDispose(): Unit = {
     // redis连通性测试
     println(RedisServices.checkConnection())
+    println(RedisServices.getAsyncTask(ConstantKey.ASYNC_COMMIT_TASK))
   }
 
   private def jsonDispose(): Unit = {
     val seq = new ArrayBuffer[String]()
     seq.append("list1", "list2", "list3")
-    val person = Person("typ", "29")
-    val bean = SerTestBean("typ", seq, person, true, Some("option"), 1000, EnumBean.EXCEL)
+    val person = Person("typ2", "30")
+    val bean = SerTestBean("typ2", seq, person, true, Some("option"), 1000, EnumBean.ORC)
 
     println("before transform==>" + bean.enumType)
     println("before transform==>" + bean.optionType)
@@ -65,12 +70,12 @@ object SparkMain {
 
     // 对象转str
     val str = JsonService.getSerFromObject(bean)
+    // bean写入redis
+    RedisServices.putAsyncValue(str, ConstantKey.ASYNC_COMMIT_TASK)
     // str转对象
     val beanTransform = JsonService.getDeSerToObject(str)
 
-    println("after transform==>" + beanTransform.enumType)
-    println("after transform==>" + beanTransform.optionType)
-    println("after transform==>" + beanTransform.pojoType)
+    println("after transform==>" + beanTransform.data)
 
   }
 }

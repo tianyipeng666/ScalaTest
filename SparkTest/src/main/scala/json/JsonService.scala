@@ -1,12 +1,14 @@
 package json
 
-import bean.{EnumBean, SerTestBean}
+import bean.{AsyncQueueMessage, EnumBean, SerTestBean}
 import org.json4s.ext.EnumNameSerializer
 import com.fasterxml.jackson.databind.DeserializationFeature.USE_BIG_INTEGER_FOR_INTS
 import com.fasterxml.jackson.databind.DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.json4s.{DefaultFormats, FileInput, Formats, JValue, JsonInput, ReaderInput, StreamInput, StringInput}
 import org.json4s.jackson.{Json4sScalaModule, Serialization}
+import org.json4s.jackson.Serialization._
+import org.json4s.JsonDSL._
 
 object JsonService {
 
@@ -25,11 +27,15 @@ object JsonService {
   def mapper = _defaultMapper
 
   def getSerFromObject(obj: SerTestBean): String = {
-    Serialization.write(obj)
+    write (
+        ("traceId" -> "test") ~
+        ("data" -> Serialization.write(obj))
+    )
   }
 
-  def getDeSerToObject(str: String): SerTestBean = {
-    parse(str).extract[SerTestBean]
+  def getDeSerToObject(str: String): AsyncQueueMessage = {
+    // 转换的对象，对象属性未赋默认值的需同str相匹配
+    parse(str).extract[AsyncQueueMessage]
   }
 
   def parse(in: JsonInput, useBigDecimalForDouble: Boolean = false, useBigIntForLong: Boolean = true): JValue = {
