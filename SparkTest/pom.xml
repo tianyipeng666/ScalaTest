@@ -121,17 +121,17 @@
         </dependency>
 
         <!-- redis -->
-<!--        <dependency>-->
-<!--            <groupId>io.lettuce</groupId>-->
-<!--            <artifactId>lettuce-core</artifactId>-->
-<!--            <version>6.2.2.RELEASE</version>-->
-<!--        </dependency>-->
-        <!-- redis old-->
         <dependency>
-            <groupId>biz.paluch.redis</groupId>
-            <artifactId>lettuce</artifactId>
-            <version>4.5.0.Final</version>
+            <groupId>io.lettuce</groupId>
+            <artifactId>lettuce-core</artifactId>
+            <version>6.2.2.RELEASE</version>
         </dependency>
+        <!-- redis old-->
+<!--        <dependency>-->
+<!--            <groupId>biz.paluch.redis</groupId>-->
+<!--            <artifactId>lettuce</artifactId>-->
+<!--            <version>4.5.0.Final</version>-->
+<!--        </dependency>-->
         <!-- 连接池依赖 低版本该包的GenericPool会存在编译不通过情况-->
         <dependency>
             <groupId>org.apache.commons</groupId>

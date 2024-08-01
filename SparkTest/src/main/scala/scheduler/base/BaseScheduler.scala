@@ -9,8 +9,7 @@ import scala.util.control.NonFatal
 import com.google.common.util.concurrent.{ListeningExecutorService, MoreExecutors}
 import org.json4s.Formats
 import org.json4s.ext.EnumNameSerializer
-// import io.lettuce.core.RedisException
-import com.lambdaworks.redis.RedisException
+import io.lettuce.core.RedisException
 import log.LazyLogging
 import org.json4s.DefaultFormats
 import thread.NamingThreadFactory

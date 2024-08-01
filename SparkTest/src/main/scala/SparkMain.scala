@@ -10,20 +10,19 @@ import excel.{ExcelCheckUtil, SparkExcelUtil}
 import hive.HiveUtil
 import inter.UDFName
 import json.JsonService
+import _root_.log.LazyLogging
 import redis.RedisServices
 import scheduler.CommitScheduler
 import thread.ShutdownThread
 
 import scala.collection.mutable.ArrayBuffer
 
-object SparkMain {
+object SparkMain extends LazyLogging{
 
 
   def main(args: Array[String]): Unit = {
-    // jvm退出监测
-    ShutdownThread.listenShutdown()
-    schedulerDispose()
 
+    redisDispose
   }
 
   private def getSparkSession(): SparkSession = {
@@ -32,6 +31,8 @@ object SparkMain {
   }
 
   private def schedulerDispose(): Unit = {
+    // jvm退出监测
+    ShutdownThread.listenShutdown()
     CommitScheduler.start()
   }
 
@@ -59,8 +60,10 @@ object SparkMain {
 
   private def redisDispose(): Unit = {
     // redis连通性测试
-    println(RedisServices.checkConnection())
-    println(RedisServices.getAsyncTask(ConstantKey.ASYNC_COMMIT_TASK))
+    logger.info(RedisServices.checkConnection().toString)
+    logger.info(RedisServices.getAsyncTask(ConstantKey.ASYNC_COMMIT_TASK))
+    RedisServices.registerLuaScript()
+    logger.info(RedisServices.getOrDel("redisPrefix:m:commit:result:typ2:orc", "1"))
   }
 
   private def jsonDispose(): Unit = {
