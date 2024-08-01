@@ -158,25 +158,25 @@ object RedisServices extends LazyLogging {
     |    return redis.call("GET",KEYS[1])
     |end
     |""".stripMargin
-  private val nameAndSha1Map: mutable.Map[String, String] = mutable.Map()
-  private val nameAndScriptMap: Map[String, String] = Map("getOrDel" -> LuaScript)
+  private val Sha1Map: mutable.Map[String, String] = mutable.Map()
+  private val ScriptMap: Map[String, String] = Map("getOrDel" -> LuaScript)
   // lua脚本注册
   def registerLuaScript(): Unit = withConnectionNull { _ =>
-    nameAndScriptMap.foreach {
-      case (name, script) => nameAndSha1Map.put(name, connection.sync.scriptLoad(script))
-        logger.info(s"[Redis_LUA] name: $name, sha: ${nameAndSha1Map(name)}")
+    ScriptMap.foreach {
+      case (name, script) => Sha1Map.put(name, connection.sync.scriptLoad(script))
+        logger.info(s"[Redis_LUA] name: $name, sha: ${Sha1Map(name)}")
     }
   }
 
   def getOrDel(key: String, value: String): String = withConnectionNull { _ =>
     try {
-      connection.sync().evalsha(nameAndSha1Map("getOrDel"), ScriptOutputType.MULTI, Array(key), value)
+      connection.sync().evalsha(Sha1Map("getOrDel"), ScriptOutputType.MULTI, Array(key), value)
         .asInstanceOf[util.ArrayList[Object]].asScala.toList.head.toString
     } catch {
       case exception: Exception =>
         registerLuaScript()
         logger.warn("The script has been register again, please get the result again...")
-        connection.sync().evalsha(nameAndSha1Map("getOrDel"), ScriptOutputType.MULTI, Array(key), value)
+        connection.sync().evalsha(Sha1Map("getOrDel"), ScriptOutputType.MULTI, Array(key), value)
           .asInstanceOf[util.ArrayList[Object]].asScala.toList.head.toString
     }
   }
