@@ -1,4 +1,4 @@
-package scheduler.callback
+package thread.scheduler.callback
 
 import bean.AsyncQueueResponse
 import com.google.common.util.concurrent.FutureCallback
@@ -31,6 +31,7 @@ class CommitCallback(tbName: String,
       logger.error(s"commit sync error, $traceId, ${result.errMsg}")
     }
     RedisServices.setValue(redisKey, Serialization.write(result), 180000)
+    // 执行完成移除，会使用内存缓存信息
     MDC.remove("traceId")
   }
 

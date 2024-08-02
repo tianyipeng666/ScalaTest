@@ -12,9 +12,11 @@ import inter.UDFName
 import json.JsonService
 import _root_.log.LazyLogging
 import redis.RedisServices
-import scheduler.CommitScheduler
 import thread.ShutdownThread
+import thread.TheadLock.CurrentMapLock
+import thread.scheduler.CommitScheduler
 
+import java.lang
 import scala.collection.mutable.ArrayBuffer
 
 object SparkMain extends LazyLogging{
@@ -22,7 +24,7 @@ object SparkMain extends LazyLogging{
 
   def main(args: Array[String]): Unit = {
 
-    redisDispose
+    threadLockDispose
   }
 
   private def getSparkSession(): SparkSession = {
@@ -34,6 +36,37 @@ object SparkMain extends LazyLogging{
     // jvm退出监测
     ShutdownThread.listenShutdown()
     CommitScheduler.start()
+    while (true) {
+      Thread.sleep(1000)
+    }
+  }
+
+  private def threadLockDispose(): Unit = {
+    val task = new Runnable {
+      override def run(): Unit = {
+        val lockInfo = CurrentMapLock.lockAction("TestLock")
+        logger.info(s"${Thread.currentThread.getName}==>" + lockInfo.concurrentNum.incrementAndGet)
+        // 不上锁会并发执行
+        lockInfo.lock.lock()
+        try {
+          println(s"${Thread.currentThread.getName}==>task execute...")
+          Thread.sleep(10000)
+        } catch {
+          case e:Exception => {
+            e.printStackTrace()
+          }
+        } finally {
+          // 释放锁后顺序执行，公平模式
+          lockInfo.lock.unlock()
+        }
+      }
+    }
+    val threadFirst = new Thread(task)
+    val threadSecond = new Thread(task)
+    val threadThird = new Thread(task)
+    threadFirst.start
+    threadSecond.start
+    threadThird.start
   }
 
   private def excelDispose(session: SparkSession): Unit = {

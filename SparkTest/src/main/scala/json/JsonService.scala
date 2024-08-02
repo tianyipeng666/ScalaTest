@@ -28,7 +28,7 @@ object JsonService {
 
   def getSerFromObject(obj: SerTestBean): String = {
     write (
-        ("traceId" -> "test") ~
+        ("traceId" -> "test3") ~
         ("data" -> Serialization.write(obj))
     )
   }

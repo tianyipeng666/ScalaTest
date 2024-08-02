@@ -1,6 +1,6 @@
 package thread
 
-import scheduler.CommitScheduler
+import thread.scheduler.CommitScheduler
 
 object ShutdownThread {
 

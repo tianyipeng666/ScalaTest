@@ -1,4 +1,4 @@
-package scheduler.base
+package thread.scheduler.base
 
 import bean.EnumBean
 import redis.RedisServices
