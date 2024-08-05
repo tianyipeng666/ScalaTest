@@ -1,7 +1,7 @@
 package json
 
-import bean.{AsyncQueueMessage, EnumBean, SerTestBean}
-import org.json4s.ext.EnumNameSerializer
+import bean.{AsyncQueueMessage, EnumBean, EnumJava, SerTestBean}
+import org.json4s.ext.{EnumNameSerializer, JavaEnumNameSerializer}
 import com.fasterxml.jackson.databind.DeserializationFeature.USE_BIG_INTEGER_FOR_INTS
 import com.fasterxml.jackson.databind.DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -12,8 +12,8 @@ import org.json4s.JsonDSL._
 
 object JsonService {
 
-  // 导入format隐式转换，对时间格式化 + 枚举类序列化
-  implicit val formats: Formats = DefaultFormats + new EnumNameSerializer(EnumBean)
+  // 导入format隐式转换，对时间格式化 + 枚举类序列化 + Java枚举序列化
+  implicit val formats: Formats = DefaultFormats + new EnumNameSerializer(EnumBean) +  new JavaEnumNameSerializer[EnumJava]()
 
 
   private[this] lazy val _defaultMapper = {

@@ -4,7 +4,7 @@ import org.apache.spark.sql.types.{DataType, DataTypes, StringType, StructField,
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.functions._
 import _root_.udf.UdfRegister
-import bean.{EnumBean, Person, SerTestBean}
+import bean.{EnumBean, EnumJava, Person, SerTestBean}
 import constant.{ConstantKey, ConstantPath}
 import excel.{ExcelCheckUtil, SparkExcelUtil}
 import hive.HiveUtil
@@ -15,16 +15,15 @@ import redis.RedisServices
 import thread.ShutdownThread
 import thread.TheadLock.CurrentMapLock
 import thread.scheduler.CommitScheduler
-
 import java.lang
 import scala.collection.mutable.ArrayBuffer
 
-object SparkMain extends LazyLogging{
+object SparkMain extends LazyLogging {
 
 
   def main(args: Array[String]): Unit = {
 
-    threadLockDispose
+    jsonDispose
   }
 
   private def getSparkSession(): SparkSession = {
@@ -52,7 +51,7 @@ object SparkMain extends LazyLogging{
           println(s"${Thread.currentThread.getName}==>task execute...")
           Thread.sleep(10000)
         } catch {
-          case e:Exception => {
+          case e: Exception => {
             e.printStackTrace()
           }
         } finally {
@@ -103,9 +102,10 @@ object SparkMain extends LazyLogging{
     val seq = new ArrayBuffer[String]()
     seq.append("list1", "list2", "list3")
     val person = Person("typ2", "30")
-    val bean = SerTestBean("typ2", seq, person, true, Some("option"), 1000, EnumBean.ORC)
+    val bean = SerTestBean("typ2", seq, person, true, Some("option"), 1000, EnumBean.ORC, null)
 
     println("before transform==>" + bean.enumType)
+    println("before transform==>" + bean.enmJavaType)
     println("before transform==>" + bean.optionType)
     println("before transform==>" + bean.pojoType)
 

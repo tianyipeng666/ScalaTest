@@ -1,6 +1,7 @@
 package bean
 
 import bean.EnumBean.EnumBean
+import bean.EnumJava
 
 case class SerTestBean(str: String,
                        list: Seq[String],
@@ -8,4 +9,5 @@ case class SerTestBean(str: String,
                        bool: Boolean,
                        optionType: Option[String],
                        time: Long,
-                       enumType: EnumBean)
+                       enumType: EnumBean,
+                       enmJavaType: EnumJava)
