@@ -10,4 +10,4 @@ case class SerTestBean(str: String,
                        optionType: Option[String],
                        time: Long,
                        enumType: EnumBean,
-                       enmJavaType: EnumJava)
+                       var enmJavaType: EnumJava)

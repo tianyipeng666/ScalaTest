@@ -4,26 +4,35 @@ import org.apache.spark.sql.types.{DataType, DataTypes, StringType, StructField,
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.functions._
 import _root_.udf.UdfRegister
-import bean.{EnumBean, EnumJava, Person, SerTestBean}
+import bean.{EnumBean, EnumJava, IncrementalPartitionType, Person, PersonSer, SerTestBean, TablePartitionInfo, YearPartitionKeyType}
 import constant.{ConstantKey, ConstantPath}
 import excel.{ExcelCheckUtil, SparkExcelUtil}
 import hive.HiveUtil
 import inter.UDFName
 import json.JsonService
 import _root_.log.LazyLogging
+import org.json4s.{DefaultFormats, Formats}
+import org.json4s.ext.{EnumNameSerializer, JavaEnumNameSerializer}
 import redis.RedisServices
 import thread.ShutdownThread
 import thread.TheadLock.CurrentMapLock
 import thread.scheduler.CommitScheduler
+import org.json4s.jackson.Json4sScalaModule
+import org.json4s.jackson.Serialization._
+import org.json4s.JsonDSL._
+import org.json4s._
+
 import java.lang
 import scala.collection.mutable.ArrayBuffer
 
 object SparkMain extends LazyLogging {
 
+  import JsonService.formats
 
   def main(args: Array[String]): Unit = {
+    val session = getSparkSession()
+    session.sql("select * from bdp.o204c9cef46f472690e642704ecb5690").show()
 
-    jsonDispose
   }
 
   private def getSparkSession(): SparkSession = {
@@ -99,24 +108,23 @@ object SparkMain extends LazyLogging {
   }
 
   private def jsonDispose(): Unit = {
-    val seq = new ArrayBuffer[String]()
-    seq.append("list1", "list2", "list3")
-    val person = Person("typ2", "30")
-    val bean = SerTestBean("typ2", seq, person, true, Some("option"), 1000, EnumBean.ORC, null)
 
-    println("before transform==>" + bean.enumType)
-    println("before transform==>" + bean.enmJavaType)
-    println("before transform==>" + bean.optionType)
-    println("before transform==>" + bean.pojoType)
-
+    // 对象
+    val bean = JsonService.getSerObject()
     // 对象转str
     val str = JsonService.getSerFromObject(bean)
     // bean写入redis
     RedisServices.putAsyncValue(str, ConstantKey.ASYNC_COMMIT_TASK)
+    // RedisServices.setValue(ConstantKey.asyncResult("typ", "20240806"), write(PersonSer("typ", res)), 1800)
+
     // str转对象
     val beanTransform = JsonService.getDeSerToObject(str)
 
     println("after transform==>" + beanTransform.data)
+    // 枚举值为null时转回为枚举会报错：Can't convert JNull to class bean.EnumJava
+    val tbInfo = JsonService.parse(beanTransform.data).extract[SerTestBean]
+    tbInfo.enmJavaType = if (tbInfo.enmJavaType == EnumJava.EMPTY) null else tbInfo.enmJavaType
+    println(tbInfo)
   }
 }
 
