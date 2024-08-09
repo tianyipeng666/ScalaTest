@@ -154,28 +154,49 @@
         <!-- json 同spark的冲突了, 使用spark版本-->
         <dependency>
             <groupId>org.json4s</groupId>
-            <artifactId>json4s-jackson_2.12</artifactId>
+            <artifactId>json4s-jackson_${scala.binary.version}</artifactId>
             <version>3.7.0-M11</version>
             <scope>compile</scope>
         </dependency>
         <!-- 扩展包，用于枚举类序列化 -->
         <dependency>
             <groupId>org.json4s</groupId>
-            <artifactId>json4s-ext_2.12</artifactId>
+            <artifactId>json4s-ext_${scala.binary.version}</artifactId>
             <version>3.7.0-M11</version>
             <scope>compile</scope>
         </dependency>
 
-        <!-- jetty -->
+        <!-- jetty new jdk版本兼容问题-->
+<!--        <dependency>-->
+<!--            <groupId>org.eclipse.jetty</groupId>-->
+<!--            <artifactId>jetty-server</artifactId>-->
+<!--            <version>11.0.20</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.eclipse.jetty</groupId>-->
+<!--            <artifactId>jetty-servlet</artifactId>-->
+<!--            <version>11.0.20</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.eclipse.jetty.aggregate</groupId>-->
+<!--            <artifactId>jetty-all</artifactId>-->
+<!--            <version>9.4.54.v20240208</version>-->
+<!--        </dependency>-->
+        <!-- jetty old-->
         <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>11.0.20</version>
+            <groupId>org.eclipse.jetty.aggregate</groupId>
+            <artifactId>jetty-all</artifactId>
+            <version>9.2.30.v20200428</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-servlet</artifactId>
-            <version>11.0.20</version>
+            <version>9.2.30.v20200428</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>9.2.30.v20200428</version>
         </dependency>
     </dependencies>
 

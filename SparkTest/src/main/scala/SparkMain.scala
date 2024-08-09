@@ -11,8 +11,10 @@ import hive.HiveUtil
 import inter.UDFName
 import json.JsonService
 import _root_.log.LazyLogging
+import jetty.HttpApi
+import jetty.web.JettyUtils
 import org.json4s.{DefaultFormats, Formats}
-import org.json4s.ext.{EnumNameSerializer, JavaEnumNameSerializer}
+import org.json4s.ext.{EnumNameSerializer}
 import redis.RedisServices
 import thread.ShutdownThread
 import thread.TheadLock.CurrentMapLock
@@ -30,14 +32,18 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    val session = getSparkSession()
-    session.sql("select * from bdp.o204c9cef46f472690e642704ecb5690").show()
+    jsonDispose
 
   }
 
   private def getSparkSession(): SparkSession = {
     val conf: SparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkTest")
     SparkSession.builder().config(conf).enableHiveSupport().getOrCreate()
+  }
+
+  private def jettyDispose(): Unit = {
+    new HttpApi().mapRoutes()
+    JettyUtils.startJettyServer("localhost", 8080, serverName = "LocalJetty")
   }
 
   private def schedulerDispose(): Unit = {
@@ -114,7 +120,7 @@ object SparkMain extends LazyLogging {
     // 对象转str
     val str = JsonService.getSerFromObject(bean)
     // bean写入redis
-    RedisServices.putAsyncValue(str, ConstantKey.ASYNC_COMMIT_TASK)
+    // RedisServices.putAsyncValue(str, ConstantKey.ASYNC_COMMIT_TASK)
     // RedisServices.setValue(ConstantKey.asyncResult("typ", "20240806"), write(PersonSer("typ", res)), 1800)
 
     // str转对象

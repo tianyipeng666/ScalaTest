@@ -1,7 +1,6 @@
 package json
 
 import bean.{AsyncQueueMessage, EnumBean, EnumJava, IncrementalPartitionType, Person, SerTestBean, TablePartitionInfo, TablePartitionKeyType, TablePartitionType, YearPartitionKeyType}
-import org.json4s.ext.{EnumNameSerializer, JavaEnumNameSerializer}
 import com.fasterxml.jackson.databind.DeserializationFeature.USE_BIG_INTEGER_FOR_INTS
 import com.fasterxml.jackson.databind.DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -11,7 +10,6 @@ import org.json4s.jackson.Serialization._
 import org.json4s.JsonDSL._
 import org.json4s._
 import json.TablePartitionTypeSer
-
 import scala.collection.mutable.ArrayBuffer
 
 object JsonService {
@@ -19,7 +17,7 @@ object JsonService {
   // 导入format隐式转换，对时间格式化 + 枚举类序列化 + Java枚举序列化 + 自定义序列化（case object）
   implicit val formats: Formats = DefaultFormats +
     new EnumNameSerializer(EnumBean) +
-    new JavaEnumNameSerializer[EnumJava]() +
+    // new JavaEnumNameSerializer[EnumJava]() +
     new TablePartitionTypeSer +
     new TablePartitionKeyTypeSer
 
@@ -37,7 +35,7 @@ object JsonService {
     val seq = new ArrayBuffer[String]()
     seq.append("list1", "list2", "list3")
     val person = Person("typ2", "30")
-    val bean = SerTestBean("typ2", seq, person, true, Some("option"), 1000, EnumBean.ORC, Option(null).getOrElse(EnumJava.EMPTY))
+    val bean = SerTestBean("typ2", seq, person, true, Some("option"), 1000, EnumBean.ORC, null)
 
     println("before transform==>" + bean.enumType)
     println("before transform==>" + bean.enmJavaType)
@@ -53,6 +51,9 @@ object JsonService {
   }
 
   def getSerFromObject(obj: SerTestBean): String = {
+    // 就近原则，近的format未注册则会报错，transform的数据也有异常，enum正常就是str，但该情况下为{"name":"orc"}
+    // implicit val formats = DefaultFormats
+    // println(s"start==>${write(obj)}")
     write (
         ("traceId" -> "test3") ~
         ("data" -> write(obj))
