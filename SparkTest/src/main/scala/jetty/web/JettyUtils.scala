@@ -52,8 +52,10 @@ object JettyUtils extends LazyLogging {
     val statisticsHandler = new StatisticsHandler()
     statisticsHandler.setHandler(handlerList)
     server.setHandler(statisticsHandler)
+    server.setStopAtShutdown(true)
 
     server.start()
+    server.join()
   }
 
   def createServlet(servletParams: ServletParams): HttpServlet = {

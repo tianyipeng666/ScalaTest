@@ -32,7 +32,7 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    jsonDispose
+    jettyDispose
 
   }
 
@@ -43,7 +43,7 @@ object SparkMain extends LazyLogging {
 
   private def jettyDispose(): Unit = {
     new HttpApi().mapRoutes()
-    JettyUtils.startJettyServer("localhost", 8080, serverName = "LocalJetty")
+    JettyUtils.startJettyServer("127.0.0.1", 8080, serverName = "LocalJetty")
   }
 
   private def schedulerDispose(): Unit = {
