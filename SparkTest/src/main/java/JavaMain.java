@@ -10,10 +10,6 @@ public class JavaMain {
     }
 
     public static void collectDispose() {
-        ArrayList<String[]> list = new ArrayList<>();
-        String[] a = {"1", "2"};
-        list.add(a);
-        list.add(a);
-        System.out.println(JavaCollectUtils.getSpecialIndexList(list, 0));
+
     }
 }
