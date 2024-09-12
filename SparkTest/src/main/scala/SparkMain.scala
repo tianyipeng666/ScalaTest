@@ -11,10 +11,11 @@ import hive.HiveUtil
 import inter.UDFName
 import json.JsonService
 import _root_.log.LazyLogging
+import com.graph.atlas.common.base.util.JSONUtils
 import jetty.HttpApi
 import jetty.web.JettyUtils
 import org.json4s.{DefaultFormats, Formats}
-import org.json4s.ext.{EnumNameSerializer}
+import org.json4s.ext.EnumNameSerializer
 import redis.RedisServices
 import thread.ShutdownThread
 import thread.TheadLock.CurrentMapLock
@@ -23,7 +24,7 @@ import org.json4s.jackson.Json4sScalaModule
 import org.json4s.jackson.Serialization._
 import org.json4s.JsonDSL._
 import org.json4s._
-
+import java.util
 import java.lang
 import scala.collection.mutable.ArrayBuffer
 
@@ -32,7 +33,13 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    jettyDispose
+    val map = new util.HashMap[String, String]
+    map.put("name", "姓名")
+    map.put("age", "年龄")
+    map.put("comment", "占用列1")
+    map.put("comment3", "占用列2")
+    val fieldMappingJSONParam = JSONUtils.toJSONString(map)
+    println(fieldMappingJSONParam)
 
   }
 

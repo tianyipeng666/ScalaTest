@@ -14,7 +14,7 @@
         <java.version>1.8</java.version>
         <scala.binary.version>2.12</scala.binary.version>
         <scala.version>2.12.17</scala.version>
-        <spark.version>3.2.2</spark.version>
+        <spark.version>2.4.6</spark.version>
         <hdfs.version>2.7.2</hdfs.version>
         <scala.test.version>3.2.5</scala.test.version>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -164,6 +164,12 @@
             <artifactId>json4s-ext_${scala.binary.version}</artifactId>
             <version>3.7.0-M11</version>
             <scope>compile</scope>
+        </dependency>
+        <!-- 图平台json工具包 -->
+        <dependency>
+            <groupId>com.graph.atlas</groupId>
+            <artifactId>graph-atlas-common-json</artifactId>
+            <version>ga-1.1.0</version>
         </dependency>
 
         <!-- jetty new jdk版本兼容问题-->
