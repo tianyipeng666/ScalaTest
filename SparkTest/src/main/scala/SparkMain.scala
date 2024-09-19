@@ -33,14 +33,7 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    val map = new util.HashMap[String, String]
-    map.put("name", "姓名")
-    map.put("age", "年龄")
-    map.put("comment", "占用列1")
-    map.put("comment3", "占用列2")
-    val fieldMappingJSONParam = JSONUtils.toJSONString(map)
-    println(fieldMappingJSONParam)
-
+    HiveUtil.getHiveTableLocation(getSparkSession(), "bdp", "typtest3")
   }
 
   private def getSparkSession(): SparkSession = {

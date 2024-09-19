@@ -4,12 +4,15 @@ import bean.{AsyncQueueMessage, EnumBean, EnumJava, IncrementalPartitionType, Pe
 import com.fasterxml.jackson.databind.DeserializationFeature.USE_BIG_INTEGER_FOR_INTS
 import com.fasterxml.jackson.databind.DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.graph.atlas.common.base.util.JSONUtils
 import org.json4s.{DefaultFormats, FileInput, Formats, JValue, JsonInput, ReaderInput, StreamInput, StringInput}
 import org.json4s.jackson.Json4sScalaModule
 import org.json4s.jackson.Serialization._
 import org.json4s.JsonDSL._
 import org.json4s._
+import java.util
 import json.TablePartitionTypeSer
+
 import scala.collection.mutable.ArrayBuffer
 
 object JsonService {
@@ -84,6 +87,16 @@ object JsonService {
       case StreamInput(stream) => reader.readValue(stream)
       case FileInput(file) => reader.readValue(file)
     }
+  }
+
+  def transformByUtils():Unit = {
+    val map = new util.HashMap[String, String]
+    map.put("name", "姓名")
+    map.put("age", "年龄")
+    map.put("comment", "占用列1")
+    map.put("comment3", "占用列2")
+    val fieldMappingJSONParam = JSONUtils.toJSONString(map)
+    println(fieldMappingJSONParam)
   }
 
 }
