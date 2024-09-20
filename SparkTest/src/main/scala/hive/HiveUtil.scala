@@ -94,22 +94,31 @@ object HiveUtil {
     // 元数据获取
     val tableMeta = session.sessionState.catalog.externalCatalog.getTable(database, tableName)
     println(tableMeta)
+
     // location
     println(tableMeta.storage.locationUri.get)
+//    println(session.sql(s"desc formatted ${database}.${tableName}").collect()
+//      .filter(_.get(0).toString.equals("Location"))
+//      .map(_.get(1))
+//      .mkString
+//    )
+
     // inputFormat
     println(tableMeta.storage.inputFormat.get)
+
     // totalSize
     var totalSize = 0L
     val statistics = tableMeta.stats.getOrElse(null)
     totalSize = if (statistics != null) statistics.sizeInBytes.toLong else -1
     println(totalSize)
 
-    println(session.sql(s"desc formatted ${database}.${tableName}").collect()
-      .filter(_.get(0).toString.equals("Location"))
-      .map(_.get(1))
-      .mkString
-    )
-
+    // rowsCount
+    var rowsCount = 0L
+    // ???
+    rowsCount = if (statistics != null) statistics.rowCount.get.toLong else 0L
+    println(rowsCount)
+//    rowsCount = session.sql(s"select count(*) as cnt from ${database}.${tableName}").take(1)
+//      .map(_.get(0)).mkString.toLong
   }
 
   def getHiveTableCount(session: SparkSession, database: String, tableName: String): Unit = {

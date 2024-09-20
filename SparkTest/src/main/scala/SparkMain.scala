@@ -33,7 +33,7 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    HiveUtil.getHiveTableLocation(getSparkSession(), "bdp", "typtest3")
+    HiveUtil.getHiveTableLocation(getSparkSession(), "bdp", "typtest1")
   }
 
   private def getSparkSession(): SparkSession = {
