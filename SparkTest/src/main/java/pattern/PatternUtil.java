@@ -1,35 +1,33 @@
 package pattern;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PatternUtil {
 
     public static void main(String[] args) {
-        // 示例SQL语句
-        String sql = "SELECT * FROM orders WHERE id = 1; "
-                + "SELECT * FROM customers WHERE country = 'US';";
+        // 匹配
+        boolean b = Pattern.matches("(\\d+|\\d+\\s*,\\s*\\d+)", "10 , 10)");
+        System.out.println(b);
+        // 抽取
+        System.out.println(patternMatch("10 , 30", "(\\d+|\\d+\\s*,\\s*\\d+)"));
 
-        // 正则表达式匹配表名（假设表名由字母、数字和下划线组成，并且不以数字开头）
-        String regex = "(?i)\\s+FROM\\s+(\\w+)\\s+WHERE";
+    }
 
+    public static ArrayList<Object> patternMatch(String patternStr, String regex) {
         // 创建Pattern对象
         Pattern pattern = Pattern.compile(regex);
 
         // 创建Matcher对象
-        Matcher matcher = pattern.matcher(sql);
+        Matcher matcher = pattern.matcher(patternStr);
 
-        // 替换操作
-        StringBuffer sb = new StringBuffer();
+        ArrayList<Object> list = new ArrayList<>();
         while (matcher.find()) {
-            // 给匹配到的表名添加库名
-            String tableName = matcher.group(1);
-            matcher.appendReplacement(sb, matcher.group(0).replace(tableName, "typ." + tableName));
+            list.add(matcher.group(0));
         }
-        matcher.appendTail(sb);
 
-        // 输出替换后的SQL语句
-        String updatedSql = sb.toString();
-        System.out.println(updatedSql);
+        return list;
     }
+
 }
