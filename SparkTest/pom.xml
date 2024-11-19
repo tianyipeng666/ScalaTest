@@ -21,6 +21,24 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
+    <!-- 优先从该仓库读取，而不去读取settings中的配置 -->
+    <repositories>
+        <repository>
+            <id>aliyun-releases</id>
+            <name>aliyun</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+        </repository>
+        <repository>
+            <id>maven-central</id>
+            <name>maven</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!--scala-->
         <dependency>
