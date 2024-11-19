@@ -33,7 +33,7 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    HiveUtil.getHiveTableLocation(getSparkSession(), "bdp", "typtest1")
+    excelDispose(getSparkSession())
   }
 
   private def getSparkSession(): SparkSession = {
@@ -85,7 +85,8 @@ object SparkMain extends LazyLogging {
 
   private def excelDispose(session: SparkSession): Unit = {
     // excel
-    SparkExcelUtil.previewExcel(session, ConstantPath.macOSPath, false)
+    val columnStr = "`行号`,`交易机构名称`,`户  名`,`账  号`,`交易机构号`,`子账户序号`"
+    SparkExcelUtil.excelResolve(session, columnStr, true, ConstantPath.macOSPath, ConstantPath.macOSPathOut)
   }
 
   private def udfDispose(session: SparkSession): Unit = {

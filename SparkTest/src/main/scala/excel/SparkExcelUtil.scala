@@ -2,7 +2,7 @@ package excel
 
 import bean.Schema
 import com.crealytics.spark.excel.WorkbookReader
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{SaveMode, SparkSession}
 import org.apache.spark.sql.types.StructField
 
 import java.io.File
@@ -40,7 +40,7 @@ object SparkExcelUtil {
 
   }
 
-  def excelResolve(session: SparkSession, isFlatten: Boolean, src: String, des: String): Unit = {
+  def excelResolve(session: SparkSession, columnStr: String, isFlatten: Boolean, src: String, des: String): Unit = {
     if (isFlatten) {
       val df = session.read
         .format("excel")
@@ -48,13 +48,12 @@ object SparkExcelUtil {
         .option("header", "true")
         .option("columnNameOfRowNumber", "行号")
         .load(src)
-      df.write.
+      // 根据字段需求调整数据输出字段顺序
+      df.createOrReplaceTempView("tempView1")
+      session.sql(s"select ${columnStr} from tempView1").write.
+        mode(SaveMode.Overwrite).
         option("header", "true").
         csv(des + "/testExcel3")
-      session.read.
-        option("header", "true").
-        csv(des + "/testExcel3")
-        .show(10000)
     } else {
       filesPath.append("/20240713/test.xlsx")
       filesPath.append("/20240713/test2.xlsx")

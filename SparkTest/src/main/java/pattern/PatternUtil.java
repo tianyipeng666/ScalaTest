@@ -13,6 +13,9 @@ public class PatternUtil {
         // 抽取
         System.out.println(patternMatch("10 , 30", "(\\d+|\\d+\\s*,\\s*\\d+)"));
 
+        boolean c = Pattern.matches("\\*+", "***a***");
+        System.out.println(c);
+
     }
 
     public static ArrayList<Object> patternMatch(String patternStr, String regex) {

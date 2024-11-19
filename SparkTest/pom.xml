@@ -14,7 +14,7 @@
         <java.version>1.8</java.version>
         <scala.binary.version>2.12</scala.binary.version>
         <scala.version>2.12.17</scala.version>
-        <spark.version>2.4.6</spark.version>
+        <spark.version>3.2.2</spark.version>
         <hdfs.version>2.7.2</hdfs.version>
         <scala.test.version>3.2.5</scala.test.version>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -65,8 +65,8 @@
         <!--excel-->
         <dependency>
             <groupId>com.haizhi</groupId>
-            <artifactId>spark-excel</artifactId>
-            <version>3.2.2_0.18.5</version>
+            <artifactId>spark-excel_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
             <scope>compile</scope>
         </dependency>
         <!-- 原始 -->

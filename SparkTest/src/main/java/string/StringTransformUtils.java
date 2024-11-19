@@ -1,9 +1,15 @@
 package string;
 
+import java.util.ArrayList;
+
 public class StringTransformUtils {
 
     public static void main(String[] args) {
-        getLastSubString("sss limit 12 34 limit ttt limit 555", "LIMIT");
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(20);
+        Object obj = list;
+        ArrayList<Object> list1 = (ArrayList<Object>) obj;
+        System.out.println(Integer.parseInt(list1.get(0).toString()));
     }
 
     public static void getLastSubString(String str, String subStr) {
