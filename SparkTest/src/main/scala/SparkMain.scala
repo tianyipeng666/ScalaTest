@@ -24,6 +24,8 @@ import org.json4s.jackson.Json4sScalaModule
 import org.json4s.jackson.Serialization._
 import org.json4s.JsonDSL._
 import org.json4s._
+import sql.SqlParserService
+
 import java.util
 import java.lang
 import scala.collection.mutable.ArrayBuffer
@@ -33,12 +35,31 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    excelDispose(getSparkSession())
+    sqlDispose()
   }
 
   private def getSparkSession(): SparkSession = {
     val conf: SparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkTest")
     SparkSession.builder().config(conf).enableHiveSupport().getOrCreate()
+  }
+
+  private def sqlDispose(): Unit = {
+    val (parsedSql, relyBaseTables, replaceFields, tempTables, replaceTables,
+      variables, fieldVariables, moreFieldsTable) = SqlParserService.parseSql(
+      """
+        select a,b,c,d from test where e = 10 and f in (select h from test2)
+        |""".stripMargin)
+//    val (parsedSql, relyBaseTables, replaceFields, tempTables, replaceTables,
+//    variables, fieldVariables, moreFieldsTable) = SqlParserService.parseSql(
+//      """
+//          select a,b,c,d from test where e = 10
+//        |""".stripMargin)
+    println(
+      s"""
+         |rely_tables==>${relyBaseTables}
+         |temp_tables==>${tempTables}
+         |replace_tables==>${replaceTables}
+         |""".stripMargin)
   }
 
   private def jettyDispose(): Unit = {
