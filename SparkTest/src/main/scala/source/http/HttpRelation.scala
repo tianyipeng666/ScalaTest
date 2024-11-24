@@ -11,17 +11,17 @@ case class HttpRelation(session: SparkSession, options: HttpOptions, schemaInfo:
   override def schema: StructType = schemaInfo
 
   override def buildScan(): RDD[Row] = {
-
+    null
   }
 
 }
 
 object HttpRelation {
   def getTableInfo(httpOptions: HttpOptions): (StructType, Int) = {
-
+    null
   }
 
   def columnQueryNum(httpOptions: HttpOptions): Int = {
-
+    0
   }
 }

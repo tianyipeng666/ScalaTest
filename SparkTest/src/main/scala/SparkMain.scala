@@ -35,7 +35,7 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    sqlDispose()
+    hiveDispose(getSparkSession(), "bdp", "z8cb4be38af1481aa82172987fc01325")
   }
 
   private def getSparkSession(): SparkSession = {
@@ -115,10 +115,8 @@ object SparkMain extends LazyLogging {
     UdfRegister.udfArray(session, UdfRegister.getClazz())
   }
 
-  private def hiveDispose(session: SparkSession): Unit = {
-    // hive建表
-    // HiveUtil.createTableAndRefresh(session, hdfsPath, SparkExcelUtil.previewExcel(session, macOSPath), "TestExcel3")
-    HiveUtil.createTableTest(session, ConstantPath.hdfsPath, "TestExcelCsv4", 13)
+  private def hiveDispose(session: SparkSession, database: String, tableName: String): Unit = {
+    HiveUtil.getHiveTableLocation(session, database, tableName)
   }
 
   private def ftpDispose(): Unit = {
