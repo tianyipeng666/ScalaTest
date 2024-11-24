@@ -122,7 +122,6 @@
     <property>
         <name>hive.metastore.uris</name>
         <value>thrift://bdp-dc-003:9012,thrift://bdp-dc-004:9012</value>
-    <!--    <value>thrift://bdp-dc-002:9012,bdp-dc-003:9012</value> -->
     </property>
 
     <property>

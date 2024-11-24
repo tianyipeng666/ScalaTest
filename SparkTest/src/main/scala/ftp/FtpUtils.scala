@@ -1,11 +1,15 @@
 package ftp
 
+import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
+import com.fasterxml.jackson.module.scala.DefaultScalaModule
+import ftp.FtpUtils.ftp
 import hdfs.HDFSUtil
 import org.apache.commons.net.ftp.{FTP, FTPClient, FTPFile}
 import org.slf4j.LoggerFactory
 
-import java.io.{File, FileInputStream, FileOutputStream, IOException, InputStream, OutputStream, PrintStream}
+import java.io.{BufferedReader, File, FileInputStream, FileOutputStream, IOException, InputStream, InputStreamReader, OutputStream, PrintStream}
 import java.time.Duration
+import java.util
 
 object FtpUtils {
 
@@ -14,6 +18,7 @@ object FtpUtils {
   private lazy val ftp: FTPClient = new FTPClient()
   private lazy val ftpFilePath: String = "/typ/excelUpload/test.xlsx"
   private lazy val hdfsFilePath: String = "hdfs://hdcluster/bdp/ftp_tmp/ftp_download_excel/test.xlsx"
+  private val checkFileName: String = "_fields.json"
 
   def connect(host:String, port:Int, userName:String, password:String): Unit = {
     ftp.setControlKeepAliveTimeout(Duration.ofSeconds(300))
@@ -93,6 +98,59 @@ object FtpUtils {
       }
       file
     }
+  }
+
+  def  resolveFtpJson(path: String, ftp: FTPClient): util.HashMap[String, JsonNode] = {
+    val checkMap = new util.HashMap[String, JsonNode]
+    try {
+      var fixedPath = if (path.startsWith("/")) path else s"/$path"
+      val checkFile = ftp.listFiles(fixedPath).filter(_.getName.equals(checkFileName))
+      if (checkFile.length == 0) {
+        logger.warn(s"The path:$path doesn't have the check file, please add and then retry...")
+        checkMap
+      } else {
+        // 读取
+        val inputStream = ftp.retrieveFileStream(path + s"/$checkFileName")
+        val reader = new BufferedReader(new InputStreamReader(inputStream))
+        val fileContent = reader.lines().toArray.mkString("\n")
+        reader.close()
+        ftp.completePendingCommand()
+
+        // 转换为json
+        // 依赖jackson-module-scala与jackson-databind
+        val objectMapper = new ObjectMapper()
+        // 注册 Scala 模块支持
+        objectMapper.registerModule(DefaultScalaModule)
+        val jsonArray: JsonNode = objectMapper.readTree(fileContent)
+
+        // JsonNode转为map
+        if (jsonArray.isArray){
+          // JsonNode遍历方式
+          val iterator = jsonArray.elements()
+          while (iterator.hasNext) {
+            val node = iterator.next()
+            checkMap.put(node.get("name").asText(), node)
+          }
+        } else {
+          logger.warn(s"The transform result from $checkFileName is not the type of Array, please check file data")
+        }
+        checkMap
+      }
+    } catch {
+      case e: Exception =>
+        e.printStackTrace()
+        checkMap
+    } finally {
+      // 断开连接
+      if (ftp.isConnected) {
+        ftp.logout()
+        ftp.disconnect()
+      }
+    }
+  }
+
+  def readHead2Check(): Boolean = {
+    false
   }
 
   private def getInputStream(path: String): InputStream = {

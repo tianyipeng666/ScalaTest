@@ -35,7 +35,8 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    hiveDispose(getSparkSession(), "bdp", "z8cb4be38af1481aa82172987fc01325")
+    // hiveDispose(getSparkSession(), "bdp", "z8cb4be38af1481aa82172987fc01325")
+    ftpDispose("/typ/checkField")
   }
 
   private def getSparkSession(): SparkSession = {
@@ -119,9 +120,9 @@ object SparkMain extends LazyLogging {
     HiveUtil.getHiveTableLocation(session, database, tableName)
   }
 
-  private def ftpDispose(): Unit = {
+  private def ftpDispose(path: String): Unit = {
     val client = FtpUtils.getConnect("123.126.105.70", 21, "share", "haizhi1234")
-    println(FtpUtils.checkRootPathFile("/typ/excelUpload/test.xlsx", client))
+    println(FtpUtils.resolveFtpJson(path, client))
   }
 
 

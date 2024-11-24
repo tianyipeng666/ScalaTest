@@ -93,9 +93,9 @@ object HiveUtil {
   def getHiveTableLocation(session: SparkSession, database: String, tableName: String): Unit = {
     // 元数据获取
     val tableMeta = session.sessionState.catalog.externalCatalog.getTable(database, tableName)
+    // 打印meta信息结构
     println(tableMeta)
-
-    // location
+    // 打印meta中location信息
     println(tableMeta.storage.locationUri.get)
 //    println(session.sql(s"desc formatted ${database}.${tableName}").collect()
 //      .filter(_.get(0).toString.equals("Location"))
@@ -135,4 +135,6 @@ object HiveUtil {
   def getTableTotalSize(session: SparkSession, database: String, tableName: String, location: String, inputFormat: String): Unit = {
     session.sql(s"SELECT TABLE_SIZE('$database', '$tableName', '$location', '$inputFormat') FROM system.dual LIMIT 1").show()
   }
+
+
 }

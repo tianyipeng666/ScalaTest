@@ -9,12 +9,14 @@
     <name>SparkTest</name>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
+        <!--主要修改版本-->
         <scala.binary.version>2.11</scala.binary.version>
         <scala.version>2.11.12</scala.version>
         <spark.version>2.4.6</spark.version>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
         <hdfs.version>2.7.2</hdfs.version>
         <scala.test.version>3.2.5</scala.test.version>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -116,7 +118,7 @@
             <exclusions>
                 <exclusion>
                     <groupId>org.json4s</groupId>
-                    <artifactId>json4s-jackson_2.12</artifactId>
+                    <artifactId>json4s-jackson_${scala.binary.version}</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -194,7 +196,7 @@
             <groupId>com.graph.atlas</groupId>
             <artifactId>graph-atlas-common-json</artifactId>
             <version>ga-1.1.0</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
 
         <!-- jetty new jdk版本兼容问题-->
