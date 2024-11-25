@@ -100,8 +100,8 @@ object FtpUtils {
     }
   }
 
-  def  resolveFtpJson(path: String, ftp: FTPClient): util.HashMap[String, JsonNode] = {
-    val checkMap = new util.HashMap[String, JsonNode]
+  def  resolveFtpJson(path: String, ftp: FTPClient): util.LinkedHashMap[String, util.HashMap[String, String]] = {
+    val checkMap = new util.LinkedHashMap[String, util.HashMap[String, String]]
     try {
       var fixedPath = if (path.startsWith("/")) path else s"/$path"
       val checkFile = ftp.listFiles(fixedPath).filter(_.getName.equals(checkFileName))
@@ -129,7 +129,7 @@ object FtpUtils {
           val iterator = jsonArray.elements()
           while (iterator.hasNext) {
             val node = iterator.next()
-            checkMap.put(node.get("name").asText(), node)
+            checkMap.put(node.get("name").asText(), objectMapper.convertValue(node, classOf[util.HashMap[String, String]]))
           }
         } else {
           logger.warn(s"The transform result from $checkFileName is not the type of Array, please check file data")

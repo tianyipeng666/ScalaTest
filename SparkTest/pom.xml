@@ -130,6 +130,13 @@
             <version>3.10.0</version>
             <scope>compile</scope>
         </dependency>
+        <!--自定义工具包-->
+        <dependency>
+            <groupId>com.haizhi</groupId>
+            <artifactId>tools_${scala.binary.version}</artifactId>
+            <version>1.3.5-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
         <!--将该包打入项目内会导致找不到主类，-->
         <dependency>
             <groupId>org.bouncycastle</groupId>

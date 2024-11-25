@@ -12,6 +12,8 @@ import inter.UDFName
 import json.JsonService
 import _root_.log.LazyLogging
 import com.graph.atlas.common.base.util.JSONUtils
+import com.haizhi.tools.ftp.FTPConnectionInfo
+import com.haizhi.tools.util.FTPUtils
 import jetty.HttpApi
 import jetty.web.JettyUtils
 import org.json4s.{DefaultFormats, Formats}
@@ -121,8 +123,14 @@ object SparkMain extends LazyLogging {
   }
 
   private def ftpDispose(path: String): Unit = {
-    val client = FtpUtils.getConnect("123.126.105.70", 21, "share", "haizhi1234")
-    println(FtpUtils.resolveFtpJson(path, client))
+    // 手动连接
+    //val client = FtpUtils.getConnect("123.126.105.70", 21, "share", "haizhi1234")
+    // 工具类获取连接
+    val connectionInfo = FTPConnectionInfo("123.126.105.70", 21, "share", "haizhi1234", 1)
+    val client = new FTPUtils(connectionInfo, true).getConnect
+    val nodeMap = FtpUtils.resolveFtpJson(path, client)
+    println(nodeMap)
+    println(nodeMap.get("field1").get("comment"))
   }
 
 
