@@ -37,8 +37,8 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    // hiveDispose(getSparkSession(), "bdp", "z8cb4be38af1481aa82172987fc01325")
-    ftpDispose("/typ/checkField")
+    hiveDispose(getSparkSession(), "bdp", "typtestJdbc1")
+    // ftpDispose("/typ/checkField")
   }
 
   private def getSparkSession(): SparkSession = {
@@ -52,11 +52,6 @@ object SparkMain extends LazyLogging {
       """
         select a,b,c,d from test where e = 10 and f in (select h from test2)
         |""".stripMargin)
-//    val (parsedSql, relyBaseTables, replaceFields, tempTables, replaceTables,
-//    variables, fieldVariables, moreFieldsTable) = SqlParserService.parseSql(
-//      """
-//          select a,b,c,d from test where e = 10
-//        |""".stripMargin)
     println(
       s"""
          |rely_tables==>${relyBaseTables}
@@ -119,6 +114,15 @@ object SparkMain extends LazyLogging {
   }
 
   private def hiveDispose(session: SparkSession, database: String, tableName: String): Unit = {
+//    val configMap = new util.HashMap[String, String]
+//    configMap.put("database", database)
+//    configMap.put("tbName", tableName)
+//    configMap.put("driver", "com.mysql.cj.jdbc.Driver")
+//    configMap.put("url", "jdbc:mysql://192.168.1.167:3306/typ?characterEncoding=UTF-8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=false")
+//    configMap.put("dbtable", "testMysqlCommit")
+//    configMap.put("user", "bdp")
+//    configMap.put("password", "h@izhi2dp#bdp-core")
+//    HiveUtil.createJdbcMapping(session, configMap)
     HiveUtil.getHiveTableLocation(session, database, tableName)
   }
 

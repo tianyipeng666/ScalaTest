@@ -1,5 +1,6 @@
 package hive
 
+import java.util
 import bean.Schema
 import org.apache.spark.sql.SparkSession
 
@@ -106,6 +107,8 @@ object HiveUtil {
     // inputFormat
     println(tableMeta.storage.inputFormat.get)
 
+    // options
+
     // totalSize
     var totalSize = 0L
     val statistics = tableMeta.stats.getOrElse(null)
@@ -136,5 +139,17 @@ object HiveUtil {
     session.sql(s"SELECT TABLE_SIZE('$database', '$tableName', '$location', '$inputFormat') FROM system.dual LIMIT 1").show()
   }
 
+  def createJdbcMapping(session: SparkSession, configMap:util.HashMap[String, String]): Unit = {
+    val sqlStr =
+      s"""CREATE TABLE ${configMap.get("database")}.${configMap.get("tbName")} USING org.apache.spark.sql.jdbc OPTIONS(
+         |driver '${configMap.get("driver")}',
+         |url '${configMap.get("url")}',
+         |dbtable '${configMap.get("dbTable")}',
+         |user '${configMap.get("user")}',
+         |password '${configMap.get("password")}')
+      """.stripMargin
+      println(sqlStr)
+      session.sql(sqlStr)
+  }
 
 }
