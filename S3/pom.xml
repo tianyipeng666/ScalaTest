@@ -7,8 +7,23 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>S3</name>
-    <url>http://maven.apache.org</url>
+    <!-- 优先从该仓库读取，而不去读取settings中的配置 -->
+    <repositories>
+        <repository>
+            <id>aliyun-releases</id>
+            <name>aliyun</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+        </repository>
+        <repository>
+            <id>maven-central</id>
+            <name>maven</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <properties>
         <scala.version>2.11.12</scala.version>
@@ -57,6 +72,7 @@
             <groupId>com.huaweicloud</groupId>
             <artifactId>esdk-obs-java</artifactId>
             <version>3.22.12</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.json4s</groupId>

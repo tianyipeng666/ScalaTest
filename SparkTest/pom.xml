@@ -131,11 +131,12 @@
             <scope>compile</scope>
         </dependency>
         <!--自定义工具包-->
+        <!--json4s依赖于2.12:3.5.3，会导致scala使用2.11版本时出现报错-->
         <dependency>
             <groupId>com.haizhi</groupId>
             <artifactId>tools_${scala.binary.version}</artifactId>
             <version>1.3.5-SNAPSHOT</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <!--将该包打入项目内会导致找不到主类，-->
         <dependency>

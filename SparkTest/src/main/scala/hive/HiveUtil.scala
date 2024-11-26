@@ -94,20 +94,19 @@ object HiveUtil {
   def getHiveTableLocation(session: SparkSession, database: String, tableName: String): Unit = {
     // 元数据获取
     val tableMeta = session.sessionState.catalog.externalCatalog.getTable(database, tableName)
+
     // 打印meta信息结构
     println(tableMeta)
+
     // 打印meta中location信息
+    // session.sql(s"desc formatted ${database}.${tableName}"
     println(tableMeta.storage.locationUri.get)
-//    println(session.sql(s"desc formatted ${database}.${tableName}").collect()
-//      .filter(_.get(0).toString.equals("Location"))
-//      .map(_.get(1))
-//      .mkString
-//    )
 
     // inputFormat
     println(tableMeta.storage.inputFormat.get)
 
-    // options
+    // options，实际为Storage Properties
+    println(tableMeta.storage.properties)
 
     // totalSize
     var totalSize = 0L
@@ -117,11 +116,8 @@ object HiveUtil {
 
     // rowsCount
     var rowsCount = 0L
-    // ???
     rowsCount = if (statistics != null) statistics.rowCount.get.toLong else 0L
     println(rowsCount)
-//    rowsCount = session.sql(s"select count(*) as cnt from ${database}.${tableName}").take(1)
-//      .map(_.get(0)).mkString.toLong
   }
 
   def getHiveTableCount(session: SparkSession, database: String, tableName: String): Unit = {
@@ -150,6 +146,18 @@ object HiveUtil {
       """.stripMargin
       println(sqlStr)
       session.sql(sqlStr)
+  }
+
+  def getJdbcConnectInfo(database: String, tableName: String): util.HashMap[String, String] = {
+        val configMap = new util.HashMap[String, String]
+        configMap.put("database", database)
+        configMap.put("tbName", tableName)
+        configMap.put("driver", "com.mysql.cj.jdbc.Driver")
+        configMap.put("url", "jdbc:mysql://192.168.1.167:3306/typ?characterEncoding=UTF-8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=false")
+        configMap.put("dbtable", "testMysqlCommit")
+        configMap.put("user", "bdp")
+        configMap.put("password", "h@izhi2dp#bdp-core")
+        configMap
   }
 
 }
