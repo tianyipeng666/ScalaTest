@@ -1,6 +1,7 @@
 package collect;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,5 +33,9 @@ public class JavaCollectUtils {
         addBuilder.deleteCharAt(addBuilder.length() - 1);
         baseBuilder.append("add columns (" + addBuilder + ")");
         return baseBuilder.toString();
+    }
+
+    public static String getSpecialDelimiterSplitStr(List<String> list, String delimiter) {
+        return list.stream().collect(Collectors.joining(delimiter));
     }
 }
