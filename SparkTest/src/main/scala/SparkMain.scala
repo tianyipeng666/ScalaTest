@@ -12,8 +12,6 @@ import inter.UDFName
 import json.JsonService
 import _root_.log.LazyLogging
 import com.graph.atlas.common.base.util.JSONUtils
-import com.haizhi.tools.ftp.FTPConnectionInfo
-import com.haizhi.tools.util.FTPUtils
 import jetty.HttpApi
 import jetty.web.JettyUtils
 import org.json4s.{DefaultFormats, Formats}
@@ -30,6 +28,7 @@ import sql.SqlParserService
 
 import java.util
 import java.lang
+import java.util.stream.Collectors
 import scala.collection.mutable.ArrayBuffer
 
 object SparkMain extends LazyLogging {
@@ -37,7 +36,8 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    hiveDispose(getSparkSession(), "bdp", "typtestJdbc1")
+    val list = new util.ArrayList[String]()
+    println(list.stream().collect(Collectors.joining(";")))
   }
 
   private def getSparkSession(): SparkSession = {
@@ -113,15 +113,15 @@ object SparkMain extends LazyLogging {
   }
 
   private def hiveDispose(session: SparkSession, database: String, tableName: String): Unit = {
-    HiveUtil.getHiveTableLocation(session, database, tableName)
+    HiveUtil.createJdbcMapping(session, HiveUtil.getJdbcConnectInfo(database, tableName))
   }
 
   private def ftpDispose(path: String): Unit = {
     // 手动连接
-    //val client = FtpUtils.getConnect("123.126.105.70", 21, "share", "haizhi1234")
+    val client = FtpUtils.getConnect("123.126.105.70", 21, "share", "haizhi1234")
     // 工具类获取连接
-    val connectionInfo = FTPConnectionInfo("123.126.105.70", 21, "share", "haizhi1234", 1)
-    val client = new FTPUtils(connectionInfo, true).getConnect
+    // val connectionInfo = FTPConnectionInfo("123.126.105.70", 21, "share", "haizhi1234", 1)
+    // val client = new FTPUtils(connectionInfo, true).getConnect
     val nodeMap = FtpUtils.resolveFtpJson(path, client)
     println(nodeMap)
     println(nodeMap.get("field1").get("comment"))

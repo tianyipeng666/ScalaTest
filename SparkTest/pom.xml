@@ -131,7 +131,7 @@
             <scope>compile</scope>
         </dependency>
         <!--自定义工具包-->
-        <!--json4s依赖于2.12:3.5.3，会导致scala使用2.11版本时出现报错-->
+        <!--json4s依赖于2.12:3.5.3，如果为compile，会导致scala使用2.11版本时出现报错-->
         <dependency>
             <groupId>com.haizhi</groupId>
             <artifactId>tools_${scala.binary.version}</artifactId>
@@ -189,14 +189,16 @@
         <dependency>
             <groupId>org.json4s</groupId>
             <artifactId>json4s-jackson_${scala.binary.version}</artifactId>
-            <version>3.7.0-M11</version>
+            <!--<version>3.7.0-M11</version>-->
+            <version>3.5.3</version>
             <scope>compile</scope>
         </dependency>
         <!-- 扩展包，用于枚举类序列化 -->
         <dependency>
             <groupId>org.json4s</groupId>
             <artifactId>json4s-ext_${scala.binary.version}</artifactId>
-            <version>3.7.0-M11</version>
+            <!--<version>3.7.0-M11</version>-->
+            <version>3.5.3</version>
             <scope>compile</scope>
         </dependency>
         <!-- 图平台json工具包 -->

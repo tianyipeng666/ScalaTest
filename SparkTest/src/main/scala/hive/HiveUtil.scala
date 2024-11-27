@@ -135,16 +135,20 @@ object HiveUtil {
     session.sql(s"SELECT TABLE_SIZE('$database', '$tableName', '$location', '$inputFormat') FROM system.dual LIMIT 1").show()
   }
 
+  /**
+   * 通过jdbc的方式创建表，spark在查询时会通过jdbc-source去远端查询数据并返回df，但是在hive客户端查表数据是查不到的
+   * @param session
+   * @param configMap
+   */
   def createJdbcMapping(session: SparkSession, configMap:util.HashMap[String, String]): Unit = {
     val sqlStr =
       s"""CREATE TABLE ${configMap.get("database")}.${configMap.get("tbName")} USING org.apache.spark.sql.jdbc OPTIONS(
          |driver '${configMap.get("driver")}',
          |url '${configMap.get("url")}',
-         |dbtable '${configMap.get("dbTable")}',
+         |dbtable '${configMap.get("dbtable")}',
          |user '${configMap.get("user")}',
          |password '${configMap.get("password")}')
       """.stripMargin
-      println(sqlStr)
       session.sql(sqlStr)
   }
 
