@@ -108,6 +108,9 @@ object HiveUtil {
     // options，实际为Storage Properties
     println(tableMeta.storage.properties)
 
+    // tblProperties
+    println(tableMeta.properties)
+
     // totalSize
     var totalSize = 0L
     val statistics = tableMeta.stats.getOrElse(null)

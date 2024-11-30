@@ -36,7 +36,7 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-
+    hiveDispose(getSparkSession(), "bdp", "testOption3")
   }
 
   private def getSparkSession(): SparkSession = {
@@ -112,7 +112,7 @@ object SparkMain extends LazyLogging {
   }
 
   private def hiveDispose(session: SparkSession, database: String, tableName: String): Unit = {
-    HiveUtil.createJdbcMapping(session, HiveUtil.getJdbcConnectInfo(database, tableName))
+    HiveUtil.getHiveTableLocation(session, database, tableName)
   }
 
   private def ftpDispose(path: String): Unit = {
