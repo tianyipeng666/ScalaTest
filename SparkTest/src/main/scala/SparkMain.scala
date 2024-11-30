@@ -29,25 +29,14 @@ import sql.SqlParserService
 import java.util
 import java.lang
 import java.util.stream.Collectors
-import scala.collection.mutable.ArrayBuffer
+import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 object SparkMain extends LazyLogging {
 
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    val session = getSparkSession()
-    // 懒加载，仅仅创建视图，在action算子触发时读取数据
-    val df = session.sql("select * from bdp.typtestJdbc1")
-    df.createTempView("typtestJdbc1")
-    // 将视图数据加载进内存，方便后续使用，不用每次触发算子都读取一遍数据，直接从内存读取
-    session.table("typtestJdbc1").cache()
-    println(s"${df.storageLevel.useMemory}")
-    // 卸载视图
-    session.catalog.dropTempView("typtestJdbc1")
-    // 清空df缓存
-    df.unpersist(false)
-    println(s"${df.storageLevel.useMemory}")
+
   }
 
   private def getSparkSession(): SparkSession = {

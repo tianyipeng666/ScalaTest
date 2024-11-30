@@ -164,4 +164,23 @@ object HiveUtil {
         configMap
   }
 
+  /**
+   * temp表数据cache
+   *
+   * @param session
+   * @param configMap
+   */
+  def createTempTable(session: SparkSession, tableName: String, tempSql: String): Unit = {
+    // 懒加载，仅仅创建视图，在action算子触发时读取数据
+    val df = session.sql(s"${tempSql}")
+    df.createTempView(s"${tableName}")
+    // 将视图数据加载进内存，方便后续使用，不用每次触发算子都读取一遍数据，直接从内存读取
+    session.table(s"${tableName}").cache()
+    println(s"${df.storageLevel.useMemory}")
+
+    // 卸载视图
+    // session.catalog.dropTempView("typtestJdbc1")
+    // 清空df缓存
+    // df.unpersist(false)
+  }
 }

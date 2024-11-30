@@ -17,6 +17,19 @@ import scala.collection.mutable.ArrayBuffer
 
 object JsonService {
 
+  def main(args: Array[String]): Unit = {
+    val jsonStr =
+      """
+        |{"fk1": "string", "fk2":"string", "sk3":"int"}
+        |""".stripMargin
+    val jsonMap = parse(jsonStr).extract[Map[String, String]]
+    val strBuilder = new StringBuilder
+    jsonMap.foreach(entry => {
+      strBuilder.append(s"`${entry._1}` ${entry._2},")
+    })
+    println(strBuilder.substring(0, strBuilder.length - 1))
+  }
+
   // 导入format隐式转换，对时间格式化 + 枚举类序列化 + Java枚举序列化 + 自定义序列化（case object）
   implicit val formats: Formats = DefaultFormats +
     new EnumNameSerializer(EnumBean) +
