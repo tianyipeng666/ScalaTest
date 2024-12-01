@@ -1,5 +1,10 @@
 package collect;
 
+import bean.FieldInfo3;
+import org.apache.parquet.format.Util;
+import org.apache.poi.ss.formula.functions.T;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -37,5 +42,25 @@ public class JavaCollectUtils {
 
     public static String getSpecialDelimiterSplitStr(List<String> list, String delimiter) {
         return list.stream().collect(Collectors.joining(delimiter));
+    }
+
+    // 列表
+    public static List<String> getStringList(List<FieldInfo3> list) {
+        // stream流类似scala处理方式
+        // import scala.jdk.CollectionConverters._
+        // scala：val names: List[String] = javaList.asScala.toList.map(_.name)
+        List<String> collect = list.stream().map(FieldInfo3::getName).collect(Collectors.toList());
+        return collect;
+    }
+
+    public static void main(String[] args) {
+        FieldInfo3 a = new FieldInfo3("typ", 30, false);
+        FieldInfo3 b = new FieldInfo3("typ", 30, false);
+        FieldInfo3 c = new FieldInfo3("typ", 30, false);
+        ArrayList<FieldInfo3> list = new ArrayList<>();
+        list.add(a);
+        list.add(b);
+        list.add(c);
+        System.out.println(getStringList(list));
     }
 }

@@ -4,7 +4,7 @@ import org.apache.spark.sql.types.{DataType, DataTypes, StringType, StructField,
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.functions._
 import _root_.udf.UdfRegister
-import bean.{EnumBean, EnumJava, IncrementalPartitionType, Person, PersonSer, SerTestBean, TablePartitionInfo, YearPartitionKeyType}
+import bean.{EnumBean, EnumJava, FieldInfo3, IncrementalPartitionType, Person, PersonSer, SerTestBean, TablePartitionInfo, YearPartitionKeyType}
 import constant.{ConstantKey, ConstantPath}
 import excel.{ExcelCheckUtil, SparkExcelUtil}
 import hive.HiveUtil
@@ -26,9 +26,10 @@ import org.json4s.JsonDSL._
 import org.json4s._
 import sql.SqlParserService
 
-import java.util
-import java.lang
+import java.{lang, util}
+import java.util.ArrayList
 import java.util.stream.Collectors
+import scala.::
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 object SparkMain extends LazyLogging {
@@ -36,7 +37,7 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    hiveDispose(getSparkSession(), "bdp", "testOption3")
+
   }
 
   private def getSparkSession(): SparkSession = {
