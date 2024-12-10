@@ -12,6 +12,8 @@ import inter.UDFName
 import json.JsonService
 import _root_.log.LazyLogging
 import com.graph.atlas.common.base.util.JSONUtils
+import com.haizhi.tools.ftp.FTPConnectionInfo
+import com.haizhi.tools.util.FTPUtils
 import jetty.HttpApi
 import jetty.web.JettyUtils
 import org.json4s.{DefaultFormats, Formats}
@@ -30,6 +32,7 @@ import java.{lang, util}
 import java.util.ArrayList
 import java.util.stream.Collectors
 import scala.::
+import scala.collection.mutable
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 object SparkMain extends LazyLogging {
@@ -37,7 +40,7 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-
+    ftpDispose("/czh_test/checkField")
   }
 
   private def getSparkSession(): SparkSession = {
@@ -121,10 +124,9 @@ object SparkMain extends LazyLogging {
     val client = FtpUtils.getConnect("123.126.105.70", 21, "share", "haizhi1234")
     // 工具类获取连接
     // val connectionInfo = FTPConnectionInfo("123.126.105.70", 21, "share", "haizhi1234", 1)
-    // val client = new FTPUtils(connectionInfo, true).getConnect
+    // val client = new FTPUtils(connectionInfo, true)
     val nodeMap = FtpUtils.resolveFtpJson(path, client)
     println(nodeMap)
-    println(nodeMap.get("field1").get("comment"))
   }
 
 

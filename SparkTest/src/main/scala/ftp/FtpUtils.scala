@@ -115,6 +115,7 @@ object FtpUtils {
         val fileContent = reader.lines().toArray.mkString("\n")
         reader.close()
         ftp.completePendingCommand()
+        logger.info(s"FTP CheckFile ==> ${fileContent}")
 
         // 转换为json
         // 依赖jackson-module-scala与jackson-databind
@@ -131,6 +132,7 @@ object FtpUtils {
             val node = iterator.next()
             checkMap.put(node.get("name").asText(), objectMapper.convertValue(node, classOf[util.HashMap[String, String]]))
           }
+          logger.info(s"FTP CheckMap ==> ${checkMap}")
         } else {
           logger.warn(s"The transform result from $checkFileName is not the type of Array, please check file data")
         }

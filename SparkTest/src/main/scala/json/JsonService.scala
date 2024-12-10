@@ -10,24 +10,21 @@ import org.json4s.jackson.Json4sScalaModule
 import org.json4s.jackson.Serialization._
 import org.json4s.JsonDSL._
 import org.json4s._
+
 import java.util
 import json.TablePartitionTypeSer
+import org.json4s.jackson.JsonMethods.{compact, render}
 
 import scala.collection.mutable.ArrayBuffer
 
 object JsonService {
 
   def main(args: Array[String]): Unit = {
-    val jsonStr =
-      """
-        |{"fk1": "string", "fk2":"string", "sk3":"int"}
-        |""".stripMargin
-    val jsonMap = parse(jsonStr).extract[Map[String, String]]
-    val strBuilder = new StringBuilder
-    jsonMap.foreach(entry => {
-      strBuilder.append(s"`${entry._1}` ${entry._2},")
-    })
-    println(strBuilder.substring(0, strBuilder.length - 1))
+    val map = new util.HashMap[String, String]()
+    // map.put("comment", "test")
+    val jObj = ("status" -> 0) ~ ("comment" -> (if (map.isEmpty) "" else map.get("comment")))
+    println("JValue ==>" + jObj)
+    println("JsonStr ==>" + compact(render(jObj)))
   }
 
   // 导入format隐式转换，对时间格式化 + 枚举类序列化 + Java枚举序列化 + 自定义序列化（case object）
@@ -76,14 +73,6 @@ object JsonService {
     )
   }
 
-  def getSerTableFromObject(obj: TablePartitionInfo): String = {
-    write(
-      ("traceId" -> "test3") ~
-        ("data" -> write(obj))
-    )
-  }
-
-
   def getDeSerToObject(str: String): AsyncQueueMessage = {
     // 转换的对象，对象属性未赋默认值的需同str相匹配
     parse(str).extract[AsyncQueueMessage]
@@ -110,6 +99,16 @@ object JsonService {
     map.put("comment3", "占用列2")
     val fieldMappingJSONParam = JSONUtils.toJSONString(map)
     println(fieldMappingJSONParam)
+  }
+
+  def getJsonStr(jObj: JValue): String = {
+    // render(jValue)是将JValue转换为JsonAST.JValue的内部表示
+    // compact负责将其转换为字符串
+    compact(render(jObj))
+  }
+
+  def getSerTableFromObject(obj: JValue): String = {
+    write(obj)
   }
 
 }
