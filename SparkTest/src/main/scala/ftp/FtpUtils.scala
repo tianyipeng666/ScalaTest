@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory
 import java.io.{BufferedReader, File, FileInputStream, FileOutputStream, IOException, InputStream, InputStreamReader, OutputStream, PrintStream}
 import java.time.Duration
 import java.util
+import scala.collection.mutable.ArrayBuffer
 
 object FtpUtils {
 
@@ -18,7 +19,7 @@ object FtpUtils {
   private lazy val ftp: FTPClient = new FTPClient()
   private lazy val ftpFilePath: String = "/typ/excelUpload/test.xlsx"
   private lazy val hdfsFilePath: String = "hdfs://hdcluster/bdp/ftp_tmp/ftp_download_excel/test.xlsx"
-  private val checkFileName: String = "_fields.json"
+  private val checkFileName: String = "_fields2.json"
 
   def connect(host:String, port:Int, userName:String, password:String): Unit = {
     ftp.setControlKeepAliveTimeout(Duration.ofSeconds(300))
@@ -71,8 +72,8 @@ object FtpUtils {
     System.out.println("File copied successfully.")
   }
 
-  def copyToOutPutStream(path: String, out: OutputStream, buffSize: Int = 4096): Unit = {
-    val in = getInputStream(path)
+  def copyToOutPutStream(path: String, ftp: FTPClient, out: OutputStream, buffSize: Int = 4096): Unit = {
+    val in = getInputStream(path, ftp)
     try {
       copyBytes(in, out, buffSize)
     } finally {
@@ -142,12 +143,6 @@ object FtpUtils {
       case e: Exception =>
         e.printStackTrace()
         checkMap
-    } finally {
-      // 断开连接
-      if (ftp.isConnected) {
-        ftp.logout()
-        ftp.disconnect()
-      }
     }
   }
 
@@ -155,7 +150,7 @@ object FtpUtils {
     false
   }
 
-  private def getInputStream(path: String): InputStream = {
+  private def getInputStream(path: String, ftp: FTPClient): InputStream = {
     // ftp拉取文件
     ftp.retrieveFileStream(path)
   }
@@ -176,11 +171,36 @@ object FtpUtils {
     }
   }
 
+  def previewFile(path: String, ftp: FTPClient, lineNumber: Int = 11): Seq[String] = {
+    val inputStream = getInputStream(path, ftp)
+    val lines = new ArrayBuffer[String]()
+    try {
+      val br = new BufferedReader(new InputStreamReader(inputStream))
+      var line = br.readLine()
+      var no = 1
+      // 实验性：多读一些，读的行数比较少的时候，再某些环境下有可能报错
+      val readLineNumber = if (lineNumber >= 100) lineNumber else 100
+      while (line != null && no <= lineNumber + readLineNumber) {
+        lines.append(line)
+        no += 1
+        line = br.readLine()
+      }
+      br.close()
+    } catch {
+      case e: Throwable => throw e
+    } finally {
+      inputStream.close()
+      Thread.sleep(50L)
+      ftp.completePendingCommand()
+    }
+    lines.take(lineNumber)
+  }
+
   def main(args: Array[String]): Unit = {
-    connect("123.126.105.70", 21, "share", "haizhi1234")
+    val client = getConnect("123.126.105.70", 21, "share", "haizhi1234")
     // outPutStream需关闭，否则数据无法刷写到磁盘，导致写入数据为0
     val out = HDFSUtil.openOutputStreamByUDF(hdfsFilePath, true)
-    copyToOutPutStream(ftpFilePath, out, 4096)
+    copyToOutPutStream(ftpFilePath, client, out, 4096)
     if (out != null) {
       out.close()
     }

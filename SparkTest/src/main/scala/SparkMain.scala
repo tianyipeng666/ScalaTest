@@ -11,9 +11,7 @@ import hive.HiveUtil
 import inter.UDFName
 import json.JsonService
 import _root_.log.LazyLogging
-import com.graph.atlas.common.base.util.JSONUtils
-import com.haizhi.tools.ftp.FTPConnectionInfo
-import com.haizhi.tools.util.FTPUtils
+import dataCreate.DataCreateUtils
 import jetty.HttpApi
 import jetty.web.JettyUtils
 import org.json4s.{DefaultFormats, Formats}
@@ -28,19 +26,17 @@ import org.json4s.JsonDSL._
 import org.json4s._
 import sql.SqlParserService
 
-import java.{lang, util}
-import java.util.ArrayList
-import java.util.stream.Collectors
-import scala.::
-import scala.collection.mutable
-import scala.collection.mutable.{ArrayBuffer, ListBuffer}
-
 object SparkMain extends LazyLogging {
 
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    ftpDispose("/czh_test/checkField")
+    getSparkSession.read.format("http_v2")
+      .option("url", "http://192.168.1.166:44120")
+      .option("name", "z98eb6b13d7540979a10b8ca8d07b339")
+      .option("db", "bdp")
+      .load
+      .show
   }
 
   private def getSparkSession(): SparkSession = {
@@ -48,9 +44,13 @@ object SparkMain extends LazyLogging {
     SparkSession.builder().config(conf).enableHiveSupport().getOrCreate()
   }
 
+  private def getDataCreate(session: SparkSession, fileNum: Int, path: String): Unit = {
+    DataCreateUtils.getDataSample(session, fileNum, path)
+  }
+
   private def sqlDispose(): Unit = {
     val (parsedSql, relyBaseTables, replaceFields, tempTables, replaceTables,
-      variables, fieldVariables, moreFieldsTable) = SqlParserService.parseSql(
+    variables, fieldVariables, moreFieldsTable) = SqlParserService.parseSql(
       """
         select a,b,c,d from test where e = 10 and f in (select h from test2)
         |""".stripMargin)
@@ -126,7 +126,11 @@ object SparkMain extends LazyLogging {
     // val connectionInfo = FTPConnectionInfo("123.126.105.70", 21, "share", "haizhi1234", 1)
     // val client = new FTPUtils(connectionInfo, true)
     val nodeMap = FtpUtils.resolveFtpJson(path, client)
+    val fileSampleData = FtpUtils.previewFile("/typ/checkField/check2.txt", client, 1)
+    val checkSampleDataArr = fileSampleData(0).split(",")
     println(nodeMap)
+    println(checkSampleDataArr.mkString(","))
+    println(nodeMap.keySet().toArray.sameElements(checkSampleDataArr))
   }
 
 
