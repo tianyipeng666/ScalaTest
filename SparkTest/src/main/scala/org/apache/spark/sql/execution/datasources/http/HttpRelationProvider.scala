@@ -16,8 +16,11 @@ class HttpRelationProvider extends RelationProvider with DataSourceRegister {
     // 路径如果不是org.apache.spark.sql.execution.datasources下的话会报无法引用
     // private[sql]标识代表Spark SQL内部模块使用，源码外不同路径会无法使用
     val resolver = sqlContext.conf.resolver
+    // 获取表schema
     val schema = HttpRelation.getSchema(resolver, HttpOptions)
-    HttpRelation(schema, HttpOptions)(sqlContext.sparkSession)
+    // 设定数据分区
+    val parts = HttpRelation.getPartitions(resolver, HttpOptions)
+    HttpRelation(schema, parts, HttpOptions)(sqlContext.sparkSession)
   }
 
 }

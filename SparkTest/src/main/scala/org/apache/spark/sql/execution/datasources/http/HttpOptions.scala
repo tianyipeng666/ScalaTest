@@ -17,8 +17,9 @@ class HttpOptions(@transient val parameters: CaseInsensitiveMap[String])
   require(parameters.isDefinedAt(TABLE_NAME), s"Option '$TABLE_NAME' is required.")
   val tableName = parameters(TABLE_NAME)
 
-  require(parameters.isDefinedAt(DB_NAME), s"Option '$DB_NAME' is required.")
   val dbName = parameters(DB_NAME)
+
+  val partitionRowsNum = parameters.getOrElse(PARTITION_ROWS_NUM, "200000").toInt
 }
 
 object HttpOptions {
@@ -33,4 +34,5 @@ object HttpOptions {
   val HTTP_URL = newOption("url")
   val TABLE_NAME = newOption("name")
   val DB_NAME = newOption("db")
+  val PARTITION_ROWS_NUM = newOption("partitionRowsNum")
 }

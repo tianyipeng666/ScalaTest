@@ -1,5 +1,6 @@
 package org.apache.spark.sql.execution.datasources.http
 
+import org.apache.spark.Partition
 import org.apache.spark.internal.Logging
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.catalyst.analysis._
@@ -21,18 +22,24 @@ private[sql] object HttpRelation extends Logging {
     HttpHelper.getSchema(httpOptions)
   }
 
+  def getPartitions(resolver: Resolver, httpOptions: HttpOptions): Array[Partition] = {
+    HttpHelper.getPartitions(httpOptions)
+  }
+
   /**
    * Resolves a Catalyst schema of a dmc table and returns [[HttpRelation]] with the schema.
    */
   def apply(httpOptions: HttpOptions)(sparkSession: SparkSession): HttpRelation = {
     val schema = HttpRelation.getSchema(sparkSession.sessionState.conf.resolver, httpOptions)
-    HttpRelation(schema, httpOptions)(sparkSession)
+    val parts = HttpRelation.getPartitions(sparkSession.sessionState.conf.resolver, httpOptions)
+    HttpRelation(schema, parts, httpOptions)(sparkSession)
   }
 }
 
 private[sql] case class HttpRelation(
                                      override val schema: StructType,
-                                     HttpOptions: HttpOptions)(@transient val sparkSession: SparkSession)
+                                     parts: Array[Partition],
+                                     httpOptions: HttpOptions)(@transient val sparkSession: SparkSession)
   extends BaseRelation with TableScan {
 
   override def sqlContext: SQLContext = sparkSession.sqlContext
@@ -40,13 +47,13 @@ private[sql] case class HttpRelation(
   override val needConversion: Boolean = false
 
   override def buildScan(): RDD[Row] = {
-    val data = HttpHelper.scanTableV1(HttpOptions, schema)
-    val dataRdd = sqlContext.sparkContext.makeRDD(data)
-    // 路径如果不是org.apache.spark.sql.execution.datasources下的话会报无法引用
-    sqlContext.internalCreateDataFrame(dataRdd.setName(HttpOptions.tableName), schema).rdd
+    HTTPRDD.scanTable(sparkSession.sparkContext,
+      schema,
+      parts,
+      httpOptions).asInstanceOf[RDD[Row]]
   }
 
   override def toString: String = {
-    s"HttpRelation(${HttpOptions.tableName})"
+    s"HttpRelation(${httpOptions.tableName})"
   }
 }
