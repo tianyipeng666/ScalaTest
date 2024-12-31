@@ -19,7 +19,7 @@ class HttpOptions(@transient val parameters: CaseInsensitiveMap[String])
 
   val dbName = parameters(DB_NAME)
 
-  val partitionRowsNum = parameters.getOrElse(PARTITION_ROWS_NUM, "200000").toInt
+  val partitionRowsNum = parameters.getOrElse(PARTITION_ROWS_NUM, "1000000").toInt
 }
 
 object HttpOptions {

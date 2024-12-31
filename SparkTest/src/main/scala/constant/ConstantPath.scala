@@ -10,6 +10,6 @@ object ConstantPath {
 
   val desPath = "file:///Users/tianyipeng/IdeaProjects/ScalaSTest/SparkTest/desFiles"
 
-  val hdfsPath = "hdfs://hdcluster/bdp/ftp_tmp/dfed602e4ad94d89832be33324e73b4f_excel/test_excel_07222124.xlsx"
+  val hdfsPath = "hdfs://hdcluster/bdp"
 
 }

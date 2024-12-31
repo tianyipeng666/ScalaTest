@@ -11,7 +11,7 @@ import okhttp3.Request;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-public class HttpUtils {
+public class JavaHttpUtils {
 
     public static void main(String[] args) throws Exception {
         JSONObject toMo = new JSONObject();

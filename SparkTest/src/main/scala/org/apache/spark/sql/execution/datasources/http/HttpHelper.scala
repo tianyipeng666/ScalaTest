@@ -1,5 +1,13 @@
 package org.apache.spark.sql.execution.datasources.http
 
+import com.alibaba.fastjson.{JSON, JSONObject}
+import com.github.lianjiatech.retrofit.spring.boot.exception.ReadResponseBodyException
+import com.github.lianjiatech.retrofit.spring.boot.util.RetrofitUtils
+import constant.ConstantPath
+import http.HttpUtils.{execute, httpClient}
+import okhttp3.{FormBody, OkHttpClient, Request}
+import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.http.NameValuePair
 import org.apache.http.message.BasicNameValuePair
 import org.apache.spark.Partition
@@ -8,79 +16,146 @@ import org.apache.spark.sql.catalyst.InternalRow
 import org.apache.spark.sql.catalyst.expressions.SpecificInternalRow
 import org.apache.spark.sql.types._
 import org.apache.spark.unsafe.types.UTF8String
-import org.json._
 
 import java.util
+import java.util.concurrent.TimeUnit
 import scala.collection.mutable.ArrayBuffer
 
 object HttpHelper extends Logging {
-  case class HttpSchema (name: String, `type`: String)
-  case class HttpResult (data: Array[Array[Any]], schema: Array[HttpSchema])
+
+  private val httpClient = new OkHttpClient.Builder()
+    .connectTimeout(30, TimeUnit.SECONDS)
+    .readTimeout(30, TimeUnit.MINUTES)
+    .build
+
+  def doPostForm(url: String, params: JSONObject): String = {
+    val builder = new FormBody.Builder
+    import scala.collection.JavaConversions._
+    for (key <- params.keySet) {
+      builder.add(key, params.getString(key))
+    }
+    val request = new Request.Builder().url(url).post(builder.build).build
+    val execute = httpClient.newCall(request).execute
+    try {
+      RetrofitUtils.readResponseBody(execute)
+    } catch {
+      case e: ReadResponseBodyException =>
+        e.printStackTrace()
+        null
+    }
+  }
+
+  def doPostFormByte(url: String, params: JSONObject, writePath: String): Boolean = {
+    val builder = new FormBody.Builder
+    import scala.collection.JavaConversions._
+    for (key <- params.keySet) {
+      builder.add(key, params.getString(key))
+    }
+    val request = new Request.Builder().url(url).post(builder.build).build
+    // todo: 改为应用配置中的hdfs地址
+    val config = new Configuration()
+    val fs = FileSystem.get(config)
+    val outputPath = new Path(writePath)
+    val outputStream = fs.create(outputPath, true)
+    val res = httpClient.newCall(request).execute
+    try {
+      val inputStream = res.body.byteStream
+      val bytesRead = new Array[Byte](2048)
+      var length = 0
+      while ( {
+        length = inputStream.read(bytesRead); length != -1
+      }) {
+        outputStream.write(bytesRead, 0, length)
+      }
+      outputStream.flush()
+      true
+    } catch {
+      case e: ReadResponseBodyException =>
+        e.printStackTrace()
+        false
+    } finally {
+      if (outputStream != null) {
+        outputStream.close()
+      }
+    }
+  }
 
   def getPartitions(httpOptions: HttpOptions) : Array[Partition] = {
-    // 从远端服务获取总条数
     val httpUrl = httpOptions.url + "/db/query"
     val tableName = httpOptions.tableName
     val partitionRowsNum = httpOptions.partitionRowsNum
-    val dataQuery = s"SELECT COUNT(1) FROM $tableName"
-    val ans = new ArrayBuffer[Partition]()
+    val dataCountQuery = s"SELECT COUNT(1) FROM $tableName"
+    val paramsCount = new JSONObject
+    paramsCount.put("sql", dataCountQuery)
+    val partitionBuffer = new ArrayBuffer[Partition]()
 
     try {
-      // 远端接口调用
-      val nvps = new util.ArrayList[NameValuePair]()
-      nvps.add(new BasicNameValuePair("sql", dataQuery))
-      val httpHelper = new http.HttpHelper()
-      val data = httpHelper.send(httpUrl, nvps)
-      if (!data.contains("\"status\" : 0")) {
-        throw new Exception(data)
+      val dataCount = doPostForm(httpUrl, paramsCount)
+      if (!dataCount.contains("\"status\" : 0")) {
+        throw new Exception(dataCount)
       }
 
       // data数量解析
-      val result: JSONObject = new JSONObject(data)
-      val dataCount = result.getJSONArray("data")
+      val resultCount: JSONObject = JSON.parseObject(dataCount)
+      val count = resultCount.getJSONArray("data")
         .getJSONArray(0)
         .get(0)
         .toString
         .toLong
 
-      println(s"${tableName} count => ${dataCount}")
+      // 数据重分区
+      val partitionNums = count / partitionRowsNum + 1
+      val paramsPartition = new JSONObject
+      paramsPartition.put("storage_id", tableName)
+      paramsPartition.put("partition_nums", partitionNums.toString)
+      val pathArr = repartitionFiles(httpOptions.url, paramsPartition)
 
-      // 根据远端表数量与传递参数分区数量进行分区
-      val partitionNums = dataCount / partitionRowsNum + 1
+      // partition信息补充
       var i: Int = 0
       while(i < partitionNums) {
-        ans.append(HTTPPartition(partitionRowsNum * i, partitionRowsNum * (i + 1) - 1, i))
+        partitionBuffer.append(HTTPMoveDataPartition(pathArr(i), i))
         i = i + 1
       }
     } catch {
       case exception: Exception => throw exception
     }
-    println(s"${tableName} partitionNums => ${ans.size}")
-    ans.toArray
+    println(s"${tableName} partitionNums => ${partitionBuffer.size} ==> ${partitionBuffer.mkString(",")}")
+    partitionBuffer.toArray
+  }
+
+  private def repartitionFiles(url: String, params: JSONObject): ArrayBuffer[String] = {
+    val pathArr = new ArrayBuffer[String]()
+    val httpUrl = url + "/db/repartitionData"
+    val dataPartition = doPostForm(httpUrl, params)
+    if (!dataPartition.contains("\"status\" : 0")) {
+      throw new Exception(dataPartition)
+    }
+    val resultPartition: JSONObject = JSON.parseObject(dataPartition)
+    val dataArr = resultPartition.getJSONArray("data")
+    (0 until dataArr.size())
+      .foreach(i => pathArr.append(dataArr.getString(i)))
+    pathArr
   }
 
   def getSchema(httpOptions: HttpOptions): StructType = {
     val httpUrl = httpOptions.url + "/db/query"
     val tableName = httpOptions.tableName
-    val schemaQuery = s"SELECT * FROM $tableName WHERE 1=0"
+    val schemaQuery = s"SELECT * FROM $tableName LIMIT 1"
 
     try {
-      // 1、根据远端服务地址获取schema信息
-      val nvps = new util.ArrayList[NameValuePair]()
-      nvps.add(new BasicNameValuePair("sql", schemaQuery))
-
-      val httpHelper = new http.HttpHelper()
-      val data = httpHelper.send(httpUrl, nvps)
+      val params = new JSONObject
+      params.put("sql", schemaQuery)
+      val data = doPostForm(httpUrl, params)
       if (!data.contains("\"status\" : 0")) {
         throw new Exception(data)
       }
 
       // 2、解析获取的schema
-      val result: JSONObject = new JSONObject(data)
+      val result: JSONObject = JSON.parseObject(data)
 
       val tableSchema = result.getJSONArray("schema")
 
-      val cloNum: Int = tableSchema.length
+      val cloNum: Int = tableSchema.size()
       val fields = new Array[StructField](cloNum)
       var j = 0
       while (j < cloNum) {
@@ -114,6 +189,7 @@ object HttpHelper extends Logging {
     sparkDataType
   }
 
+  // 通过请求查询数据(老版)
   def scanTable(httpOptions: HttpOptions, schema: StructType): List[Array[AnyRef]] = {
     val httpUrl = httpOptions.url + "/db/query"
     val tableName = httpOptions.tableName
@@ -131,19 +207,19 @@ object HttpHelper extends Logging {
       }
 
       // 2、解析获取的数据
-      val info: JSONObject = new JSONObject(data)
+      val info: JSONObject = JSON.parseObject(data)
       val tableData = info.getJSONArray("data")
-      val tableCount: Int = tableData.length
+      val tableCount: Int = tableData.size()
       val result = new Array[Array[AnyRef]](tableCount)
       var j = 0
 
       while (j < tableCount) {
         val oneRow = tableData.getJSONArray(j)
-        val rowCount: Int = oneRow.length
+        val rowCount: Int = oneRow.size
         var k = 0
         val oneRowAry = new Array[AnyRef](rowCount)
         while (k < rowCount) {
-          if (oneRow.isNull(k)) {
+          if (oneRow.get(k) == null) {
             oneRowAry.update(k, null)
           } else {
             oneRowAry.update(k, UTF8String.fromString(oneRow.getString(k)))
