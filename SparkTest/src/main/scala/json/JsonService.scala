@@ -13,18 +13,18 @@ import org.json4s._
 
 import java.util
 import json.TablePartitionTypeSer
-import org.json4s.jackson.JsonMethods.{compact, render}
+import org.json4s.JsonAST.JValue
+import org.json4s.jackson.JsonMethods.{compact, parse, render}
 
 import scala.collection.mutable.ArrayBuffer
+
+class Variables(variables: Map[String, JValue])
 
 object JsonService {
 
   def main(args: Array[String]): Unit = {
-    val map = new util.HashMap[String, String]()
-    // map.put("comment", "test")
-    val jObj = ("status" -> 0) ~ ("comment" -> (if (map.isEmpty) "" else map.get("comment")))
-    println("JValue ==>" + jObj)
-    println("JsonStr ==>" + compact(render(jObj)))
+    val variable = None
+    println(variable.map(parse(_).extract[Map[String, JValue]]).map(new Variables(_)))
   }
 
   // 导入format隐式转换，对时间格式化 + 枚举类序列化 + Java枚举序列化 + 自定义序列化（case object）

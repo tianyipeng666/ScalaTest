@@ -2,19 +2,17 @@ package hdfs
 
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs
-import org.apache.hadoop.fs.{FileSystem, Path}
+import org.apache.hadoop.fs.{FileStatus, FileSystem, Path}
 
 import java.io.OutputStream
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 import scala.collection.mutable.ArrayBuffer
 
 object HDFSUtil {
 
   def main(args: Array[String]): Unit = {
-    val config = new Configuration
-    val fs = FileSystem.get(config)
-    val path = new Path("/bdp/remote_haizhi/z98eb6b13d7540979a10b8ca8d07b340/1735553969484/part-00001-67d228ce-c582-4aad-a62b-5c0429419fa9-c000.gz.parquet")
-    // hdfs://hdcluster/bdp/remote_haizhi/z98eb6b13d7540979a10b8ca8d07b340/1735553969484
-    println(fs.getFileStatus(path).getPath.getParent.toString)
+    println(deleteInternalTempFile("/bdp/remote_haizhi/", 0))
   }
 
   def getFs(): FileSystem = {
@@ -65,5 +63,30 @@ object HDFSUtil {
       }
     }
     buffer.toSeq
+  }
+
+  def deleteInternalTempFile(filePath: String, timeInternal: Int): Int = {
+    val config = new Configuration()
+    val fs = FileSystem.get(config)
+    val currentTime = Instant.now()
+    var count = 0
+    val fileStatuses: Array[FileStatus] = fs.listStatus(new Path(filePath))
+    // 递归删除
+    fileStatuses.foreach(status => {
+      if (status.isFile) {
+        val filePath = status.getPath
+        val modificationTime = Instant.ofEpochMilli(status.getModificationTime)
+
+        // 判断文件是否超过保留天数
+        val daysOld = ChronoUnit.DAYS.between(modificationTime, currentTime)
+        if (daysOld >= timeInternal) {
+          fs.delete(filePath, false)
+          count += 1
+        }
+      } else {
+        count += deleteInternalTempFile(status.getPath.toString, timeInternal)
+      }
+    })
+    count
   }
 }

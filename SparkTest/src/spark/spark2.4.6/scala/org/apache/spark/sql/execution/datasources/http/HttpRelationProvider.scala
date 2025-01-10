@@ -6,7 +6,6 @@ import org.apache.spark.sql.sources.{BaseRelation, CreatableRelationProvider, Da
 import scala.collection.mutable.ArrayBuffer
 
 
-// 每个Spark版本都兼容v1源，但是Spark不同版本对于v2源区别较大
 class HttpRelationProvider extends RelationProvider with DataSourceRegister {
 
   override def shortName(): String = "http_v1"

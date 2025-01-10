@@ -186,4 +186,9 @@ object HiveUtil {
     // 清空df缓存
     // df.unpersist(false)
   }
+
+  def getTempJson(session: SparkSession): Unit = {
+    // {"test":"aaa","test2":{"test3":"ccc"}}
+    session.sql("select to_json(named_struct(\"test\", \"aaa\", \"test2\",named_struct(\"test3\", \"ccc\")))")
+  }
 }
