@@ -1,8 +1,10 @@
 package sql
 
+import antlr.sql.{SqlScriptLexer, SqlScriptParser}
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTreeWalker
 import sql.parser.{ANTLRNoCaseStringStream, OriginSqlScriptProcessor}
+
 import scala.util.parsing.json.JSONObject
 
 object SqlParserService {
@@ -14,8 +16,8 @@ object SqlParserService {
       (key, value.toString)
     }.toMap
     val relyBaseTables = JSONObject(map)
-    val moreFieldsTable = processor.moreFieldsTable
     val tempTables = processor.tempTables
+    val moreFieldsTable = processor.moreFieldsTable
     val variables = processor.jsonVariables
     val parsedSql = tree.getText
 

@@ -34,20 +34,7 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    val session = getSparkSession
-    val start = System.currentTimeMillis()
-    val df = session.read.format("http_v1")
-      .option("url", "http://192.168.1.166:44120")
-      .option("name", "z98eb6b13d7540979a10b8ca8d07b340")
-      .option("db", "bdp")
-      .load
-    df.createOrReplaceTempView("partition_temp")
-    session.table("partition_temp").persist(StorageLevel.MEMORY_AND_DISK)
-    session.sql("select count(1) from partition_temp").show()
-    session.sql("select * from partition_temp").show(50)
-    val end = System.currentTimeMillis()
-    println(s"cost time => ${(end - start) / 1000 / 60}")
-    df.unpersist(false)
+    sqlDispose()
   }
 
   private def getSparkSession(): SparkSession = {
@@ -60,11 +47,20 @@ object SparkMain extends LazyLogging {
   }
 
   private def sqlDispose(): Unit = {
-    val (parsedSql, relyBaseTables, replaceFields, tempTables, replaceTables,
-    variables, fieldVariables, moreFieldsTable) = SqlParserService.parseSql(
+    val tempSql1 =
       """
-        select a,b,c,d from test where e = 10 and f in (select h from test2)
-        |""".stripMargin)
+        |select a,b,c,d,h from test where e = 10 and f in (select s from test2)
+        |""".stripMargin
+    val tempSql2 =
+      """
+        |select DISTINCT(LEFT(`YF_DM`,4)) ND,ND SJ from `去重无用数据`
+        |UNION ALL select  DISTINCT(LEFT(`YF_DM`,4)) ND,ND-1 SJ from `去重无用数据`
+        |UNION ALL select  DISTINCT(LEFT(`YF_DM`,4)) ND,ND-2 SJ from `去重无用数据`
+        |UNION ALL select  DISTINCT(LEFT(`YF_DM`,4)) ND,ND-3 SJ from `去重无用数据`
+        |UNION ALL select  DISTINCT(LEFT(`YF_DM`,4)) ND,ND-4 SJ from `去重无用数据`
+        |""".stripMargin
+    val (parsedSql, relyBaseTables, replaceFields, tempTables, replaceTables,
+    variables, fieldVariables, moreFieldsTable) = SqlParserService.parseSql(tempSql1)
     println(
       s"""
          |rely_tables==>${relyBaseTables}
@@ -171,6 +167,23 @@ object SparkMain extends LazyLogging {
     val tbInfo = JsonService.parse(beanTransform.data).extract[SerTestBean]
     tbInfo.enmJavaType = if (tbInfo.enmJavaType == EnumJava.EMPTY) null else tbInfo.enmJavaType
     println(tbInfo)
+  }
+
+  private def httpSourceDispose(): Unit = {
+    val session = getSparkSession
+    val start = System.currentTimeMillis()
+    val df = session.read.format("http_v1")
+      .option("url", "http://192.168.1.166:44120")
+      .option("name", "z98eb6b13d7540979a10b8ca8d07b340")
+      .option("db", "bdp")
+      .load
+    df.createOrReplaceTempView("partition_temp")
+    session.table("partition_temp").persist(StorageLevel.MEMORY_AND_DISK)
+    session.sql("select count(1) from partition_temp").show()
+    session.sql("select * from partition_temp").show(50)
+    val end = System.currentTimeMillis()
+    println(s"cost time => ${(end - start) / 1000 / 60}")
+    df.unpersist(false)
   }
 }
 

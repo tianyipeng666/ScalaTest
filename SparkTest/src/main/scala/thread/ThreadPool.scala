@@ -27,7 +27,7 @@ object ThreadPool extends LazyLogging {
 
     val innerRunnable = new Runnable {
       override def run(): Unit = {
-        if (math.random() > 0.5) {
+        if (math.random > 0.5) {
           throw new RuntimeException("Task failed")
         } else {
           logger.info("===========sleep time==============")
@@ -43,47 +43,55 @@ object ThreadPool extends LazyLogging {
         MDC.put(TRACE_ID, Thread.currentThread.getId.toString)
         while (true) {
           val service = getUsefulExecutorService(executorRef)
-          val res: ListenableFuture[_] = service.submit(innerRunnable)
-          val callBack = new FutureCallback[String] {
+          try {
+            // service.shutdown()
+            val res: ListenableFuture[_] = service.submit(innerRunnable)
+            val callBack = new FutureCallback[String] {
 
-            private val maxRetries = 3
-            private var retryCount = 0
-            private var isSuccess = false
+              private val maxRetries = 3
+              private var retryCount = 0
+              private var isSuccess = false
 
-            override def onSuccess(result: String): Unit = {
-              logger.info("success")
-              // 模拟关闭
-              service.shutdown()
-            }
-
-            override def onFailure(t: Throwable): Unit = {
-              // 失败重试
-              while (retryCount < maxRetries && !isSuccess) {
-                retryCount += 1
-                val service = getUsefulExecutorService(executorRef)
-                logger.warn("Task: failed on attempt {}, retrying... Error: {}", retryCount.toString, t.getMessage, t)
-                try {
-                  val retryFuture = service.submit(innerRunnable)
-                  retryFuture.get
-                  isSuccess = true
-                  logger.info("Task: succeeded on retry {}", retryCount.toString)
-                } catch {
-                  case err: Exception =>
-                    logger.error("Retry task submission failed, retries: {}, error: {}", retryCount.toString, err.getMessage, err)
-                }
-              }
-              if (isSuccess) {
-                logger.info("consume task success has retried {}", retryCount.toString)
+              override def onSuccess(result: String): Unit = {
+                logger.info("success")
                 // 模拟关闭
                 service.shutdown()
               }
-              else {
-                logger.error("consume failed, errorMsg: {} end", t.getMessage)
+
+              override def onFailure(t: Throwable): Unit = {
+                // 失败重试
+                while (retryCount < maxRetries && !isSuccess) {
+                  retryCount += 1
+                  val service = getUsefulExecutorService(executorRef)
+                  logger.warn("Task: failed on attempt {}, retrying... Error: {}", retryCount.toString, t.getMessage, t)
+                  try {
+                    val retryFuture = service.submit(innerRunnable)
+                    retryFuture.get
+                    isSuccess = true
+                    logger.info("Task: succeeded on retry {}", retryCount.toString)
+                  } catch {
+                    case err: Exception =>
+                      logger.error("Retry task submission failed, retries: {}, error: {}", retryCount.toString, err.getMessage, err)
+                  }
+                }
+                if (isSuccess) {
+                  logger.info("consume task success has retried {}", retryCount.toString)
+                  // 模拟关闭
+                  service.shutdown()
+                }
+                else {
+                  logger.error("consume failed, errorMsg: {} end", t.getMessage)
+                }
               }
             }
+            // FutureCallback与ListenableFuture保证类型一致，_可匹配任意类型
+            Futures.addCallback(res.asInstanceOf[ListenableFuture[String]], callBack)
+            Thread.sleep(10000)
+          } catch {
+            case err: Exception => {
+              logger.info(s"Outer catch ==> ${err.getMessage}")
+            }
           }
-          // FutureCallback与ListenableFuture保证类型一致，_可匹配任意类型
-          Futures.addCallback(res.asInstanceOf[ListenableFuture[String]], callBack)
           Thread.sleep(10000)
         }
       }

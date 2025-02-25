@@ -1,5 +1,5 @@
 // Generated from /Users/tianyipeng/IdeaProjects/mobius-inceptor/src/main/antlr4/com/haizhi/mobius/parser/SqlScript.g4 by ANTLR 4.7
-package sql;
+package antlr.sql;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**

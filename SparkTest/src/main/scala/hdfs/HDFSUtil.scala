@@ -33,12 +33,16 @@ object HDFSUtil {
     val config = new Configuration
     val fs = FileSystem.get(config)
     val hdfsPath = new Path(src)
+    val desPath = new Path(des)
     val targetPath = new Path(des).getParent
     if (!fs.exists(targetPath)) {
       fs.mkdirs(targetPath)
     }
+    if (fs.exists(desPath)) {
+      fs.delete(desPath, true)
+    }
     if (fs.exists(hdfsPath)) {
-      fs.rename(hdfsPath, new Path(des))
+      fs.rename(hdfsPath, desPath)
     }
   }
 
@@ -88,5 +92,39 @@ object HDFSUtil {
       }
     })
     count
+  }
+
+  def deleteHiveTableData(dataPath: String, keepDir: Boolean = false): Boolean = {
+    var result = true
+    val dataFilePath = new Path(dataPath)
+    val config = new Configuration()
+    val fs = FileSystem.get(config)
+    try {
+      if (fs.exists(dataFilePath)) {
+        fs.delete(dataFilePath, true)
+        if (keepDir) {
+          fs.mkdirs(dataFilePath)
+        }
+      }
+    } catch {
+      case e: Exception =>
+        e.printStackTrace()
+        result = false
+    }
+    result
+  }
+
+  def getContentLength(paths: String*): Long = {
+    val config = new Configuration()
+    val fs = FileSystem.get(config)
+    var length = 0L
+    paths.foreach { path =>
+      val filePath = new Path(path)
+      if (fs.exists(filePath)) {
+        val summary = fs.getContentSummary(filePath)
+        length += summary.getLength
+      }
+    }
+    length
   }
 }

@@ -1,5 +1,6 @@
 package sql.parser
 
+import antlr.sql.{SqlScriptBaseListener, SqlScriptParser}
 import java.util
 import scala.collection.JavaConverters._
 import scala.collection.mutable
@@ -8,10 +9,10 @@ import scala.util.parsing.json._
 import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.misc.Interval
 import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeWalker, TerminalNode}
-import org.json4s.{JValue, _}
+import org.json4s._
 import org.json4s.jackson.JsonMethods._
-import sql.{SqlScriptBaseListener, SqlScriptParser, SqlUtils}
-import sql.SqlScriptParser._
+import sql.SqlUtils
+import antlr.sql.SqlScriptParser._
 
 
 class SqlScriptProcessor(parser: SqlScriptParser) extends SqlScriptBaseListener {
@@ -74,12 +75,14 @@ class SqlScriptProcessor(parser: SqlScriptParser) extends SqlScriptBaseListener 
   var tmprelyTable = new mutable.HashMap[String, util.Set[String]]()
   val fieldMap = new mutable.HashMap[String, util.HashSet[String]]()
   private var usedRelyTable = new util.HashSet[String]()
+
+  private var inSubQuery = false
   /**
    * 修改状态, 表示现在已经进入解析字段
    */
   override def enterNamedExpression(ctx: NamedExpressionContext): Unit = {
-    status match {
-      case _ => status = 1
+    if (!inSubQuery) {
+      status = 1
     }
   }
 
@@ -238,6 +241,7 @@ class SqlScriptProcessor(parser: SqlScriptParser) extends SqlScriptBaseListener 
     }
   }
   override def enterQuery(ctx: SqlScriptParser.QueryContext): Unit = {
+    inSubQuery = false
     functionAlaisStatus = 0
     functionName = ""
   }
@@ -249,7 +253,7 @@ class SqlScriptProcessor(parser: SqlScriptParser) extends SqlScriptBaseListener 
     status match {
       case 5 =>
       case _ =>
-        if (!"*".equals(ctx.getStop.getText)) {
+        if (!inSubQuery && !"*".equals(ctx.getStop.getText)) {
           if (currentField.isEmpty) {
             throw new Exception("brackets are not matched")
           }

@@ -2,11 +2,14 @@ package hive
 
 import java.util
 import bean.Schema
+import hdfs.HDFSUtil
+import log.LazyLogging
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.hive.HiveContext
 
 import scala.collection.mutable
 
-object HiveUtil {
+object HiveUtil extends LazyLogging{
   def createTableAndRefresh(session: SparkSession, hdfsPath:String, schema:Seq[Schema], tableName:String) :Unit = {
     val builder = new mutable.StringBuilder
     // 无法带external
@@ -89,6 +92,19 @@ object HiveUtil {
         | OPTIONS ('path' 'hdfs://hdcluster/excel/externalExcel3', 'header' 'true', 'delimiter' ',')
         |""".stripMargin
         sql
+  }
+
+  def createPartitionTable246(): Unit = {
+    // 指定LOCATION的话创建的表都为外部表
+    val sql =
+      """
+        |CREATE TABLE bdp.typPartitionTableFour (
+        |    id INT,
+        |    name STRING,
+        |    age INT
+        |) PARTITIONED BY (day STRING)
+        |STORED AS PARQUET
+        |""".stripMargin
   }
 
   def getHiveTableLocation(session: SparkSession, database: String, tableName: String): Unit = {
@@ -190,5 +206,33 @@ object HiveUtil {
   def getTempJson(session: SparkSession): Unit = {
     // {"test":"aaa","test2":{"test3":"ccc"}}
     session.sql("select to_json(named_struct(\"test\", \"aaa\", \"test2\",named_struct(\"test3\", \"ccc\")))")
+  }
+
+  def sqlFunction(session: SparkSession): Unit = {
+    val start = System.currentTimeMillis()
+    logger.info(s"start df")
+    // 连接hiveMeta信息(连接元数据也可能占用较多时间，确定网络情况)，spark对sql做解析与优化，hdfs数据扫描
+    // ANALYZE TABLE 表名 COMPUTE STATISTICS，可提前把信息存储到hiveMeta中，减少执行时间
+    val df = session.sqlContext.sql("select * from bdp.xd24941534fd4f57aee7da312c301e47 limit 50")
+    logger.info(s"end df ==> ${System.currentTimeMillis() - start}")
+    println(df.take(50).length)
+  }
+
+  def createTableLike(session: SparkSession): Unit = {
+    session.sql("INSERT INTO bdp.typPartitionTableTwo PARTITION (day='2024-02-02') VALUES (1, 'Alice', 25)")
+    session.sql("INSERT INTO bdp.typPartitionTableTwo PARTITION (day='2024-02-03') VALUES (1, 'Alice', 25)")
+    session.sql("INSERT INTO bdp.typPartitionTableTwo PARTITION (day='2024-02-04') VALUES (1, 'Alice', 25)")
+    // 外部表Drop时不会删除路径
+    session.sql("DROP TABLE bdp.typPartitionTableThree")
+    HDFSUtil.deleteHiveTableData("/bdp/data/typPartitionTableThree")
+    // 按照该方法存在时会同时把路径创建出来，如果同上一步调转执行的话会存在如上的问题
+    session.sql(s"CREATE TABLE bdp.typPartitionTableThree LIKE bdp.typPartitionTableTwo LOCATION 'hdfs://hdcluster/bdp/data/typPartitionTableThree'")
+    // hdfs提供的rename方法，如果目标路径存在，则把src放入到已存在的target路径下，类似于HDFS上执行mv命令
+    HDFSUtil.rename(s"/bdp/data/typPartitionTableTwo", "/bdp/data/typPartitionTableThree")
+    session.sql(s"MSCK REPAIR TABLE bdp.typPartitionTableThree")
+    session.catalog.refreshTable("bdp.typPartitionTableThree")
+    session.sql("SELECT * FROM bdp.typPartitionTableThree").show()
+    println(session.sql(s"show partitions bdp.typPartitionTableThree").collect().size)
+    println(session.catalog.tableExists("bdp.typPartitionTableThree"))
   }
 }

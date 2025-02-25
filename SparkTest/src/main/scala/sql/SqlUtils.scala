@@ -1,16 +1,14 @@
 package sql
 
+import antlr.sql.{SqlScriptLexer, SqlScriptParser}
 import log.LazyLogging
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTreeWalker
-import sql.SqlScriptParser.SqlScriptContext
+import antlr.sql.SqlScriptParser.SqlScriptContext
 import sql.parser.{ANTLRNoCaseStringStream, SqlScriptProcessor}
 
 import scala.collection.mutable
 
-/**
- * Created by wangyang on 15/9/15.
- */
 object SqlUtils extends LazyLogging {
 
   def parseSQL(sql: String): (SqlScriptContext, SqlScriptProcessor) = {

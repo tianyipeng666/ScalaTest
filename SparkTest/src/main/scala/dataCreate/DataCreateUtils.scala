@@ -10,8 +10,6 @@ import scala.util.Random
 object DataCreateUtils {
   def getDataSample(spark: SparkSession, fileNum: Int, path: String): Unit = {
 
-
-
     // 每行大约 100 字节，500MB 的文件约包含 5,000,000 行
     val numRows = 5000000
 
