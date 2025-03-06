@@ -1,4 +1,4 @@
-package org.apache.spark.sql.execution.datasources.httpV1
+package org.apache.spark.sql.execution.datasources.httpV1Filter
 
 import org.apache.spark.Partition
 

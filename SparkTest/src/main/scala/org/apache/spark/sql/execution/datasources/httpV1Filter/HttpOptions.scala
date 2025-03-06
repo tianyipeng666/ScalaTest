@@ -1,11 +1,10 @@
-package org.apache.spark.sql.execution.datasources.http
+package org.apache.spark.sql.execution.datasources.httpV1Filter
 
 import org.apache.spark.sql.catalyst.util.CaseInsensitiveMap
 
 import java.util.Locale
 
-class HttpOptions(@transient val parameters: CaseInsensitiveMap[String])
-  extends Serializable {
+class HttpOptions(@transient val parameters: CaseInsensitiveMap[String]) extends Serializable {
 
   import HttpOptions._
 

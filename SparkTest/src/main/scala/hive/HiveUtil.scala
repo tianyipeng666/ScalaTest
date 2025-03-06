@@ -94,6 +94,21 @@ object HiveUtil extends LazyLogging{
         sql
   }
 
+  def createHTTPMappingTable(): String = {
+    val sql =
+      """
+        |CREATE TABLE bdp.httpSourceTest (field1 String, field2 String, field3 String, field4 String)
+        |  USING http_v1Filter
+        |  OPTIONS(
+        |  url 'http://192.168.1.166:44120',
+        |  name 'z98eb6b13d7540979a10b8ca8d07b340',
+        |  db 'bdp',
+        |  partitionRowsNum '1000000'
+        |  )
+        |""".stripMargin
+    sql
+  }
+
   def createPartitionTable246(): Unit = {
     // 指定LOCATION的话创建的表都为外部表
     val sql =

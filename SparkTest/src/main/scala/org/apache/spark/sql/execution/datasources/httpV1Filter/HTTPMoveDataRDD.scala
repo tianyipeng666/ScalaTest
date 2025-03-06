@@ -1,5 +1,6 @@
-package org.apache.spark.sql.execution.datasources.http
+package org.apache.spark.sql.execution.datasources.httpV1Filter
 
+import com.alibaba.fastjson.JSONObject
 import constant.ConstantPath
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{FileSystem, Path}
@@ -9,36 +10,47 @@ import org.apache.parquet.hadoop.example.GroupReadSupport
 import org.apache.parquet.schema.{MessageType, MessageTypeParser}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.catalyst.InternalRow
-import org.apache.spark.sql.catalyst.expressions.{GenericInternalRow, SpecificInternalRow}
+import org.apache.spark.sql.catalyst.expressions.GenericInternalRow
 import org.apache.spark.sql.execution.datasources.PartitionedFile
 import org.apache.spark.sql.execution.datasources.parquet.ParquetFileFormat
-import org.apache.spark.sql.types.StructType
+import org.apache.spark.sql.types._
 import org.apache.spark.unsafe.types.UTF8String
 import org.apache.spark.util.SerializableConfiguration
 import org.apache.spark.{Partition, SparkContext, TaskContext}
-import com.alibaba.fastjson.{JSON, JSONObject}
-import org.apache.spark.sql.types._
 
 object HTTPMoveDataRDD {
 
   def scanTable(sc: SparkContext,
                 schema: StructType,
+                requiredColumns: Array[String],
                 parts: Array[Partition],
                 serHadoopConf: SerializableConfiguration,
                 httpOptions: HttpOptions): RDD[InternalRow] = {
     new HTTPMoveDataRDD(sc,
-      schema,
+      pruneSchema(schema, requiredColumns),
       parts,
       serHadoopConf,
       httpOptions)
   }
+
+  /**
+   * Prune all but the specified columns from the specified Catalyst schema.
+   *
+   * @param schema  - The Catalyst schema of the master table
+   * @param columns - The list of desired columns
+   * @return A Catalyst schema corresponding to columns in the given order.
+   */
+  private def pruneSchema(schema: StructType, columns: Array[String]): StructType = {
+    val fieldMap = Map(schema.fields.map(x => x.name -> x): _*)
+    new StructType(columns.map(name => fieldMap(name)))
+  }
 }
 
-private[http] class HTTPMoveDataRDD(@transient sc: SparkContext,
-                                    schema: StructType,
-                                    partitions: Array[Partition],
-                                    serHadoopConf: SerializableConfiguration,
-                                    httpOptions: HttpOptions)
+private[httpV1Filter] class HTTPMoveDataRDD(@transient sc: SparkContext,
+                                      schema: StructType,
+                                      partitions: Array[Partition],
+                                      serHadoopConf: SerializableConfiguration,
+                                      httpOptions: HttpOptions)
   extends RDD[InternalRow](sc, Nil) {
 
   //
@@ -51,13 +63,13 @@ private[http] class HTTPMoveDataRDD(@transient sc: SparkContext,
 
     println(s"Partition ${context.partitionId} ==> source file path ${partition.filePath}")
     println(s"Partition ${context.partitionId} ==> des file path ${writePath}")
+    println(s"${schema.fields.mkString(",")}")
     try {
       val params = new JSONObject
       params.put("filePath", partition.filePath)
       val isTransmit = HttpHelper.doPostFormByte(httpUrl, params, writePath)
       if (isTransmit) {
         val filePath = new Path(writePath)
-        // 解密
 
         // 读取
         val parquetReader = ParquetReader.builder[Group](new GroupReadSupport(), filePath)
@@ -144,7 +156,13 @@ private[http] class HTTPMoveDataRDD(@transient sc: SparkContext,
         field.dataType match {
           case StringType => UTF8String.fromString(group.getBinary(field.name, 0).toStringUsingUTF8)
           case IntegerType => group.getInteger(field.name, 0)
-          case LongType => group.getLong(field.name, 0)
+          case LongType =>
+            if (field.name.equalsIgnoreCase("count")) {
+            val longValue = group.getLong(field.name, 0)
+            UTF8String.fromString(longValue.toString)
+          } else {
+            group.getLong(field.name, 0)
+          }
           case BooleanType => group.getBoolean(field.name, 0)
           case DoubleType => group.getDouble(field.name, 0)
           case FloatType => group.getFloat(field.name, 0)

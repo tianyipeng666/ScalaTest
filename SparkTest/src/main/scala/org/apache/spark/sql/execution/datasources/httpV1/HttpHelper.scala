@@ -1,4 +1,4 @@
-package org.apache.spark.sql.execution.datasources.http
+package org.apache.spark.sql.execution.datasources.httpV1
 
 import com.alibaba.fastjson.{JSON, JSONObject}
 import com.github.lianjiatech.retrofit.spring.boot.exception.ReadResponseBodyException

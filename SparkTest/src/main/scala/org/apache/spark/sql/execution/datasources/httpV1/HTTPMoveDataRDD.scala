@@ -45,6 +45,7 @@ private[httpV1] class HTTPMoveDataRDD(@transient sc: SparkContext,
   override def compute(split: Partition, context: TaskContext): Iterator[InternalRow] = {
     val httpUrl = httpOptions.url + "/stream/downloadTempFile"
     val partition = split.asInstanceOf[HTTPMoveDataPartition]
+    // local模式没有问题，但是非local模式会报读取不到，通封装在case class中，通过参数传进来可解决
     val writePath = ConstantPath.hdfsPath + "/remote_get" + partition.filePath.split("remote")(1)
     val hadoopConf = serHadoopConf.value
 

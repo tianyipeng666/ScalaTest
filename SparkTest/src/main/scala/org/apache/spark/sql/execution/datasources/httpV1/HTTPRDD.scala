@@ -1,4 +1,4 @@
-package org.apache.spark.sql.execution.datasources.http
+package org.apache.spark.sql.execution.datasources.httpV1
 
 import org.apache.http.NameValuePair
 import org.apache.http.message.BasicNameValuePair
@@ -26,10 +26,10 @@ object HTTPRDD {
   }
 }
 
-private[http] class HTTPRDD(sc: SparkContext,
-                            schema: StructType,
-                            partitions: Array[Partition],
-                            httpOptions: HttpOptions)
+private[httpV1] class HTTPRDD(sc: SparkContext,
+                              schema: StructType,
+                              partitions: Array[Partition],
+                              httpOptions: HttpOptions)
   extends RDD[InternalRow](sc, Nil) {
   override def compute(split: Partition, context: TaskContext): Iterator[InternalRow] = {
     println(s"Partition ${context.partitionId} compute start...")

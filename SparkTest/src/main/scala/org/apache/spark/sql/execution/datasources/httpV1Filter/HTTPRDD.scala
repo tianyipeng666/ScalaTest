@@ -1,13 +1,13 @@
-package org.apache.spark.sql.execution.datasources.httpV1
+package org.apache.spark.sql.execution.datasources.httpV1Filter
 
 import org.apache.http.NameValuePair
 import org.apache.http.message.BasicNameValuePair
-import org.apache.spark.{Partition, SparkContext, TaskContext}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.catalyst.InternalRow
 import org.apache.spark.sql.catalyst.expressions.SpecificInternalRow
 import org.apache.spark.sql.types.StructType
 import org.apache.spark.unsafe.types.UTF8String
+import org.apache.spark.{Partition, SparkContext, TaskContext}
 import org.json.JSONObject
 
 import java.util
@@ -26,7 +26,7 @@ object HTTPRDD {
   }
 }
 
-private[httpV1] class HTTPRDD(sc: SparkContext,
+private[httpV1Filter] class HTTPRDD(sc: SparkContext,
                               schema: StructType,
                               partitions: Array[Partition],
                               httpOptions: HttpOptions)

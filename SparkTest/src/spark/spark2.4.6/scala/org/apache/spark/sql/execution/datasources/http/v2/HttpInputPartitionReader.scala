@@ -1,13 +1,13 @@
-package org.apache.spark.sql.execution.datasources.http.v2
+package org.apache.spark.sql.execution.datasources.httpV1.v2
 
 import org.apache.spark.sql.catalyst.InternalRow
-import org.apache.spark.sql.execution.datasources.http
-import http.HttpHelper
+import org.apache.spark.sql.execution.datasources.httpV1
+import httpV1.HttpHelper
 import org.apache.spark.sql.sources.v2.reader.InputPartitionReader
 import org.apache.spark.sql.types.StructType
 
 
-class HttpInputPartitionReader(schema: StructType, options: http.HttpOptions) extends InputPartitionReader[InternalRow] {
+class HttpInputPartitionReader(schema: StructType, options: httpV1.HttpOptions) extends InputPartitionReader[InternalRow] {
   val data: Iterator[Seq[AnyRef]] = getIterator
 
   override def next(): Boolean = {

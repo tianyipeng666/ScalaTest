@@ -1,10 +1,8 @@
-package org.apache.spark.sql.execution.datasources.httpV1
+package org.apache.spark.sql.execution.datasources.httpV1Filter
 
 import com.alibaba.fastjson.{JSON, JSONObject}
 import com.github.lianjiatech.retrofit.spring.boot.exception.ReadResponseBodyException
 import com.github.lianjiatech.retrofit.spring.boot.util.RetrofitUtils
-import constant.ConstantPath
-import http.HttpUtils.{execute, httpClient}
 import okhttp3.{FormBody, OkHttpClient, Request}
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{FileSystem, Path}
@@ -12,8 +10,6 @@ import org.apache.http.NameValuePair
 import org.apache.http.message.BasicNameValuePair
 import org.apache.spark.Partition
 import org.apache.spark.internal.Logging
-import org.apache.spark.sql.catalyst.InternalRow
-import org.apache.spark.sql.catalyst.expressions.SpecificInternalRow
 import org.apache.spark.sql.types._
 import org.apache.spark.unsafe.types.UTF8String
 
@@ -80,11 +76,11 @@ object HttpHelper extends Logging {
     }
   }
 
-  def getPartitions(httpOptions: HttpOptions) : Array[Partition] = {
+  def getPartitions(httpOptions: HttpOptions, columns: Array[String], whereClause: String, executeSql: String) : Array[Partition] = {
     val httpUrl = httpOptions.url + "/db/query"
     val tableName = httpOptions.tableName
     val partitionRowsNum = httpOptions.partitionRowsNum
-    val dataCountQuery = s"SELECT COUNT(1) FROM $tableName"
+    val dataCountQuery = s"SELECT COUNT(1) FROM (${executeSql}) AS TMP"
     val paramsCount = new JSONObject
     paramsCount.put("sql", dataCountQuery)
     val partitionBuffer = new ArrayBuffer[Partition]()
@@ -108,6 +104,9 @@ object HttpHelper extends Logging {
       val paramsPartition = new JSONObject
       paramsPartition.put("storage_id", tableName)
       paramsPartition.put("partition_nums", partitionNums.toString)
+      paramsPartition.put("columns", columns.mkString(", "))
+      paramsPartition.put("where_cause", whereClause)
+      paramsPartition.put("execute_sql", executeSql)
       val pathArr = repartitionFiles(httpOptions.url, paramsPartition)
 
       // partition信息补充

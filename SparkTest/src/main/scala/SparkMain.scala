@@ -14,6 +14,7 @@ import _root_.log.LazyLogging
 import dataCreate.DataCreateUtils
 import jetty.HttpApi
 import jetty.web.JettyUtils
+import org.apache.spark.sql.execution.datasources.httpV1Filter.HttpPushDownRule
 import org.apache.spark.storage.StorageLevel
 import org.json4s.{DefaultFormats, Formats}
 import org.json4s.ext.EnumNameSerializer
@@ -25,6 +26,7 @@ import org.json4s.jackson.Json4sScalaModule
 import org.json4s.jackson.Serialization._
 import org.json4s.JsonDSL._
 import org.json4s._
+import source.HttpSourceUtils
 import sql.SqlParserService
 
 import java.util.UUID
@@ -34,7 +36,7 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    sqlDispose()
+    httpSourceDispose()
   }
 
   private def getSparkSession(): SparkSession = {
@@ -171,19 +173,13 @@ object SparkMain extends LazyLogging {
 
   private def httpSourceDispose(): Unit = {
     val session = getSparkSession
-    val start = System.currentTimeMillis()
-    val df = session.read.format("http_v1")
-      .option("url", "http://192.168.1.166:44120")
-      .option("name", "z98eb6b13d7540979a10b8ca8d07b340")
-      .option("db", "bdp")
-      .load
-    df.createOrReplaceTempView("partition_temp")
-    session.table("partition_temp").persist(StorageLevel.MEMORY_AND_DISK)
-    session.sql("select count(1) from partition_temp").show()
-    session.sql("select * from partition_temp").show(50)
-    val end = System.currentTimeMillis()
-    println(s"cost time => ${(end - start) / 1000 / 60}")
-    df.unpersist(false)
+    session.experimental.extraOptimizations = Seq(HttpPushDownRule)
+    // HttpSourceUtils.fullQuantityPull(session)
+    // val sql = HiveUtil.createHTTPMappingTable()
+    // val df = session.sql("select COUNT(1) from (select * from bdp.httpSourceTest where field1 != '' limit 1000)")
+    val df = session.sql("select * from bdp.httpSourceTest where field1 != '' and field2 > '10' limit 1000")
+    // df.explain(true)
+    df.show()
   }
 }
 

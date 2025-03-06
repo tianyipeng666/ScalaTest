@@ -1,15 +1,15 @@
-package org.apache.spark.sql.execution.datasources.http.v2
+package org.apache.spark.sql.execution.datasources.httpV1.v2
 
 import org.apache.spark.sql.catalyst.InternalRow
-import org.apache.spark.sql.execution.datasources.http
-import http.HttpHelper
+import org.apache.spark.sql.execution.datasources.httpV1
+import httpV1.HttpHelper
 import org.apache.spark.sql.sources.v2.reader.{DataSourceReader, InputPartition, InputPartitionReader}
 import org.apache.spark.sql.types.StructType
 
 import java.util
 
 
-class HttpDatasourceReader(httpOptions: http.HttpOptions) extends DataSourceReader with Serializable {
+class HttpDatasourceReader(httpOptions: httpV1.HttpOptions) extends DataSourceReader with Serializable {
 
   override def readSchema(): StructType = HttpHelper.getSchema(httpOptions)
 
@@ -18,7 +18,7 @@ class HttpDatasourceReader(httpOptions: http.HttpOptions) extends DataSourceRead
     util.Arrays.asList(new HttpInputPartition(readSchema(), httpOptions))
   }
 
-  class HttpInputPartition(schema: StructType, options: http.HttpOptions) extends InputPartition[InternalRow] {
+  class HttpInputPartition(schema: StructType, options: httpV1.HttpOptions) extends InputPartition[InternalRow] {
     override def createPartitionReader(): InputPartitionReader[InternalRow] = {
       new HttpInputPartitionReader(schema, options)
     }

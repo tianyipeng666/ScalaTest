@@ -1,3 +1,3 @@
-org.apache.spark.sql.execution.datasources.http.v2.HttpDataSourceV2
-org.apache.spark.sql.execution.datasources.http.HttpRelationProvider
+org.apache.spark.sql.execution.datasources.httpV1.v2.HttpDataSourceV2
+org.apache.spark.sql.execution.datasources.httpV1.HttpRelationProvider
 
