@@ -174,12 +174,20 @@ object SparkMain extends LazyLogging {
   private def httpSourceDispose(): Unit = {
     val session = getSparkSession
     session.experimental.extraOptimizations = Seq(HttpPushDownRule)
+    // session.conf.set("spark.sql.codegen.wholeStage", "false")
     // HttpSourceUtils.fullQuantityPull(session)
     // val sql = HiveUtil.createHTTPMappingTable()
     // val df = session.sql("select COUNT(1) from (select * from bdp.httpSourceTest where field1 != '' limit 1000)")
-    val df = session.sql("select * from bdp.httpSourceTest where field1 != '' and field2 > '10' limit 1000")
+    val df = session.sql("select count(1) from bdp.httpSourceTest where field1 != '' and field2 > '10' and field4 like 'E%'")
+    val dfLimit = session.sql("select * from bdp.httpSourceTest where field1 != '' and field2 > '10' and field4 like 'E%' limit 20")
     // df.explain(true)
-    df.show()
+    // df.printSchema
+    // println(df.collect.mkString(","))
+    // df.write.mode("overwrite").json("/bdp/tmp/typ/jsonTemp")
+    // df.selectExpr("cast(count as string) as test").show
+    // println(df.selectExpr("cast(count as string) as test").collect.mkString(","))
+    println(df.collect.mkString(","))
+    println(dfLimit.collect.mkString(","))
   }
 }
 

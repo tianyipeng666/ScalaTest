@@ -18,7 +18,7 @@ class HttpFilterRelationProvider extends RelationProvider with DataSourceRegiste
     // private[sql]标识代表Spark SQL内部模块使用，源码外不同路径会无法使用
     // 获取表schema
     // val schema = HttpRelation.getSchema(httpOptions)
-    new HttpFilterRelation(None, httpOptions)(sqlContext.sparkSession)
+    new HttpFilterRelation(None, None, httpOptions)(sqlContext.sparkSession)
   }
 
 }

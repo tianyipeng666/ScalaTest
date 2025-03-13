@@ -1,5 +1,6 @@
 package org.apache.spark.sql.execution.datasources.httpV1Filter
 
+import constant.ConstantPath
 import log.LazyLogging
 import org.apache.hadoop.conf.Configuration
 import org.apache.spark.Partition
@@ -11,6 +12,9 @@ import org.apache.spark.sql.sources._
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Row, SQLContext, SparkSession}
 import org.apache.spark.util.SerializableConfiguration
+import com.alibaba.fastjson.JSONObject
+import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.fs.{FileSystem, Path}
 
 private[sql] object HttpFilterRelation extends Logging {
 
@@ -23,43 +27,70 @@ private[sql] object HttpFilterRelation extends Logging {
   }
 }
 
-private[sql] case class HttpFilterRelation(pushedSql: Option[String],
-                                     httpOptions: HttpOptions)(@transient val sparkSession: SparkSession)
+private[sql] case class HttpFilterRelation(pushedCols: Option[Seq[String]] = None,
+                                           pushedSql: Option[String] = None,
+                                           httpOptions: HttpOptions)(@transient val sparkSession: SparkSession)
   extends BaseRelation with PrunedFilteredScan with LazyLogging {
 
   // hadoop的Configuration未实现序列化，通过SerializableConfiguration实现conf的序列化并传递到executor中使用
   val serHadoopConf = new SerializableConfiguration(new Configuration())
 
   override def schema: StructType = pushedSql match {
-      case Some(_) =>
-        // 假设聚合下推只支持返回单个 COUNT 值，类型为 Long
+    case Some(sqlText) =>
+      // 判断是否是count(1)下推(简化判断:看是否包含"COUNT(1)")
+      val upperSql = sqlText.toUpperCase
+      if (upperSql.contains("COUNT(1)")) {
+        // 只返回1列
         StructType(Array(StructField("count", LongType, nullable = false)))
-      case None =>
-        HttpHelper.getSchema(httpOptions)
+      } else {
+        // limit场景 => 用pushedCols(若非空)
+        pushedCols match {
+          case Some(cols) =>
+            // 根据每个列在原schema中的类型构造
+            val origin = HttpFilterRelation.getSchema(httpOptions)
+            val fields = cols.flatMap { c =>
+              origin.find(_.name.equalsIgnoreCase(c))
+            }
+            StructType(fields)
+          case None =>
+            // 如果没解析列,就默认
+            HttpFilterRelation.getSchema(httpOptions)
+        }
+      }
+    case None =>
+      HttpHelper.getSchema(httpOptions)
   }
 
   override def sqlContext: SQLContext = sparkSession.sqlContext
 
-  override val needConversion: Boolean = false
+  // 返回类型是Row则置为true，返回类型是InternalRow则置为false
+  // 为false则Spark认为是内部格式，则会做强转；如果返回的就是Row，则设置为true，Spark就不会做强转
+  override val needConversion: Boolean = true
 
   private final val dialect = JdbcDialects.get("jdbc:mysql")
 
   override def buildScan(requiredColumns: Array[String], filters: Array[Filter]): RDD[Row] = {
-    val quotedColumns = if (pushedSql.nonEmpty) "count".split(",") else requiredColumns
+    val quotedColumns = if (pushedSql.nonEmpty) {
+      pushedCols match {
+        case Some(cols) => cols.toArray
+        case None => Array("count")
+      }
+    } else requiredColumns
     val whereClause = getWhereClause(filterWhereClause(filters))
+    // 支持Count
     val executeSql = pushedSql.getOrElse {
       val cols = if (requiredColumns.isEmpty) "*" else requiredColumns.mkString(", ")
       s"SELECT ${cols} FROM ${httpOptions.tableName} ${whereClause}"
     }
-    logger.info(s"Execute sql ==> ${executeSql}, ")
-    val parts = HttpFilterRelation.getPartitions(httpOptions,quotedColumns, whereClause, executeSql)
+    logger.info(s"Execute sql ==> ${executeSql}, ${requiredColumns.mkString(",")}")
+    val parts = HttpFilterRelation.getPartitions(httpOptions, quotedColumns, whereClause, executeSql)
     // 只有调用行动算子时才会调用该方法，懒加载
     HTTPMoveDataRDD.scanTable(sparkSession.sparkContext,
       schema,
       quotedColumns,
       parts,
       serHadoopConf,
-      httpOptions).asInstanceOf[RDD[Row]]
+      httpOptions)
   }
 
   override def toString: String = {
@@ -105,9 +136,6 @@ private[sql] case class HttpFilterRelation(pushedSql: Option[String],
       case In(attr, value) => s"${quote(attr)} IN (${dialect.compileValue(value)})"
       case Not(f) => compileFilter(f, dialect).map(p => s"(NOT ($p))").orNull
       case Or(f1, f2) =>
-        // We can't compile Or filter unless both sub-filters are compiled successfully.
-        // It applies too for the following And filter.
-        // If we can make sure compileFilter supports all filters, we can remove this check.
         val or = Seq(f1, f2).flatMap(compileFilter(_, dialect))
         if (or.size == 2) {
           or.map(p => s"($p)").mkString(" OR ")
