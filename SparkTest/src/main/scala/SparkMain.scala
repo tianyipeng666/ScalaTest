@@ -36,7 +36,7 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    httpSourceDispose()
+    httpSourceDispose
   }
 
   private def getSparkSession(): SparkSession = {
@@ -180,6 +180,7 @@ object SparkMain extends LazyLogging {
     // val df = session.sql("select COUNT(1) from (select * from bdp.httpSourceTest where field1 != '' limit 1000)")
     val df = session.sql("select count(1) from bdp.httpSourceTest where field1 != '' and field2 > '10' and field4 like 'E%'")
     val dfLimit = session.sql("select * from bdp.httpSourceTest where field1 != '' and field2 > '10' and field4 like 'E%' limit 20")
+    val dfCount = session.sql("select count(1) from bdp.httpSourceTest2")
     // df.explain(true)
     // df.printSchema
     // println(df.collect.mkString(","))
@@ -188,6 +189,7 @@ object SparkMain extends LazyLogging {
     // println(df.selectExpr("cast(count as string) as test").collect.mkString(","))
     println(df.collect.mkString(","))
     println(dfLimit.collect.mkString(","))
+    println(dfCount.collect.mkString(","))
   }
 }
 

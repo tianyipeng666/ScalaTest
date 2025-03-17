@@ -97,13 +97,19 @@ object HiveUtil extends LazyLogging{
   def createHTTPMappingTable(): String = {
     val sql =
       """
-        |CREATE TABLE bdp.httpSourceTest (field1 String, field2 String, field3 String, field4 String)
+        |CREATE TABLE bdp.httpSourceTest2 (field1 String, field2 String, field3 String, field4 String)
         |  USING http_v1Filter
         |  OPTIONS(
         |  url 'http://192.168.1.166:44120',
         |  name 'z98eb6b13d7540979a10b8ca8d07b340',
         |  db 'bdp',
         |  partitionRowsNum '1000000'
+        |  )
+        |  TBLPROPERTIES(
+        |  'url'='http://192.168.1.166:44120',
+        |  'name'='z98eb6b13d7540979a10b8ca8d07b340',
+        |  'db'='bdp',
+        |  'type'='dmcExtra'
         |  )
         |""".stripMargin
     sql
@@ -120,6 +126,13 @@ object HiveUtil extends LazyLogging{
         |) PARTITIONED BY (day STRING)
         |STORED AS PARQUET
         |""".stripMargin
+  }
+
+  def changeTblAndOptions(): Unit = {
+    // 修改TBLPROPERTIES
+    val sqlTbl = "ALTER TABLE bdp.httpSourceTest2 SET TBLPROPERTIES ('url'='166-44120')"
+    // 修改OPTIONS(SERDEPROPERTIES)
+    val sqlOptions = "ALTER TABLE bdp.httpSourceTest2 SET SERDEPROPERTIES ('url'='166-44120')"
   }
 
   def getHiveTableLocation(session: SparkSession, database: String, tableName: String): Unit = {
