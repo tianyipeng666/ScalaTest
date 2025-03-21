@@ -1,4 +1,4 @@
-// Generated from /Users/tianyipeng/IdeaProjects/mobius-inceptor/src/main/antlr4/com/haizhi/mobius/parser/SqlScript.g4 by ANTLR 4.7
+// Generated from /Users/tianyipeng/IdeaProjects/mobius-inceptor/src/main/antlr4/com/haizhi/mobius/parser/SqlScript.g4 by ANTLR 4.5.3
 package antlr.sql;
 
 import org.antlr.v4.runtime.*;
@@ -17,7 +17,7 @@ import java.util.List;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class SqlScriptParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.7", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.5.3", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -320,7 +320,6 @@ public class SqlScriptParser extends Parser {
 				if ( _alt==1 ) {
 					{
 					setState(220);
-					_errHandler.sync(this);
 					switch (_input.LA(1)) {
 					case TEMPORARY:
 						{
@@ -344,7 +343,6 @@ public class SqlScriptParser extends Parser {
 				_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
 			}
 			setState(228);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__1:
 			case SELECT:
@@ -686,7 +684,6 @@ public class SqlScriptParser extends Parser {
 			setState(236);
 			((TrainStatementContext)_localctx).mlModelName = identifier();
 			setState(239);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==OPTION) {
 				{
@@ -759,7 +756,6 @@ public class SqlScriptParser extends Parser {
 			setState(242);
 			((PredictStatementContext)_localctx).tableName = identifier();
 			setState(245);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==WITH) {
 				{
@@ -771,7 +767,6 @@ public class SqlScriptParser extends Parser {
 			}
 
 			setState(249);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==OPTION) {
 				{
@@ -903,7 +898,6 @@ public class SqlScriptParser extends Parser {
 			setState(261);
 			match(EQ);
 			setState(264);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__1:
 			case SELECT:
@@ -1123,7 +1117,6 @@ public class SqlScriptParser extends Parser {
 				break;
 			}
 			setState(289);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==OPTION) {
 				{
@@ -1252,7 +1245,6 @@ public class SqlScriptParser extends Parser {
 		enterRule(_localctx, 20, RULE_jsonValue);
 		try {
 			setState(304);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case STRING:
 				enterOuterAlt(_localctx, 1);
@@ -1493,7 +1485,6 @@ public class SqlScriptParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(326);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==OUTPUT) {
 				{
@@ -3217,7 +3208,6 @@ public class SqlScriptParser extends Parser {
 				setState(357);
 				identifier();
 				setState(360);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==COMMENT) {
 					{
@@ -3229,7 +3219,6 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(363);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==LOCATION) {
 					{
@@ -3239,7 +3228,6 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(368);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==WITH) {
 					{
@@ -3295,7 +3283,6 @@ public class SqlScriptParser extends Parser {
 				setState(383);
 				identifier();
 				setState(385);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==CASCADE || _la==RESTRICT) {
 					{
@@ -3303,10 +3290,7 @@ public class SqlScriptParser extends Parser {
 					_la = _input.LA(1);
 					if ( !(_la==CASCADE || _la==RESTRICT) ) {
 					_errHandler.recoverInline(this);
-					}
-					else {
-						if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-						_errHandler.reportMatch(this);
+					} else {
 						consume();
 					}
 					}
@@ -3321,7 +3305,6 @@ public class SqlScriptParser extends Parser {
 				setState(387);
 				createTableHeader();
 				setState(392);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==T__1) {
 					{
@@ -3337,7 +3320,6 @@ public class SqlScriptParser extends Parser {
 				setState(394);
 				tableProvider();
 				setState(397);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==OPTIONS) {
 					{
@@ -3349,7 +3331,6 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(402);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PARTITIONED) {
 					{
@@ -3363,7 +3344,6 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(405);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==CLUSTERED) {
 					{
@@ -3373,7 +3353,6 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(408);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==LOCATION) {
 					{
@@ -3383,7 +3362,6 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(412);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==COMMENT) {
 					{
@@ -3395,12 +3373,10 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(418);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << SELECT) | (1L << FROM) | (1L << AS))) != 0) || ((((_la - 79)) & ~0x3f) == 0 && ((1L << (_la - 79)) & ((1L << (WITH - 79)) | (1L << (VALUES - 79)) | (1L << (TABLE - 79)) | (1L << (INSERT - 79)) | (1L << (MAP - 79)))) != 0) || _la==REDUCE) {
 					{
 					setState(415);
-					_errHandler.sync(this);
 					_la = _input.LA(1);
 					if (_la==AS) {
 						{
@@ -3437,7 +3413,6 @@ public class SqlScriptParser extends Parser {
 					break;
 				}
 				setState(429);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==COMMENT) {
 					{
@@ -3449,7 +3424,6 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(437);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PARTITIONED) {
 					{
@@ -3467,7 +3441,6 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(440);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==CLUSTERED) {
 					{
@@ -3477,7 +3450,6 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(443);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==SKEWED) {
 					{
@@ -3487,7 +3459,6 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(446);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==ROW) {
 					{
@@ -3497,7 +3468,6 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(449);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==STORED) {
 					{
@@ -3507,7 +3477,6 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(452);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==LOCATION) {
 					{
@@ -3517,7 +3486,6 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(456);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==TBLPROPERTIES) {
 					{
@@ -3529,12 +3497,10 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(462);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << SELECT) | (1L << FROM) | (1L << AS))) != 0) || ((((_la - 79)) & ~0x3f) == 0 && ((1L << (_la - 79)) & ((1L << (WITH - 79)) | (1L << (VALUES - 79)) | (1L << (TABLE - 79)) | (1L << (INSERT - 79)) | (1L << (MAP - 79)))) != 0) || _la==REDUCE) {
 					{
 					setState(459);
-					_errHandler.sync(this);
 					_la = _input.LA(1);
 					if (_la==AS) {
 						{
@@ -3579,7 +3545,6 @@ public class SqlScriptParser extends Parser {
 				setState(473);
 				((CreateTableLikeContext)_localctx).source = tableIdentifier();
 				setState(475);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==LOCATION) {
 					{
@@ -3601,7 +3566,6 @@ public class SqlScriptParser extends Parser {
 				setState(479);
 				tableIdentifier();
 				setState(481);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PARTITION) {
 					{
@@ -3668,10 +3632,7 @@ public class SqlScriptParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==TABLE || _la==VIEW) ) {
 				_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
+				} else {
 					consume();
 				}
 				setState(502);
@@ -3694,10 +3655,7 @@ public class SqlScriptParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==TABLE || _la==VIEW) ) {
 				_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
+				} else {
 					consume();
 				}
 				setState(509);
@@ -3720,10 +3678,7 @@ public class SqlScriptParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==TABLE || _la==VIEW) ) {
 				_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
+				} else {
 					consume();
 				}
 				setState(516);
@@ -3733,7 +3688,6 @@ public class SqlScriptParser extends Parser {
 				setState(518);
 				match(TBLPROPERTIES);
 				setState(521);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==IF) {
 					{
@@ -3759,7 +3713,6 @@ public class SqlScriptParser extends Parser {
 				setState(527);
 				tableIdentifier();
 				setState(529);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PARTITION) {
 					{
@@ -3785,7 +3738,6 @@ public class SqlScriptParser extends Parser {
 				setState(536);
 				colType();
 				setState(538);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==FIRST || _la==AFTER) {
 					{
@@ -3807,7 +3759,6 @@ public class SqlScriptParser extends Parser {
 				setState(542);
 				tableIdentifier();
 				setState(544);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PARTITION) {
 					{
@@ -3823,7 +3774,6 @@ public class SqlScriptParser extends Parser {
 				setState(548);
 				match(STRING);
 				setState(552);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==WITH) {
 					{
@@ -3849,7 +3799,6 @@ public class SqlScriptParser extends Parser {
 				setState(556);
 				tableIdentifier();
 				setState(558);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PARTITION) {
 					{
@@ -3879,7 +3828,6 @@ public class SqlScriptParser extends Parser {
 				setState(567);
 				match(ADD);
 				setState(571);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==IF) {
 					{
@@ -3921,7 +3869,6 @@ public class SqlScriptParser extends Parser {
 				setState(581);
 				match(ADD);
 				setState(585);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==IF) {
 					{
@@ -3983,7 +3930,6 @@ public class SqlScriptParser extends Parser {
 				setState(603);
 				match(DROP);
 				setState(606);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==IF) {
 					{
@@ -4013,7 +3959,6 @@ public class SqlScriptParser extends Parser {
 					_la = _input.LA(1);
 				}
 				setState(617);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PURGE) {
 					{
@@ -4037,7 +3982,6 @@ public class SqlScriptParser extends Parser {
 				setState(622);
 				match(DROP);
 				setState(625);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==IF) {
 					{
@@ -4079,7 +4023,6 @@ public class SqlScriptParser extends Parser {
 				setState(637);
 				tableIdentifier();
 				setState(639);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PARTITION) {
 					{
@@ -4133,7 +4076,6 @@ public class SqlScriptParser extends Parser {
 				setState(656);
 				tableIdentifier();
 				setState(658);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PURGE) {
 					{
@@ -4175,7 +4117,6 @@ public class SqlScriptParser extends Parser {
 				setState(667);
 				match(CREATE);
 				setState(670);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==OR) {
 					{
@@ -4187,12 +4128,10 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(676);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==GLOBAL || _la==TEMPORARY) {
 					{
 					setState(673);
-					_errHandler.sync(this);
 					_la = _input.LA(1);
 					if (_la==GLOBAL) {
 						{
@@ -4225,7 +4164,6 @@ public class SqlScriptParser extends Parser {
 				setState(684);
 				tableIdentifier();
 				setState(686);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==T__1) {
 					{
@@ -4235,7 +4173,6 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(690);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==COMMENT) {
 					{
@@ -4247,7 +4184,6 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(695);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PARTITIONED) {
 					{
@@ -4261,7 +4197,6 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(699);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==TBLPROPERTIES) {
 					{
@@ -4285,7 +4220,6 @@ public class SqlScriptParser extends Parser {
 				setState(704);
 				match(CREATE);
 				setState(707);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==OR) {
 					{
@@ -4297,7 +4231,6 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(710);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==GLOBAL) {
 					{
@@ -4313,7 +4246,6 @@ public class SqlScriptParser extends Parser {
 				setState(714);
 				tableIdentifier();
 				setState(719);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==T__1) {
 					{
@@ -4329,7 +4261,6 @@ public class SqlScriptParser extends Parser {
 				setState(721);
 				tableProvider();
 				setState(724);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==OPTIONS) {
 					{
@@ -4353,7 +4284,6 @@ public class SqlScriptParser extends Parser {
 				setState(728);
 				tableIdentifier();
 				setState(730);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==AS) {
 					{
@@ -4373,7 +4303,6 @@ public class SqlScriptParser extends Parser {
 				setState(734);
 				match(CREATE);
 				setState(736);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==TEMPORARY) {
 					{
@@ -4391,7 +4320,6 @@ public class SqlScriptParser extends Parser {
 				setState(741);
 				((CreateFunctionContext)_localctx).className = match(STRING);
 				setState(751);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==USING) {
 					{
@@ -4427,7 +4355,6 @@ public class SqlScriptParser extends Parser {
 				setState(753);
 				match(DROP);
 				setState(755);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==TEMPORARY) {
 					{
@@ -4461,7 +4388,6 @@ public class SqlScriptParser extends Parser {
 				setState(763);
 				match(EXPLAIN);
 				setState(765);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (((((_la - 91)) & ~0x3f) == 0 && ((1L << (_la - 91)) & ((1L << (LOGICAL - 91)) | (1L << (CODEGEN - 91)) | (1L << (COST - 91)))) != 0) || _la==EXTENDED || _la==FORMATTED) {
 					{
@@ -4469,10 +4395,7 @@ public class SqlScriptParser extends Parser {
 					_la = _input.LA(1);
 					if ( !(((((_la - 91)) & ~0x3f) == 0 && ((1L << (_la - 91)) & ((1L << (LOGICAL - 91)) | (1L << (CODEGEN - 91)) | (1L << (COST - 91)))) != 0) || _la==EXTENDED || _la==FORMATTED) ) {
 					_errHandler.recoverInline(this);
-					}
-					else {
-						if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-						_errHandler.reportMatch(this);
+					} else {
 						consume();
 					}
 					}
@@ -4491,7 +4414,6 @@ public class SqlScriptParser extends Parser {
 				setState(769);
 				match(TABLES);
 				setState(772);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==FROM || _la==IN) {
 					{
@@ -4499,10 +4421,7 @@ public class SqlScriptParser extends Parser {
 					_la = _input.LA(1);
 					if ( !(_la==FROM || _la==IN) ) {
 					_errHandler.recoverInline(this);
-					}
-					else {
-						if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-						_errHandler.reportMatch(this);
+					} else {
 						consume();
 					}
 					setState(771);
@@ -4511,12 +4430,10 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(778);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==LIKE || _la==STRING) {
 					{
 					setState(775);
-					_errHandler.sync(this);
 					_la = _input.LA(1);
 					if (_la==LIKE) {
 						{
@@ -4543,7 +4460,6 @@ public class SqlScriptParser extends Parser {
 				setState(782);
 				match(EXTENDED);
 				setState(785);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==FROM || _la==IN) {
 					{
@@ -4551,10 +4467,7 @@ public class SqlScriptParser extends Parser {
 					_la = _input.LA(1);
 					if ( !(_la==FROM || _la==IN) ) {
 					_errHandler.recoverInline(this);
-					}
-					else {
-						if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-						_errHandler.reportMatch(this);
+					} else {
 						consume();
 					}
 					setState(784);
@@ -4567,7 +4480,6 @@ public class SqlScriptParser extends Parser {
 				setState(788);
 				((ShowTableContext)_localctx).pattern = match(STRING);
 				setState(790);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PARTITION) {
 					{
@@ -4587,7 +4499,6 @@ public class SqlScriptParser extends Parser {
 				setState(793);
 				match(DATABASES);
 				setState(796);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==LIKE) {
 					{
@@ -4611,7 +4522,6 @@ public class SqlScriptParser extends Parser {
 				setState(800);
 				((ShowTblPropertiesContext)_localctx).table = tableIdentifier();
 				setState(805);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==T__1) {
 					{
@@ -4638,16 +4548,12 @@ public class SqlScriptParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==FROM || _la==IN) ) {
 				_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
+				} else {
 					consume();
 				}
 				setState(810);
 				tableIdentifier();
 				setState(813);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==FROM || _la==IN) {
 					{
@@ -4655,10 +4561,7 @@ public class SqlScriptParser extends Parser {
 					_la = _input.LA(1);
 					if ( !(_la==FROM || _la==IN) ) {
 					_errHandler.recoverInline(this);
-					}
-					else {
-						if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-						_errHandler.reportMatch(this);
+					} else {
 						consume();
 					}
 					setState(812);
@@ -4679,7 +4582,6 @@ public class SqlScriptParser extends Parser {
 				setState(817);
 				tableIdentifier();
 				setState(819);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PARTITION) {
 					{
@@ -4709,7 +4611,6 @@ public class SqlScriptParser extends Parser {
 				setState(825);
 				match(FUNCTIONS);
 				setState(833);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << SELECT) | (1L << FROM) | (1L << ADD) | (1L << AS) | (1L << ALL) | (1L << DISTINCT) | (1L << WHERE) | (1L << GROUP) | (1L << BY) | (1L << GROUPING) | (1L << SETS) | (1L << CUBE) | (1L << ROLLUP) | (1L << ORDER) | (1L << HAVING) | (1L << LIMIT) | (1L << AT) | (1L << OR) | (1L << AND) | (1L << IN) | (1L << NOT) | (1L << NO) | (1L << EXISTS) | (1L << BETWEEN) | (1L << LIKE) | (1L << RLIKE) | (1L << IS) | (1L << NULL) | (1L << TRUE) | (1L << FALSE) | (1L << NULLS) | (1L << ASC) | (1L << DESC) | (1L << FOR) | (1L << INTERVAL) | (1L << CASE) | (1L << WHEN) | (1L << THEN) | (1L << ELSE) | (1L << END) | (1L << JOIN) | (1L << CROSS) | (1L << OUTER) | (1L << INNER) | (1L << LEFT) | (1L << SEMI) | (1L << RIGHT) | (1L << FULL) | (1L << NATURAL))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (ON - 64)) | (1L << (LATERAL - 64)) | (1L << (WINDOW - 64)) | (1L << (OVER - 64)) | (1L << (PARTITION - 64)) | (1L << (RANGE - 64)) | (1L << (ROWS - 64)) | (1L << (UNBOUNDED - 64)) | (1L << (PRECEDING - 64)) | (1L << (FOLLOWING - 64)) | (1L << (CURRENT - 64)) | (1L << (FIRST - 64)) | (1L << (AFTER - 64)) | (1L << (LAST - 64)) | (1L << (ROW - 64)) | (1L << (WITH - 64)) | (1L << (VALUES - 64)) | (1L << (CREATE - 64)) | (1L << (TABLE - 64)) | (1L << (VIEW - 64)) | (1L << (REPLACE - 64)) | (1L << (INSERT - 64)) | (1L << (DELETE - 64)) | (1L << (INTO - 64)) | (1L << (DESCRIBE - 64)) | (1L << (EXPLAIN - 64)) | (1L << (FORMAT - 64)) | (1L << (LOGICAL - 64)) | (1L << (CODEGEN - 64)) | (1L << (COST - 64)) | (1L << (CAST - 64)) | (1L << (SHOW - 64)) | (1L << (TABLES - 64)) | (1L << (COLUMNS - 64)) | (1L << (COLUMN - 64)) | (1L << (USE - 64)) | (1L << (PARTITIONS - 64)) | (1L << (FUNCTIONS - 64)) | (1L << (DROP - 64)) | (1L << (UNION - 64)) | (1L << (EXCEPT - 64)) | (1L << (SETMINUS - 64)) | (1L << (INTERSECT - 64)) | (1L << (TO - 64)) | (1L << (TABLESAMPLE - 64)) | (1L << (STRATIFY - 64)) | (1L << (ALTER - 64)) | (1L << (RENAME - 64)) | (1L << (ARRAY - 64)) | (1L << (MAP - 64)) | (1L << (STRUCT - 64)) | (1L << (COMMENT - 64)) | (1L << (SET - 64)) | (1L << (RESET - 64)) | (1L << (DATA - 64)) | (1L << (START - 64)) | (1L << (TRANSACTION - 64)) | (1L << (COMMIT - 64)) | (1L << (ROLLBACK - 64)) | (1L << (MACRO - 64)) | (1L << (IGNORE - 64)) | (1L << (IF - 64)))) != 0) || ((((_la - 139)) & ~0x3f) == 0 && ((1L << (_la - 139)) & ((1L << (DIV - 139)) | (1L << (PERCENTLIT - 139)) | (1L << (BUCKET - 139)) | (1L << (OUT - 139)) | (1L << (OF - 139)) | (1L << (SORT - 139)) | (1L << (CLUSTER - 139)) | (1L << (DISTRIBUTE - 139)) | (1L << (OVERWRITE - 139)) | (1L << (TRANSFORM - 139)) | (1L << (REDUCE - 139)) | (1L << (USING - 139)) | (1L << (SERDE - 139)) | (1L << (SERDEPROPERTIES - 139)) | (1L << (RECORDREADER - 139)) | (1L << (RECORDWRITER - 139)) | (1L << (DELIMITED - 139)) | (1L << (FIELDS - 139)) | (1L << (TERMINATED - 139)) | (1L << (COLLECTION - 139)) | (1L << (ITEMS - 139)) | (1L << (KEYS - 139)) | (1L << (ESCAPED - 139)) | (1L << (LINES - 139)) | (1L << (SEPARATED - 139)) | (1L << (FUNCTION - 139)) | (1L << (EXTENDED - 139)) | (1L << (REFRESH - 139)) | (1L << (CLEAR - 139)) | (1L << (CACHE - 139)) | (1L << (UNCACHE - 139)) | (1L << (LAZY - 139)) | (1L << (FORMATTED - 139)) | (1L << (GLOBAL - 139)) | (1L << (TEMPORARY - 139)) | (1L << (OPTIONS - 139)) | (1L << (UNSET - 139)) | (1L << (TBLPROPERTIES - 139)) | (1L << (DBPROPERTIES - 139)) | (1L << (BUCKETS - 139)) | (1L << (SKEWED - 139)) | (1L << (STORED - 139)) | (1L << (DIRECTORIES - 139)) | (1L << (LOCATION - 139)) | (1L << (EXCHANGE - 139)) | (1L << (ARCHIVE - 139)) | (1L << (UNARCHIVE - 139)) | (1L << (FILEFORMAT - 139)) | (1L << (TOUCH - 139)) | (1L << (COMPACT - 139)) | (1L << (CONCATENATE - 139)) | (1L << (CHANGE - 139)) | (1L << (CASCADE - 139)) | (1L << (RESTRICT - 139)) | (1L << (CLUSTERED - 139)) | (1L << (SORTED - 139)) | (1L << (PURGE - 139)) | (1L << (INPUTFORMAT - 139)) | (1L << (OUTPUTFORMAT - 139)))) != 0) || ((((_la - 203)) & ~0x3f) == 0 && ((1L << (_la - 203)) & ((1L << (DATABASE - 203)) | (1L << (DATABASES - 203)) | (1L << (DFS - 203)) | (1L << (TRUNCATE - 203)) | (1L << (ANALYZE - 203)) | (1L << (COMPUTE - 203)) | (1L << (LIST - 203)) | (1L << (STATISTICS - 203)) | (1L << (PARTITIONED - 203)) | (1L << (EXTERNAL - 203)) | (1L << (DEFINED - 203)) | (1L << (REVOKE - 203)) | (1L << (GRANT - 203)) | (1L << (LOCK - 203)) | (1L << (UNLOCK - 203)) | (1L << (MSCK - 203)) | (1L << (REPAIR - 203)) | (1L << (RECOVER - 203)) | (1L << (EXPORT - 203)) | (1L << (IMPORT - 203)) | (1L << (LOAD - 203)) | (1L << (ROLE - 203)) | (1L << (ROLES - 203)) | (1L << (COMPACTIONS - 203)) | (1L << (PRINCIPALS - 203)) | (1L << (TRANSACTIONS - 203)) | (1L << (INDEX - 203)) | (1L << (INDEXES - 203)) | (1L << (LOCKS - 203)) | (1L << (OPTION - 203)) | (1L << (ANTI - 203)) | (1L << (LOCAL - 203)) | (1L << (INPATH - 203)) | (1L << (CURRENT_DATE - 203)) | (1L << (CURRENT_TIMESTAMP - 203)) | (1L << (STRING - 203)) | (1L << (IDENTIFIER - 203)) | (1L << (BACKQUOTED_IDENTIFIER - 203)) | (1L << (SQUARE_BRACKET_IDENTIFIER - 203)))) != 0)) {
 					{
@@ -4724,7 +4625,6 @@ public class SqlScriptParser extends Parser {
 						break;
 					}
 					setState(831);
-					_errHandler.sync(this);
 					switch (_input.LA(1)) {
 					case SELECT:
 					case FROM:
@@ -4975,10 +4875,7 @@ public class SqlScriptParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==DESC || _la==DESCRIBE) ) {
 				_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
+				} else {
 					consume();
 				}
 				setState(840);
@@ -5005,10 +4902,7 @@ public class SqlScriptParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==DESC || _la==DESCRIBE) ) {
 				_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
+				} else {
 					consume();
 				}
 				setState(846);
@@ -5035,10 +4929,7 @@ public class SqlScriptParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==DESC || _la==DESCRIBE) ) {
 				_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
+				} else {
 					consume();
 				}
 				setState(853);
@@ -5061,10 +4952,7 @@ public class SqlScriptParser extends Parser {
 					_la = _input.LA(1);
 					if ( !(_la==EXTENDED || _la==FORMATTED) ) {
 						((DescribeTableContext)_localctx).option = (Token)_errHandler.recoverInline(this);
-					}
-					else {
-						if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-						_errHandler.reportMatch(this);
+					} else {
 						consume();
 					}
 					}
@@ -5083,7 +4971,6 @@ public class SqlScriptParser extends Parser {
 					break;
 				}
 				setState(863);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << SELECT) | (1L << FROM) | (1L << ADD) | (1L << AS) | (1L << ALL) | (1L << DISTINCT) | (1L << WHERE) | (1L << GROUP) | (1L << BY) | (1L << GROUPING) | (1L << SETS) | (1L << CUBE) | (1L << ROLLUP) | (1L << ORDER) | (1L << HAVING) | (1L << LIMIT) | (1L << AT) | (1L << OR) | (1L << AND) | (1L << IN) | (1L << NOT) | (1L << NO) | (1L << EXISTS) | (1L << BETWEEN) | (1L << LIKE) | (1L << RLIKE) | (1L << IS) | (1L << NULL) | (1L << TRUE) | (1L << FALSE) | (1L << NULLS) | (1L << ASC) | (1L << DESC) | (1L << FOR) | (1L << INTERVAL) | (1L << CASE) | (1L << WHEN) | (1L << THEN) | (1L << ELSE) | (1L << END) | (1L << JOIN) | (1L << CROSS) | (1L << OUTER) | (1L << INNER) | (1L << LEFT) | (1L << SEMI) | (1L << RIGHT) | (1L << FULL) | (1L << NATURAL))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (ON - 64)) | (1L << (LATERAL - 64)) | (1L << (WINDOW - 64)) | (1L << (OVER - 64)) | (1L << (PARTITION - 64)) | (1L << (RANGE - 64)) | (1L << (ROWS - 64)) | (1L << (UNBOUNDED - 64)) | (1L << (PRECEDING - 64)) | (1L << (FOLLOWING - 64)) | (1L << (CURRENT - 64)) | (1L << (FIRST - 64)) | (1L << (AFTER - 64)) | (1L << (LAST - 64)) | (1L << (ROW - 64)) | (1L << (WITH - 64)) | (1L << (VALUES - 64)) | (1L << (CREATE - 64)) | (1L << (TABLE - 64)) | (1L << (VIEW - 64)) | (1L << (REPLACE - 64)) | (1L << (INSERT - 64)) | (1L << (DELETE - 64)) | (1L << (INTO - 64)) | (1L << (DESCRIBE - 64)) | (1L << (EXPLAIN - 64)) | (1L << (FORMAT - 64)) | (1L << (LOGICAL - 64)) | (1L << (CODEGEN - 64)) | (1L << (COST - 64)) | (1L << (CAST - 64)) | (1L << (SHOW - 64)) | (1L << (TABLES - 64)) | (1L << (COLUMNS - 64)) | (1L << (COLUMN - 64)) | (1L << (USE - 64)) | (1L << (PARTITIONS - 64)) | (1L << (FUNCTIONS - 64)) | (1L << (DROP - 64)) | (1L << (UNION - 64)) | (1L << (EXCEPT - 64)) | (1L << (SETMINUS - 64)) | (1L << (INTERSECT - 64)) | (1L << (TO - 64)) | (1L << (TABLESAMPLE - 64)) | (1L << (STRATIFY - 64)) | (1L << (ALTER - 64)) | (1L << (RENAME - 64)) | (1L << (ARRAY - 64)) | (1L << (MAP - 64)) | (1L << (STRUCT - 64)) | (1L << (COMMENT - 64)) | (1L << (SET - 64)) | (1L << (RESET - 64)) | (1L << (DATA - 64)) | (1L << (START - 64)) | (1L << (TRANSACTION - 64)) | (1L << (COMMIT - 64)) | (1L << (ROLLBACK - 64)) | (1L << (MACRO - 64)) | (1L << (IGNORE - 64)) | (1L << (IF - 64)))) != 0) || ((((_la - 139)) & ~0x3f) == 0 && ((1L << (_la - 139)) & ((1L << (DIV - 139)) | (1L << (PERCENTLIT - 139)) | (1L << (BUCKET - 139)) | (1L << (OUT - 139)) | (1L << (OF - 139)) | (1L << (SORT - 139)) | (1L << (CLUSTER - 139)) | (1L << (DISTRIBUTE - 139)) | (1L << (OVERWRITE - 139)) | (1L << (TRANSFORM - 139)) | (1L << (REDUCE - 139)) | (1L << (USING - 139)) | (1L << (SERDE - 139)) | (1L << (SERDEPROPERTIES - 139)) | (1L << (RECORDREADER - 139)) | (1L << (RECORDWRITER - 139)) | (1L << (DELIMITED - 139)) | (1L << (FIELDS - 139)) | (1L << (TERMINATED - 139)) | (1L << (COLLECTION - 139)) | (1L << (ITEMS - 139)) | (1L << (KEYS - 139)) | (1L << (ESCAPED - 139)) | (1L << (LINES - 139)) | (1L << (SEPARATED - 139)) | (1L << (FUNCTION - 139)) | (1L << (EXTENDED - 139)) | (1L << (REFRESH - 139)) | (1L << (CLEAR - 139)) | (1L << (CACHE - 139)) | (1L << (UNCACHE - 139)) | (1L << (LAZY - 139)) | (1L << (FORMATTED - 139)) | (1L << (GLOBAL - 139)) | (1L << (TEMPORARY - 139)) | (1L << (OPTIONS - 139)) | (1L << (UNSET - 139)) | (1L << (TBLPROPERTIES - 139)) | (1L << (DBPROPERTIES - 139)) | (1L << (BUCKETS - 139)) | (1L << (SKEWED - 139)) | (1L << (STORED - 139)) | (1L << (DIRECTORIES - 139)) | (1L << (LOCATION - 139)) | (1L << (EXCHANGE - 139)) | (1L << (ARCHIVE - 139)) | (1L << (UNARCHIVE - 139)) | (1L << (FILEFORMAT - 139)) | (1L << (TOUCH - 139)) | (1L << (COMPACT - 139)) | (1L << (CONCATENATE - 139)) | (1L << (CHANGE - 139)) | (1L << (CASCADE - 139)) | (1L << (RESTRICT - 139)) | (1L << (CLUSTERED - 139)) | (1L << (SORTED - 139)) | (1L << (PURGE - 139)) | (1L << (INPUTFORMAT - 139)) | (1L << (OUTPUTFORMAT - 139)))) != 0) || ((((_la - 203)) & ~0x3f) == 0 && ((1L << (_la - 203)) & ((1L << (DATABASE - 203)) | (1L << (DATABASES - 203)) | (1L << (DFS - 203)) | (1L << (TRUNCATE - 203)) | (1L << (ANALYZE - 203)) | (1L << (COMPUTE - 203)) | (1L << (LIST - 203)) | (1L << (STATISTICS - 203)) | (1L << (PARTITIONED - 203)) | (1L << (EXTERNAL - 203)) | (1L << (DEFINED - 203)) | (1L << (REVOKE - 203)) | (1L << (GRANT - 203)) | (1L << (LOCK - 203)) | (1L << (UNLOCK - 203)) | (1L << (MSCK - 203)) | (1L << (REPAIR - 203)) | (1L << (RECOVER - 203)) | (1L << (EXPORT - 203)) | (1L << (IMPORT - 203)) | (1L << (LOAD - 203)) | (1L << (ROLE - 203)) | (1L << (ROLES - 203)) | (1L << (COMPACTIONS - 203)) | (1L << (PRINCIPALS - 203)) | (1L << (TRANSACTIONS - 203)) | (1L << (INDEX - 203)) | (1L << (INDEXES - 203)) | (1L << (LOCKS - 203)) | (1L << (OPTION - 203)) | (1L << (ANTI - 203)) | (1L << (LOCAL - 203)) | (1L << (INPATH - 203)) | (1L << (CURRENT_DATE - 203)) | (1L << (CURRENT_TIMESTAMP - 203)) | (1L << (IDENTIFIER - 203)) | (1L << (BACKQUOTED_IDENTIFIER - 203)) | (1L << (SQUARE_BRACKET_IDENTIFIER - 203)))) != 0)) {
 					{
@@ -5137,7 +5024,6 @@ public class SqlScriptParser extends Parser {
 				setState(875);
 				match(CACHE);
 				setState(877);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==LAZY) {
 					{
@@ -5151,12 +5037,10 @@ public class SqlScriptParser extends Parser {
 				setState(880);
 				tableIdentifier();
 				setState(885);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << SELECT) | (1L << FROM) | (1L << AS))) != 0) || ((((_la - 79)) & ~0x3f) == 0 && ((1L << (_la - 79)) & ((1L << (WITH - 79)) | (1L << (VALUES - 79)) | (1L << (TABLE - 79)) | (1L << (INSERT - 79)) | (1L << (MAP - 79)))) != 0) || _la==REDUCE) {
 					{
 					setState(882);
-					_errHandler.sync(this);
 					_la = _input.LA(1);
 					if (_la==AS) {
 						{
@@ -5215,7 +5099,6 @@ public class SqlScriptParser extends Parser {
 				setState(897);
 				match(DATA);
 				setState(899);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==LOCAL) {
 					{
@@ -5229,7 +5112,6 @@ public class SqlScriptParser extends Parser {
 				setState(902);
 				((LoadDataContext)_localctx).path = match(STRING);
 				setState(904);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==OVERWRITE) {
 					{
@@ -5245,7 +5127,6 @@ public class SqlScriptParser extends Parser {
 				setState(908);
 				tableIdentifier();
 				setState(910);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PARTITION) {
 					{
@@ -5267,7 +5148,6 @@ public class SqlScriptParser extends Parser {
 				setState(914);
 				tableIdentifier();
 				setState(916);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PARTITION) {
 					{
@@ -5301,10 +5181,7 @@ public class SqlScriptParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==ADD || _la==LIST) ) {
 					((ManageResourceContext)_localctx).op = (Token)_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
+				} else {
 					consume();
 				}
 				setState(923);
@@ -5950,7 +5827,6 @@ public class SqlScriptParser extends Parser {
 				setState(1086);
 				tableIdentifier();
 				setState(1088);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PARTITION) {
 					{
@@ -5973,7 +5849,6 @@ public class SqlScriptParser extends Parser {
 				setState(1094);
 				tableIdentifier();
 				setState(1096);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PARTITION) {
 					{
@@ -5996,7 +5871,6 @@ public class SqlScriptParser extends Parser {
 				setState(1102);
 				tableIdentifier();
 				setState(1104);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PARTITION) {
 					{
@@ -6021,7 +5895,6 @@ public class SqlScriptParser extends Parser {
 				setState(1111);
 				tableIdentifier();
 				setState(1113);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PARTITION) {
 					{
@@ -6128,7 +6001,6 @@ public class SqlScriptParser extends Parser {
 			setState(1127);
 			match(CREATE);
 			setState(1129);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==TEMPORARY) {
 				{
@@ -6138,7 +6010,6 @@ public class SqlScriptParser extends Parser {
 			}
 
 			setState(1132);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==EXTERNAL) {
 				{
@@ -6227,7 +6098,6 @@ public class SqlScriptParser extends Parser {
 			setState(1144);
 			identifierList();
 			setState(1148);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==SORTED) {
 				{
@@ -6430,7 +6300,6 @@ public class SqlScriptParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(1171);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==WITH) {
 				{
@@ -6507,14 +6376,12 @@ public class SqlScriptParser extends Parser {
 				setState(1178);
 				tableIdentifier();
 				setState(1185);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PARTITION) {
 					{
 					setState(1179);
 					partitionSpec();
 					setState(1183);
-					_errHandler.sync(this);
 					_la = _input.LA(1);
 					if (_la==IF) {
 						{
@@ -6552,7 +6419,6 @@ public class SqlScriptParser extends Parser {
 				setState(1192);
 				tableIdentifier();
 				setState(1194);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PARTITION) {
 					{
@@ -6612,7 +6478,6 @@ public class SqlScriptParser extends Parser {
 			setState(1198);
 			partitionSpec();
 			setState(1200);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==LOCATION) {
 				{
@@ -6742,7 +6607,6 @@ public class SqlScriptParser extends Parser {
 			setState(1214);
 			identifier();
 			setState(1217);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==EQ) {
 				{
@@ -6902,7 +6766,6 @@ public class SqlScriptParser extends Parser {
 				setState(1227);
 				match(T__7);
 				setState(1230);
-				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case SELECT:
 				case FROM:
@@ -7250,7 +7113,6 @@ public class SqlScriptParser extends Parser {
 			setState(1246);
 			((NamedQueryContext)_localctx).name = identifier();
 			setState(1248);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==AS) {
 				{
@@ -7432,12 +7294,10 @@ public class SqlScriptParser extends Parser {
 			setState(1268);
 			((TablePropertyContext)_localctx).key = tablePropertyKey();
 			setState(1273);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==TRUE || _la==FALSE || _la==EQ || ((((_la - 243)) & ~0x3f) == 0 && ((1L << (_la - 243)) & ((1L << (STRING - 243)) | (1L << (INTEGER_VALUE - 243)) | (1L << (DECIMAL_VALUE - 243)))) != 0)) {
 				{
 				setState(1270);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==EQ) {
 					{
@@ -7497,7 +7357,6 @@ public class SqlScriptParser extends Parser {
 		int _la;
 		try {
 			setState(1284);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case SELECT:
 			case FROM:
@@ -7782,7 +7641,6 @@ public class SqlScriptParser extends Parser {
 		enterRule(_localctx, 76, RULE_tablePropertyValue);
 		try {
 			setState(1290);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case INTEGER_VALUE:
 				enterOuterAlt(_localctx, 1);
@@ -8316,7 +8174,6 @@ public class SqlScriptParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(1339);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==INSERT) {
 					{
@@ -8630,7 +8487,6 @@ public class SqlScriptParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(1408);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==INSERT) {
 				{
@@ -8763,14 +8619,10 @@ public class SqlScriptParser extends Parser {
 					_la = _input.LA(1);
 					if ( !(((((_la - 103)) & ~0x3f) == 0 && ((1L << (_la - 103)) & ((1L << (UNION - 103)) | (1L << (EXCEPT - 103)) | (1L << (SETMINUS - 103)) | (1L << (INTERSECT - 103)))) != 0)) ) {
 						((SetOperationContext)_localctx).operator = (Token)_errHandler.recoverInline(this);
-					}
-					else {
-						if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-						_errHandler.reportMatch(this);
+					} else {
 						consume();
 					}
 					setState(1419);
-					_errHandler.sync(this);
 					_la = _input.LA(1);
 					if (_la==ALL || _la==DISTINCT) {
 						{
@@ -8895,7 +8747,6 @@ public class SqlScriptParser extends Parser {
 		enterRule(_localctx, 98, RULE_queryPrimary);
 		try {
 			setState(1435);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case SELECT:
 			case FROM:
@@ -9002,10 +8853,7 @@ public class SqlScriptParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==ASC || _la==DESC) ) {
 					((SortItemContext)_localctx).ordering = (Token)_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
+				} else {
 					consume();
 				}
 				}
@@ -9023,10 +8871,7 @@ public class SqlScriptParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==FIRST || _la==LAST) ) {
 					((SortItemContext)_localctx).nullOrder = (Token)_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
+				} else {
 					consume();
 				}
 				}
@@ -9149,7 +8994,6 @@ public class SqlScriptParser extends Parser {
 				{
 				{
 				setState(1455);
-				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case SELECT:
 					{
@@ -9186,7 +9030,6 @@ public class SqlScriptParser extends Parser {
 				}
 				}
 				setState(1458);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==ROW) {
 					{
@@ -9196,7 +9039,6 @@ public class SqlScriptParser extends Parser {
 				}
 
 				setState(1462);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==RECORDWRITER) {
 					{
@@ -9315,7 +9157,6 @@ public class SqlScriptParser extends Parser {
 				{
 				{
 				setState(1516);
-				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case SELECT:
 					{
@@ -9514,7 +9355,6 @@ public class SqlScriptParser extends Parser {
 				{
 				{
 				setState(1543);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==T__4) {
 					{
@@ -9908,7 +9748,6 @@ public class SqlScriptParser extends Parser {
 				setState(1612);
 				match(T__1);
 				setState(1621);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__10) | (1L << SELECT) | (1L << FROM) | (1L << ADD) | (1L << AS) | (1L << ALL) | (1L << DISTINCT) | (1L << WHERE) | (1L << GROUP) | (1L << BY) | (1L << GROUPING) | (1L << SETS) | (1L << CUBE) | (1L << ROLLUP) | (1L << ORDER) | (1L << HAVING) | (1L << LIMIT) | (1L << AT) | (1L << OR) | (1L << AND) | (1L << IN) | (1L << NOT) | (1L << NO) | (1L << EXISTS) | (1L << BETWEEN) | (1L << LIKE) | (1L << RLIKE) | (1L << IS) | (1L << NULL) | (1L << TRUE) | (1L << FALSE) | (1L << NULLS) | (1L << ASC) | (1L << DESC) | (1L << FOR) | (1L << INTERVAL) | (1L << CASE) | (1L << WHEN) | (1L << THEN) | (1L << ELSE) | (1L << END) | (1L << JOIN) | (1L << CROSS) | (1L << OUTER) | (1L << INNER) | (1L << LEFT) | (1L << SEMI) | (1L << RIGHT) | (1L << FULL) | (1L << NATURAL))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (ON - 64)) | (1L << (LATERAL - 64)) | (1L << (WINDOW - 64)) | (1L << (OVER - 64)) | (1L << (PARTITION - 64)) | (1L << (RANGE - 64)) | (1L << (ROWS - 64)) | (1L << (UNBOUNDED - 64)) | (1L << (PRECEDING - 64)) | (1L << (FOLLOWING - 64)) | (1L << (CURRENT - 64)) | (1L << (FIRST - 64)) | (1L << (AFTER - 64)) | (1L << (LAST - 64)) | (1L << (ROW - 64)) | (1L << (WITH - 64)) | (1L << (VALUES - 64)) | (1L << (CREATE - 64)) | (1L << (TABLE - 64)) | (1L << (VIEW - 64)) | (1L << (REPLACE - 64)) | (1L << (INSERT - 64)) | (1L << (DELETE - 64)) | (1L << (INTO - 64)) | (1L << (DESCRIBE - 64)) | (1L << (EXPLAIN - 64)) | (1L << (FORMAT - 64)) | (1L << (LOGICAL - 64)) | (1L << (CODEGEN - 64)) | (1L << (COST - 64)) | (1L << (CAST - 64)) | (1L << (SHOW - 64)) | (1L << (TABLES - 64)) | (1L << (COLUMNS - 64)) | (1L << (COLUMN - 64)) | (1L << (USE - 64)) | (1L << (PARTITIONS - 64)) | (1L << (FUNCTIONS - 64)) | (1L << (DROP - 64)) | (1L << (UNION - 64)) | (1L << (EXCEPT - 64)) | (1L << (SETMINUS - 64)) | (1L << (INTERSECT - 64)) | (1L << (TO - 64)) | (1L << (TABLESAMPLE - 64)) | (1L << (STRATIFY - 64)) | (1L << (ALTER - 64)) | (1L << (RENAME - 64)) | (1L << (ARRAY - 64)) | (1L << (MAP - 64)) | (1L << (STRUCT - 64)) | (1L << (COMMENT - 64)) | (1L << (SET - 64)) | (1L << (RESET - 64)) | (1L << (DATA - 64)) | (1L << (START - 64)) | (1L << (TRANSACTION - 64)) | (1L << (COMMIT - 64)) | (1L << (ROLLBACK - 64)) | (1L << (MACRO - 64)) | (1L << (IGNORE - 64)) | (1L << (IF - 64)))) != 0) || ((((_la - 134)) & ~0x3f) == 0 && ((1L << (_la - 134)) & ((1L << (PLUS - 134)) | (1L << (MINUS - 134)) | (1L << (ASTERISK - 134)) | (1L << (DIV - 134)) | (1L << (TILDE - 134)) | (1L << (PERCENTLIT - 134)) | (1L << (BUCKET - 134)) | (1L << (OUT - 134)) | (1L << (OF - 134)) | (1L << (SORT - 134)) | (1L << (CLUSTER - 134)) | (1L << (DISTRIBUTE - 134)) | (1L << (OVERWRITE - 134)) | (1L << (TRANSFORM - 134)) | (1L << (REDUCE - 134)) | (1L << (USING - 134)) | (1L << (SERDE - 134)) | (1L << (SERDEPROPERTIES - 134)) | (1L << (RECORDREADER - 134)) | (1L << (RECORDWRITER - 134)) | (1L << (DELIMITED - 134)) | (1L << (FIELDS - 134)) | (1L << (TERMINATED - 134)) | (1L << (COLLECTION - 134)) | (1L << (ITEMS - 134)) | (1L << (KEYS - 134)) | (1L << (ESCAPED - 134)) | (1L << (LINES - 134)) | (1L << (SEPARATED - 134)) | (1L << (FUNCTION - 134)) | (1L << (EXTENDED - 134)) | (1L << (REFRESH - 134)) | (1L << (CLEAR - 134)) | (1L << (CACHE - 134)) | (1L << (UNCACHE - 134)) | (1L << (LAZY - 134)) | (1L << (FORMATTED - 134)) | (1L << (GLOBAL - 134)) | (1L << (TEMPORARY - 134)) | (1L << (OPTIONS - 134)) | (1L << (UNSET - 134)) | (1L << (TBLPROPERTIES - 134)) | (1L << (DBPROPERTIES - 134)) | (1L << (BUCKETS - 134)) | (1L << (SKEWED - 134)) | (1L << (STORED - 134)) | (1L << (DIRECTORIES - 134)) | (1L << (LOCATION - 134)) | (1L << (EXCHANGE - 134)) | (1L << (ARCHIVE - 134)) | (1L << (UNARCHIVE - 134)) | (1L << (FILEFORMAT - 134)) | (1L << (TOUCH - 134)) | (1L << (COMPACT - 134)) | (1L << (CONCATENATE - 134)) | (1L << (CHANGE - 134)) | (1L << (CASCADE - 134)) | (1L << (RESTRICT - 134)))) != 0) || ((((_la - 198)) & ~0x3f) == 0 && ((1L << (_la - 198)) & ((1L << (CLUSTERED - 198)) | (1L << (SORTED - 198)) | (1L << (PURGE - 198)) | (1L << (INPUTFORMAT - 198)) | (1L << (OUTPUTFORMAT - 198)) | (1L << (DATABASE - 198)) | (1L << (DATABASES - 198)) | (1L << (DFS - 198)) | (1L << (TRUNCATE - 198)) | (1L << (ANALYZE - 198)) | (1L << (COMPUTE - 198)) | (1L << (LIST - 198)) | (1L << (STATISTICS - 198)) | (1L << (PARTITIONED - 198)) | (1L << (EXTERNAL - 198)) | (1L << (DEFINED - 198)) | (1L << (REVOKE - 198)) | (1L << (GRANT - 198)) | (1L << (LOCK - 198)) | (1L << (UNLOCK - 198)) | (1L << (MSCK - 198)) | (1L << (REPAIR - 198)) | (1L << (RECOVER - 198)) | (1L << (EXPORT - 198)) | (1L << (IMPORT - 198)) | (1L << (LOAD - 198)) | (1L << (ROLE - 198)) | (1L << (ROLES - 198)) | (1L << (COMPACTIONS - 198)) | (1L << (PRINCIPALS - 198)) | (1L << (TRANSACTIONS - 198)) | (1L << (INDEX - 198)) | (1L << (INDEXES - 198)) | (1L << (LOCKS - 198)) | (1L << (OPTION - 198)) | (1L << (ANTI - 198)) | (1L << (LOCAL - 198)) | (1L << (INPATH - 198)) | (1L << (CURRENT_DATE - 198)) | (1L << (CURRENT_TIMESTAMP - 198)) | (1L << (STRING - 198)) | (1L << (BIGINT_LITERAL - 198)) | (1L << (SMALLINT_LITERAL - 198)) | (1L << (TINYINT_LITERAL - 198)) | (1L << (INTEGER_VALUE - 198)) | (1L << (DECIMAL_VALUE - 198)) | (1L << (DOUBLE_LITERAL - 198)) | (1L << (BIGDECIMAL_LITERAL - 198)) | (1L << (IDENTIFIER - 198)) | (1L << (BACKQUOTED_IDENTIFIER - 198)) | (1L << (SQUARE_BRACKET_IDENTIFIER - 198)))) != 0)) {
 					{
@@ -10026,7 +9865,6 @@ public class SqlScriptParser extends Parser {
 			setState(1633);
 			match(T__1);
 			setState(1642);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__10) | (1L << SELECT) | (1L << FROM) | (1L << ADD) | (1L << AS) | (1L << ALL) | (1L << DISTINCT) | (1L << WHERE) | (1L << GROUP) | (1L << BY) | (1L << GROUPING) | (1L << SETS) | (1L << CUBE) | (1L << ROLLUP) | (1L << ORDER) | (1L << HAVING) | (1L << LIMIT) | (1L << AT) | (1L << OR) | (1L << AND) | (1L << IN) | (1L << NOT) | (1L << NO) | (1L << EXISTS) | (1L << BETWEEN) | (1L << LIKE) | (1L << RLIKE) | (1L << IS) | (1L << NULL) | (1L << TRUE) | (1L << FALSE) | (1L << NULLS) | (1L << ASC) | (1L << DESC) | (1L << FOR) | (1L << INTERVAL) | (1L << CASE) | (1L << WHEN) | (1L << THEN) | (1L << ELSE) | (1L << END) | (1L << JOIN) | (1L << CROSS) | (1L << OUTER) | (1L << INNER) | (1L << LEFT) | (1L << SEMI) | (1L << RIGHT) | (1L << FULL) | (1L << NATURAL))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (ON - 64)) | (1L << (LATERAL - 64)) | (1L << (WINDOW - 64)) | (1L << (OVER - 64)) | (1L << (PARTITION - 64)) | (1L << (RANGE - 64)) | (1L << (ROWS - 64)) | (1L << (UNBOUNDED - 64)) | (1L << (PRECEDING - 64)) | (1L << (FOLLOWING - 64)) | (1L << (CURRENT - 64)) | (1L << (FIRST - 64)) | (1L << (AFTER - 64)) | (1L << (LAST - 64)) | (1L << (ROW - 64)) | (1L << (WITH - 64)) | (1L << (VALUES - 64)) | (1L << (CREATE - 64)) | (1L << (TABLE - 64)) | (1L << (VIEW - 64)) | (1L << (REPLACE - 64)) | (1L << (INSERT - 64)) | (1L << (DELETE - 64)) | (1L << (INTO - 64)) | (1L << (DESCRIBE - 64)) | (1L << (EXPLAIN - 64)) | (1L << (FORMAT - 64)) | (1L << (LOGICAL - 64)) | (1L << (CODEGEN - 64)) | (1L << (COST - 64)) | (1L << (CAST - 64)) | (1L << (SHOW - 64)) | (1L << (TABLES - 64)) | (1L << (COLUMNS - 64)) | (1L << (COLUMN - 64)) | (1L << (USE - 64)) | (1L << (PARTITIONS - 64)) | (1L << (FUNCTIONS - 64)) | (1L << (DROP - 64)) | (1L << (UNION - 64)) | (1L << (EXCEPT - 64)) | (1L << (SETMINUS - 64)) | (1L << (INTERSECT - 64)) | (1L << (TO - 64)) | (1L << (TABLESAMPLE - 64)) | (1L << (STRATIFY - 64)) | (1L << (ALTER - 64)) | (1L << (RENAME - 64)) | (1L << (ARRAY - 64)) | (1L << (MAP - 64)) | (1L << (STRUCT - 64)) | (1L << (COMMENT - 64)) | (1L << (SET - 64)) | (1L << (RESET - 64)) | (1L << (DATA - 64)) | (1L << (START - 64)) | (1L << (TRANSACTION - 64)) | (1L << (COMMIT - 64)) | (1L << (ROLLBACK - 64)) | (1L << (MACRO - 64)) | (1L << (IGNORE - 64)) | (1L << (IF - 64)))) != 0) || ((((_la - 134)) & ~0x3f) == 0 && ((1L << (_la - 134)) & ((1L << (PLUS - 134)) | (1L << (MINUS - 134)) | (1L << (ASTERISK - 134)) | (1L << (DIV - 134)) | (1L << (TILDE - 134)) | (1L << (PERCENTLIT - 134)) | (1L << (BUCKET - 134)) | (1L << (OUT - 134)) | (1L << (OF - 134)) | (1L << (SORT - 134)) | (1L << (CLUSTER - 134)) | (1L << (DISTRIBUTE - 134)) | (1L << (OVERWRITE - 134)) | (1L << (TRANSFORM - 134)) | (1L << (REDUCE - 134)) | (1L << (USING - 134)) | (1L << (SERDE - 134)) | (1L << (SERDEPROPERTIES - 134)) | (1L << (RECORDREADER - 134)) | (1L << (RECORDWRITER - 134)) | (1L << (DELIMITED - 134)) | (1L << (FIELDS - 134)) | (1L << (TERMINATED - 134)) | (1L << (COLLECTION - 134)) | (1L << (ITEMS - 134)) | (1L << (KEYS - 134)) | (1L << (ESCAPED - 134)) | (1L << (LINES - 134)) | (1L << (SEPARATED - 134)) | (1L << (FUNCTION - 134)) | (1L << (EXTENDED - 134)) | (1L << (REFRESH - 134)) | (1L << (CLEAR - 134)) | (1L << (CACHE - 134)) | (1L << (UNCACHE - 134)) | (1L << (LAZY - 134)) | (1L << (FORMATTED - 134)) | (1L << (GLOBAL - 134)) | (1L << (TEMPORARY - 134)) | (1L << (OPTIONS - 134)) | (1L << (UNSET - 134)) | (1L << (TBLPROPERTIES - 134)) | (1L << (DBPROPERTIES - 134)) | (1L << (BUCKETS - 134)) | (1L << (SKEWED - 134)) | (1L << (STORED - 134)) | (1L << (DIRECTORIES - 134)) | (1L << (LOCATION - 134)) | (1L << (EXCHANGE - 134)) | (1L << (ARCHIVE - 134)) | (1L << (UNARCHIVE - 134)) | (1L << (FILEFORMAT - 134)) | (1L << (TOUCH - 134)) | (1L << (COMPACT - 134)) | (1L << (CONCATENATE - 134)) | (1L << (CHANGE - 134)) | (1L << (CASCADE - 134)) | (1L << (RESTRICT - 134)))) != 0) || ((((_la - 198)) & ~0x3f) == 0 && ((1L << (_la - 198)) & ((1L << (CLUSTERED - 198)) | (1L << (SORTED - 198)) | (1L << (PURGE - 198)) | (1L << (INPUTFORMAT - 198)) | (1L << (OUTPUTFORMAT - 198)) | (1L << (DATABASE - 198)) | (1L << (DATABASES - 198)) | (1L << (DFS - 198)) | (1L << (TRUNCATE - 198)) | (1L << (ANALYZE - 198)) | (1L << (COMPUTE - 198)) | (1L << (LIST - 198)) | (1L << (STATISTICS - 198)) | (1L << (PARTITIONED - 198)) | (1L << (EXTERNAL - 198)) | (1L << (DEFINED - 198)) | (1L << (REVOKE - 198)) | (1L << (GRANT - 198)) | (1L << (LOCK - 198)) | (1L << (UNLOCK - 198)) | (1L << (MSCK - 198)) | (1L << (REPAIR - 198)) | (1L << (RECOVER - 198)) | (1L << (EXPORT - 198)) | (1L << (IMPORT - 198)) | (1L << (LOAD - 198)) | (1L << (ROLE - 198)) | (1L << (ROLES - 198)) | (1L << (COMPACTIONS - 198)) | (1L << (PRINCIPALS - 198)) | (1L << (TRANSACTIONS - 198)) | (1L << (INDEX - 198)) | (1L << (INDEXES - 198)) | (1L << (LOCKS - 198)) | (1L << (OPTION - 198)) | (1L << (ANTI - 198)) | (1L << (LOCAL - 198)) | (1L << (INPATH - 198)) | (1L << (CURRENT_DATE - 198)) | (1L << (CURRENT_TIMESTAMP - 198)) | (1L << (STRING - 198)) | (1L << (BIGINT_LITERAL - 198)) | (1L << (SMALLINT_LITERAL - 198)) | (1L << (TINYINT_LITERAL - 198)) | (1L << (INTEGER_VALUE - 198)) | (1L << (DECIMAL_VALUE - 198)) | (1L << (DOUBLE_LITERAL - 198)) | (1L << (BIGDECIMAL_LITERAL - 198)) | (1L << (IDENTIFIER - 198)) | (1L << (BACKQUOTED_IDENTIFIER - 198)) | (1L << (SQUARE_BRACKET_IDENTIFIER - 198)))) != 0)) {
 				{
@@ -10141,10 +9979,7 @@ public class SqlScriptParser extends Parser {
 			_la = _input.LA(1);
 			if ( !(_la==ALL || _la==DISTINCT) ) {
 			_errHandler.recoverInline(this);
-			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
+			} else {
 				consume();
 			}
 			}
@@ -10264,7 +10099,6 @@ public class SqlScriptParser extends Parser {
 		enterRule(_localctx, 120, RULE_joinRelation);
 		try {
 			setState(1679);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case JOIN:
 			case CROSS:
@@ -10363,7 +10197,6 @@ public class SqlScriptParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(1682);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==INNER) {
 					{
@@ -10387,7 +10220,6 @@ public class SqlScriptParser extends Parser {
 				setState(1685);
 				match(LEFT);
 				setState(1687);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==OUTER) {
 					{
@@ -10413,7 +10245,6 @@ public class SqlScriptParser extends Parser {
 				setState(1691);
 				match(RIGHT);
 				setState(1693);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==OUTER) {
 					{
@@ -10430,7 +10261,6 @@ public class SqlScriptParser extends Parser {
 				setState(1695);
 				match(FULL);
 				setState(1697);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==OUTER) {
 					{
@@ -10445,7 +10275,6 @@ public class SqlScriptParser extends Parser {
 				enterOuterAlt(_localctx, 7);
 				{
 				setState(1700);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==LEFT) {
 					{
@@ -10508,7 +10337,6 @@ public class SqlScriptParser extends Parser {
 		int _la;
 		try {
 			setState(1719);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case ON:
 				enterOuterAlt(_localctx, 1);
@@ -10631,10 +10459,7 @@ public class SqlScriptParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==INTEGER_VALUE || _la==DECIMAL_VALUE) ) {
 					((SampleContext)_localctx).percentage = (Token)_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
+				} else {
 					consume();
 				}
 				setState(1724);
@@ -10672,7 +10497,6 @@ public class SqlScriptParser extends Parser {
 				setState(1733);
 				((SampleContext)_localctx).denominator = match(INTEGER_VALUE);
 				setState(1742);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==ON) {
 					{
@@ -10938,7 +10762,6 @@ public class SqlScriptParser extends Parser {
 			setState(1771);
 			identifier();
 			setState(1773);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==ASC || _la==DESC) {
 				{
@@ -10947,10 +10770,7 @@ public class SqlScriptParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==ASC || _la==DESC) ) {
 					((OrderedIdentifierContext)_localctx).ordering = (Token)_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
+				} else {
 					consume();
 				}
 				}
@@ -11072,7 +10892,6 @@ public class SqlScriptParser extends Parser {
 			setState(1786);
 			identifier();
 			setState(1789);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==COMMENT) {
 				{
@@ -11377,7 +11196,6 @@ public class SqlScriptParser extends Parser {
 				setState(1827);
 				match(T__1);
 				setState(1836);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__10) | (1L << SELECT) | (1L << FROM) | (1L << ADD) | (1L << AS) | (1L << ALL) | (1L << DISTINCT) | (1L << WHERE) | (1L << GROUP) | (1L << BY) | (1L << GROUPING) | (1L << SETS) | (1L << CUBE) | (1L << ROLLUP) | (1L << ORDER) | (1L << HAVING) | (1L << LIMIT) | (1L << AT) | (1L << OR) | (1L << AND) | (1L << IN) | (1L << NOT) | (1L << NO) | (1L << EXISTS) | (1L << BETWEEN) | (1L << LIKE) | (1L << RLIKE) | (1L << IS) | (1L << NULL) | (1L << TRUE) | (1L << FALSE) | (1L << NULLS) | (1L << ASC) | (1L << DESC) | (1L << FOR) | (1L << INTERVAL) | (1L << CASE) | (1L << WHEN) | (1L << THEN) | (1L << ELSE) | (1L << END) | (1L << JOIN) | (1L << CROSS) | (1L << OUTER) | (1L << INNER) | (1L << LEFT) | (1L << SEMI) | (1L << RIGHT) | (1L << FULL) | (1L << NATURAL))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (ON - 64)) | (1L << (LATERAL - 64)) | (1L << (WINDOW - 64)) | (1L << (OVER - 64)) | (1L << (PARTITION - 64)) | (1L << (RANGE - 64)) | (1L << (ROWS - 64)) | (1L << (UNBOUNDED - 64)) | (1L << (PRECEDING - 64)) | (1L << (FOLLOWING - 64)) | (1L << (CURRENT - 64)) | (1L << (FIRST - 64)) | (1L << (AFTER - 64)) | (1L << (LAST - 64)) | (1L << (ROW - 64)) | (1L << (WITH - 64)) | (1L << (VALUES - 64)) | (1L << (CREATE - 64)) | (1L << (TABLE - 64)) | (1L << (VIEW - 64)) | (1L << (REPLACE - 64)) | (1L << (INSERT - 64)) | (1L << (DELETE - 64)) | (1L << (INTO - 64)) | (1L << (DESCRIBE - 64)) | (1L << (EXPLAIN - 64)) | (1L << (FORMAT - 64)) | (1L << (LOGICAL - 64)) | (1L << (CODEGEN - 64)) | (1L << (COST - 64)) | (1L << (CAST - 64)) | (1L << (SHOW - 64)) | (1L << (TABLES - 64)) | (1L << (COLUMNS - 64)) | (1L << (COLUMN - 64)) | (1L << (USE - 64)) | (1L << (PARTITIONS - 64)) | (1L << (FUNCTIONS - 64)) | (1L << (DROP - 64)) | (1L << (UNION - 64)) | (1L << (EXCEPT - 64)) | (1L << (SETMINUS - 64)) | (1L << (INTERSECT - 64)) | (1L << (TO - 64)) | (1L << (TABLESAMPLE - 64)) | (1L << (STRATIFY - 64)) | (1L << (ALTER - 64)) | (1L << (RENAME - 64)) | (1L << (ARRAY - 64)) | (1L << (MAP - 64)) | (1L << (STRUCT - 64)) | (1L << (COMMENT - 64)) | (1L << (SET - 64)) | (1L << (RESET - 64)) | (1L << (DATA - 64)) | (1L << (START - 64)) | (1L << (TRANSACTION - 64)) | (1L << (COMMIT - 64)) | (1L << (ROLLBACK - 64)) | (1L << (MACRO - 64)) | (1L << (IGNORE - 64)) | (1L << (IF - 64)))) != 0) || ((((_la - 134)) & ~0x3f) == 0 && ((1L << (_la - 134)) & ((1L << (PLUS - 134)) | (1L << (MINUS - 134)) | (1L << (ASTERISK - 134)) | (1L << (DIV - 134)) | (1L << (TILDE - 134)) | (1L << (PERCENTLIT - 134)) | (1L << (BUCKET - 134)) | (1L << (OUT - 134)) | (1L << (OF - 134)) | (1L << (SORT - 134)) | (1L << (CLUSTER - 134)) | (1L << (DISTRIBUTE - 134)) | (1L << (OVERWRITE - 134)) | (1L << (TRANSFORM - 134)) | (1L << (REDUCE - 134)) | (1L << (USING - 134)) | (1L << (SERDE - 134)) | (1L << (SERDEPROPERTIES - 134)) | (1L << (RECORDREADER - 134)) | (1L << (RECORDWRITER - 134)) | (1L << (DELIMITED - 134)) | (1L << (FIELDS - 134)) | (1L << (TERMINATED - 134)) | (1L << (COLLECTION - 134)) | (1L << (ITEMS - 134)) | (1L << (KEYS - 134)) | (1L << (ESCAPED - 134)) | (1L << (LINES - 134)) | (1L << (SEPARATED - 134)) | (1L << (FUNCTION - 134)) | (1L << (EXTENDED - 134)) | (1L << (REFRESH - 134)) | (1L << (CLEAR - 134)) | (1L << (CACHE - 134)) | (1L << (UNCACHE - 134)) | (1L << (LAZY - 134)) | (1L << (FORMATTED - 134)) | (1L << (GLOBAL - 134)) | (1L << (TEMPORARY - 134)) | (1L << (OPTIONS - 134)) | (1L << (UNSET - 134)) | (1L << (TBLPROPERTIES - 134)) | (1L << (DBPROPERTIES - 134)) | (1L << (BUCKETS - 134)) | (1L << (SKEWED - 134)) | (1L << (STORED - 134)) | (1L << (DIRECTORIES - 134)) | (1L << (LOCATION - 134)) | (1L << (EXCHANGE - 134)) | (1L << (ARCHIVE - 134)) | (1L << (UNARCHIVE - 134)) | (1L << (FILEFORMAT - 134)) | (1L << (TOUCH - 134)) | (1L << (COMPACT - 134)) | (1L << (CONCATENATE - 134)) | (1L << (CHANGE - 134)) | (1L << (CASCADE - 134)) | (1L << (RESTRICT - 134)))) != 0) || ((((_la - 198)) & ~0x3f) == 0 && ((1L << (_la - 198)) & ((1L << (CLUSTERED - 198)) | (1L << (SORTED - 198)) | (1L << (PURGE - 198)) | (1L << (INPUTFORMAT - 198)) | (1L << (OUTPUTFORMAT - 198)) | (1L << (DATABASE - 198)) | (1L << (DATABASES - 198)) | (1L << (DFS - 198)) | (1L << (TRUNCATE - 198)) | (1L << (ANALYZE - 198)) | (1L << (COMPUTE - 198)) | (1L << (LIST - 198)) | (1L << (STATISTICS - 198)) | (1L << (PARTITIONED - 198)) | (1L << (EXTERNAL - 198)) | (1L << (DEFINED - 198)) | (1L << (REVOKE - 198)) | (1L << (GRANT - 198)) | (1L << (LOCK - 198)) | (1L << (UNLOCK - 198)) | (1L << (MSCK - 198)) | (1L << (REPAIR - 198)) | (1L << (RECOVER - 198)) | (1L << (EXPORT - 198)) | (1L << (IMPORT - 198)) | (1L << (LOAD - 198)) | (1L << (ROLE - 198)) | (1L << (ROLES - 198)) | (1L << (COMPACTIONS - 198)) | (1L << (PRINCIPALS - 198)) | (1L << (TRANSACTIONS - 198)) | (1L << (INDEX - 198)) | (1L << (INDEXES - 198)) | (1L << (LOCKS - 198)) | (1L << (OPTION - 198)) | (1L << (ANTI - 198)) | (1L << (LOCAL - 198)) | (1L << (INPATH - 198)) | (1L << (CURRENT_DATE - 198)) | (1L << (CURRENT_TIMESTAMP - 198)) | (1L << (STRING - 198)) | (1L << (BIGINT_LITERAL - 198)) | (1L << (SMALLINT_LITERAL - 198)) | (1L << (TINYINT_LITERAL - 198)) | (1L << (INTEGER_VALUE - 198)) | (1L << (DECIMAL_VALUE - 198)) | (1L << (DOUBLE_LITERAL - 198)) | (1L << (BIGDECIMAL_LITERAL - 198)) | (1L << (IDENTIFIER - 198)) | (1L << (BACKQUOTED_IDENTIFIER - 198)) | (1L << (SQUARE_BRACKET_IDENTIFIER - 198)))) != 0)) {
 					{
@@ -11945,7 +11763,6 @@ public class SqlScriptParser extends Parser {
 					break;
 				}
 				setState(1931);
-				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case SELECT:
 				case FROM:
@@ -12654,7 +12471,6 @@ public class SqlScriptParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(1976);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==NOT) {
 					{
@@ -12677,7 +12493,6 @@ public class SqlScriptParser extends Parser {
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(1984);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==NOT) {
 					{
@@ -12716,7 +12531,6 @@ public class SqlScriptParser extends Parser {
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(1999);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==NOT) {
 					{
@@ -12739,7 +12553,6 @@ public class SqlScriptParser extends Parser {
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(2007);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==NOT) {
 					{
@@ -12753,10 +12566,7 @@ public class SqlScriptParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==LIKE || _la==RLIKE) ) {
 					((PredicateContext)_localctx).kind = (Token)_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
+				} else {
 					consume();
 				}
 				setState(2010);
@@ -12769,7 +12579,6 @@ public class SqlScriptParser extends Parser {
 				setState(2011);
 				match(IS);
 				setState(2013);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==NOT) {
 					{
@@ -12949,10 +12758,7 @@ public class SqlScriptParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(((((_la - 134)) & ~0x3f) == 0 && ((1L << (_la - 134)) & ((1L << (PLUS - 134)) | (1L << (MINUS - 134)) | (1L << (TILDE - 134)))) != 0)) ) {
 					((ArithmeticUnaryContext)_localctx).operator = (Token)_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
+				} else {
 					consume();
 				}
 				setState(2021);
@@ -12984,10 +12790,7 @@ public class SqlScriptParser extends Parser {
 						_la = _input.LA(1);
 						if ( !(((((_la - 136)) & ~0x3f) == 0 && ((1L << (_la - 136)) & ((1L << (ASTERISK - 136)) | (1L << (SLASH - 136)) | (1L << (PERCENT - 136)) | (1L << (DIV - 136)))) != 0)) ) {
 							((ArithmeticBinaryContext)_localctx).operator = (Token)_errHandler.recoverInline(this);
-						}
-						else {
-							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-							_errHandler.reportMatch(this);
+						} else {
 							consume();
 						}
 						setState(2026);
@@ -13006,10 +12809,7 @@ public class SqlScriptParser extends Parser {
 						_la = _input.LA(1);
 						if ( !(_la==PLUS || _la==MINUS) ) {
 							((ArithmeticBinaryContext)_localctx).operator = (Token)_errHandler.recoverInline(this);
-						}
-						else {
-							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-							_errHandler.reportMatch(this);
+						} else {
 							consume();
 						}
 						setState(2029);
@@ -13504,10 +13304,7 @@ public class SqlScriptParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==CURRENT_DATE || _la==CURRENT_TIMESTAMP) ) {
 					((TimeFunctionCallContext)_localctx).name = (Token)_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
+				} else {
 					consume();
 				}
 				}
@@ -13534,7 +13331,6 @@ public class SqlScriptParser extends Parser {
 					_la = _input.LA(1);
 				} while ( _la==WHEN );
 				setState(2058);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==ELSE) {
 					{
@@ -13573,7 +13369,6 @@ public class SqlScriptParser extends Parser {
 					_la = _input.LA(1);
 				} while ( _la==WHEN );
 				setState(2071);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==ELSE) {
 					{
@@ -13617,7 +13412,6 @@ public class SqlScriptParser extends Parser {
 				setState(2083);
 				match(T__1);
 				setState(2092);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__10) | (1L << SELECT) | (1L << FROM) | (1L << ADD) | (1L << AS) | (1L << ALL) | (1L << DISTINCT) | (1L << WHERE) | (1L << GROUP) | (1L << BY) | (1L << GROUPING) | (1L << SETS) | (1L << CUBE) | (1L << ROLLUP) | (1L << ORDER) | (1L << HAVING) | (1L << LIMIT) | (1L << AT) | (1L << OR) | (1L << AND) | (1L << IN) | (1L << NOT) | (1L << NO) | (1L << EXISTS) | (1L << BETWEEN) | (1L << LIKE) | (1L << RLIKE) | (1L << IS) | (1L << NULL) | (1L << TRUE) | (1L << FALSE) | (1L << NULLS) | (1L << ASC) | (1L << DESC) | (1L << FOR) | (1L << INTERVAL) | (1L << CASE) | (1L << WHEN) | (1L << THEN) | (1L << ELSE) | (1L << END) | (1L << JOIN) | (1L << CROSS) | (1L << OUTER) | (1L << INNER) | (1L << LEFT) | (1L << SEMI) | (1L << RIGHT) | (1L << FULL) | (1L << NATURAL))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (ON - 64)) | (1L << (LATERAL - 64)) | (1L << (WINDOW - 64)) | (1L << (OVER - 64)) | (1L << (PARTITION - 64)) | (1L << (RANGE - 64)) | (1L << (ROWS - 64)) | (1L << (UNBOUNDED - 64)) | (1L << (PRECEDING - 64)) | (1L << (FOLLOWING - 64)) | (1L << (CURRENT - 64)) | (1L << (FIRST - 64)) | (1L << (AFTER - 64)) | (1L << (LAST - 64)) | (1L << (ROW - 64)) | (1L << (WITH - 64)) | (1L << (VALUES - 64)) | (1L << (CREATE - 64)) | (1L << (TABLE - 64)) | (1L << (VIEW - 64)) | (1L << (REPLACE - 64)) | (1L << (INSERT - 64)) | (1L << (DELETE - 64)) | (1L << (INTO - 64)) | (1L << (DESCRIBE - 64)) | (1L << (EXPLAIN - 64)) | (1L << (FORMAT - 64)) | (1L << (LOGICAL - 64)) | (1L << (CODEGEN - 64)) | (1L << (COST - 64)) | (1L << (CAST - 64)) | (1L << (SHOW - 64)) | (1L << (TABLES - 64)) | (1L << (COLUMNS - 64)) | (1L << (COLUMN - 64)) | (1L << (USE - 64)) | (1L << (PARTITIONS - 64)) | (1L << (FUNCTIONS - 64)) | (1L << (DROP - 64)) | (1L << (UNION - 64)) | (1L << (EXCEPT - 64)) | (1L << (SETMINUS - 64)) | (1L << (INTERSECT - 64)) | (1L << (TO - 64)) | (1L << (TABLESAMPLE - 64)) | (1L << (STRATIFY - 64)) | (1L << (ALTER - 64)) | (1L << (RENAME - 64)) | (1L << (ARRAY - 64)) | (1L << (MAP - 64)) | (1L << (STRUCT - 64)) | (1L << (COMMENT - 64)) | (1L << (SET - 64)) | (1L << (RESET - 64)) | (1L << (DATA - 64)) | (1L << (START - 64)) | (1L << (TRANSACTION - 64)) | (1L << (COMMIT - 64)) | (1L << (ROLLBACK - 64)) | (1L << (MACRO - 64)) | (1L << (IGNORE - 64)) | (1L << (IF - 64)))) != 0) || ((((_la - 134)) & ~0x3f) == 0 && ((1L << (_la - 134)) & ((1L << (PLUS - 134)) | (1L << (MINUS - 134)) | (1L << (ASTERISK - 134)) | (1L << (DIV - 134)) | (1L << (TILDE - 134)) | (1L << (PERCENTLIT - 134)) | (1L << (BUCKET - 134)) | (1L << (OUT - 134)) | (1L << (OF - 134)) | (1L << (SORT - 134)) | (1L << (CLUSTER - 134)) | (1L << (DISTRIBUTE - 134)) | (1L << (OVERWRITE - 134)) | (1L << (TRANSFORM - 134)) | (1L << (REDUCE - 134)) | (1L << (USING - 134)) | (1L << (SERDE - 134)) | (1L << (SERDEPROPERTIES - 134)) | (1L << (RECORDREADER - 134)) | (1L << (RECORDWRITER - 134)) | (1L << (DELIMITED - 134)) | (1L << (FIELDS - 134)) | (1L << (TERMINATED - 134)) | (1L << (COLLECTION - 134)) | (1L << (ITEMS - 134)) | (1L << (KEYS - 134)) | (1L << (ESCAPED - 134)) | (1L << (LINES - 134)) | (1L << (SEPARATED - 134)) | (1L << (FUNCTION - 134)) | (1L << (EXTENDED - 134)) | (1L << (REFRESH - 134)) | (1L << (CLEAR - 134)) | (1L << (CACHE - 134)) | (1L << (UNCACHE - 134)) | (1L << (LAZY - 134)) | (1L << (FORMATTED - 134)) | (1L << (GLOBAL - 134)) | (1L << (TEMPORARY - 134)) | (1L << (OPTIONS - 134)) | (1L << (UNSET - 134)) | (1L << (TBLPROPERTIES - 134)) | (1L << (DBPROPERTIES - 134)) | (1L << (BUCKETS - 134)) | (1L << (SKEWED - 134)) | (1L << (STORED - 134)) | (1L << (DIRECTORIES - 134)) | (1L << (LOCATION - 134)) | (1L << (EXCHANGE - 134)) | (1L << (ARCHIVE - 134)) | (1L << (UNARCHIVE - 134)) | (1L << (FILEFORMAT - 134)) | (1L << (TOUCH - 134)) | (1L << (COMPACT - 134)) | (1L << (CONCATENATE - 134)) | (1L << (CHANGE - 134)) | (1L << (CASCADE - 134)) | (1L << (RESTRICT - 134)))) != 0) || ((((_la - 198)) & ~0x3f) == 0 && ((1L << (_la - 198)) & ((1L << (CLUSTERED - 198)) | (1L << (SORTED - 198)) | (1L << (PURGE - 198)) | (1L << (INPUTFORMAT - 198)) | (1L << (OUTPUTFORMAT - 198)) | (1L << (DATABASE - 198)) | (1L << (DATABASES - 198)) | (1L << (DFS - 198)) | (1L << (TRUNCATE - 198)) | (1L << (ANALYZE - 198)) | (1L << (COMPUTE - 198)) | (1L << (LIST - 198)) | (1L << (STATISTICS - 198)) | (1L << (PARTITIONED - 198)) | (1L << (EXTERNAL - 198)) | (1L << (DEFINED - 198)) | (1L << (REVOKE - 198)) | (1L << (GRANT - 198)) | (1L << (LOCK - 198)) | (1L << (UNLOCK - 198)) | (1L << (MSCK - 198)) | (1L << (REPAIR - 198)) | (1L << (RECOVER - 198)) | (1L << (EXPORT - 198)) | (1L << (IMPORT - 198)) | (1L << (LOAD - 198)) | (1L << (ROLE - 198)) | (1L << (ROLES - 198)) | (1L << (COMPACTIONS - 198)) | (1L << (PRINCIPALS - 198)) | (1L << (TRANSACTIONS - 198)) | (1L << (INDEX - 198)) | (1L << (INDEXES - 198)) | (1L << (LOCKS - 198)) | (1L << (OPTION - 198)) | (1L << (ANTI - 198)) | (1L << (LOCAL - 198)) | (1L << (INPATH - 198)) | (1L << (CURRENT_DATE - 198)) | (1L << (CURRENT_TIMESTAMP - 198)) | (1L << (STRING - 198)) | (1L << (BIGINT_LITERAL - 198)) | (1L << (SMALLINT_LITERAL - 198)) | (1L << (TINYINT_LITERAL - 198)) | (1L << (INTEGER_VALUE - 198)) | (1L << (DECIMAL_VALUE - 198)) | (1L << (DOUBLE_LITERAL - 198)) | (1L << (BIGDECIMAL_LITERAL - 198)) | (1L << (IDENTIFIER - 198)) | (1L << (BACKQUOTED_IDENTIFIER - 198)) | (1L << (SQUARE_BRACKET_IDENTIFIER - 198)))) != 0)) {
 					{
@@ -13660,7 +13454,6 @@ public class SqlScriptParser extends Parser {
 				setState(2097);
 				expression();
 				setState(2100);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==IGNORE) {
 					{
@@ -13687,7 +13480,6 @@ public class SqlScriptParser extends Parser {
 				setState(2106);
 				expression();
 				setState(2109);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==IGNORE) {
 					{
@@ -13785,7 +13577,6 @@ public class SqlScriptParser extends Parser {
 				setState(2134);
 				match(T__1);
 				setState(2146);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__10) | (1L << SELECT) | (1L << FROM) | (1L << ADD) | (1L << AS) | (1L << ALL) | (1L << DISTINCT) | (1L << WHERE) | (1L << GROUP) | (1L << BY) | (1L << GROUPING) | (1L << SETS) | (1L << CUBE) | (1L << ROLLUP) | (1L << ORDER) | (1L << HAVING) | (1L << LIMIT) | (1L << AT) | (1L << OR) | (1L << AND) | (1L << IN) | (1L << NOT) | (1L << NO) | (1L << EXISTS) | (1L << BETWEEN) | (1L << LIKE) | (1L << RLIKE) | (1L << IS) | (1L << NULL) | (1L << TRUE) | (1L << FALSE) | (1L << NULLS) | (1L << ASC) | (1L << DESC) | (1L << FOR) | (1L << INTERVAL) | (1L << CASE) | (1L << WHEN) | (1L << THEN) | (1L << ELSE) | (1L << END) | (1L << JOIN) | (1L << CROSS) | (1L << OUTER) | (1L << INNER) | (1L << LEFT) | (1L << SEMI) | (1L << RIGHT) | (1L << FULL) | (1L << NATURAL))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (ON - 64)) | (1L << (LATERAL - 64)) | (1L << (WINDOW - 64)) | (1L << (OVER - 64)) | (1L << (PARTITION - 64)) | (1L << (RANGE - 64)) | (1L << (ROWS - 64)) | (1L << (UNBOUNDED - 64)) | (1L << (PRECEDING - 64)) | (1L << (FOLLOWING - 64)) | (1L << (CURRENT - 64)) | (1L << (FIRST - 64)) | (1L << (AFTER - 64)) | (1L << (LAST - 64)) | (1L << (ROW - 64)) | (1L << (WITH - 64)) | (1L << (VALUES - 64)) | (1L << (CREATE - 64)) | (1L << (TABLE - 64)) | (1L << (VIEW - 64)) | (1L << (REPLACE - 64)) | (1L << (INSERT - 64)) | (1L << (DELETE - 64)) | (1L << (INTO - 64)) | (1L << (DESCRIBE - 64)) | (1L << (EXPLAIN - 64)) | (1L << (FORMAT - 64)) | (1L << (LOGICAL - 64)) | (1L << (CODEGEN - 64)) | (1L << (COST - 64)) | (1L << (CAST - 64)) | (1L << (SHOW - 64)) | (1L << (TABLES - 64)) | (1L << (COLUMNS - 64)) | (1L << (COLUMN - 64)) | (1L << (USE - 64)) | (1L << (PARTITIONS - 64)) | (1L << (FUNCTIONS - 64)) | (1L << (DROP - 64)) | (1L << (UNION - 64)) | (1L << (EXCEPT - 64)) | (1L << (SETMINUS - 64)) | (1L << (INTERSECT - 64)) | (1L << (TO - 64)) | (1L << (TABLESAMPLE - 64)) | (1L << (STRATIFY - 64)) | (1L << (ALTER - 64)) | (1L << (RENAME - 64)) | (1L << (ARRAY - 64)) | (1L << (MAP - 64)) | (1L << (STRUCT - 64)) | (1L << (COMMENT - 64)) | (1L << (SET - 64)) | (1L << (RESET - 64)) | (1L << (DATA - 64)) | (1L << (START - 64)) | (1L << (TRANSACTION - 64)) | (1L << (COMMIT - 64)) | (1L << (ROLLBACK - 64)) | (1L << (MACRO - 64)) | (1L << (IGNORE - 64)) | (1L << (IF - 64)))) != 0) || ((((_la - 134)) & ~0x3f) == 0 && ((1L << (_la - 134)) & ((1L << (PLUS - 134)) | (1L << (MINUS - 134)) | (1L << (ASTERISK - 134)) | (1L << (DIV - 134)) | (1L << (TILDE - 134)) | (1L << (PERCENTLIT - 134)) | (1L << (BUCKET - 134)) | (1L << (OUT - 134)) | (1L << (OF - 134)) | (1L << (SORT - 134)) | (1L << (CLUSTER - 134)) | (1L << (DISTRIBUTE - 134)) | (1L << (OVERWRITE - 134)) | (1L << (TRANSFORM - 134)) | (1L << (REDUCE - 134)) | (1L << (USING - 134)) | (1L << (SERDE - 134)) | (1L << (SERDEPROPERTIES - 134)) | (1L << (RECORDREADER - 134)) | (1L << (RECORDWRITER - 134)) | (1L << (DELIMITED - 134)) | (1L << (FIELDS - 134)) | (1L << (TERMINATED - 134)) | (1L << (COLLECTION - 134)) | (1L << (ITEMS - 134)) | (1L << (KEYS - 134)) | (1L << (ESCAPED - 134)) | (1L << (LINES - 134)) | (1L << (SEPARATED - 134)) | (1L << (FUNCTION - 134)) | (1L << (EXTENDED - 134)) | (1L << (REFRESH - 134)) | (1L << (CLEAR - 134)) | (1L << (CACHE - 134)) | (1L << (UNCACHE - 134)) | (1L << (LAZY - 134)) | (1L << (FORMATTED - 134)) | (1L << (GLOBAL - 134)) | (1L << (TEMPORARY - 134)) | (1L << (OPTIONS - 134)) | (1L << (UNSET - 134)) | (1L << (TBLPROPERTIES - 134)) | (1L << (DBPROPERTIES - 134)) | (1L << (BUCKETS - 134)) | (1L << (SKEWED - 134)) | (1L << (STORED - 134)) | (1L << (DIRECTORIES - 134)) | (1L << (LOCATION - 134)) | (1L << (EXCHANGE - 134)) | (1L << (ARCHIVE - 134)) | (1L << (UNARCHIVE - 134)) | (1L << (FILEFORMAT - 134)) | (1L << (TOUCH - 134)) | (1L << (COMPACT - 134)) | (1L << (CONCATENATE - 134)) | (1L << (CHANGE - 134)) | (1L << (CASCADE - 134)) | (1L << (RESTRICT - 134)))) != 0) || ((((_la - 198)) & ~0x3f) == 0 && ((1L << (_la - 198)) & ((1L << (CLUSTERED - 198)) | (1L << (SORTED - 198)) | (1L << (PURGE - 198)) | (1L << (INPUTFORMAT - 198)) | (1L << (OUTPUTFORMAT - 198)) | (1L << (DATABASE - 198)) | (1L << (DATABASES - 198)) | (1L << (DFS - 198)) | (1L << (TRUNCATE - 198)) | (1L << (ANALYZE - 198)) | (1L << (COMPUTE - 198)) | (1L << (LIST - 198)) | (1L << (STATISTICS - 198)) | (1L << (PARTITIONED - 198)) | (1L << (EXTERNAL - 198)) | (1L << (DEFINED - 198)) | (1L << (REVOKE - 198)) | (1L << (GRANT - 198)) | (1L << (LOCK - 198)) | (1L << (UNLOCK - 198)) | (1L << (MSCK - 198)) | (1L << (REPAIR - 198)) | (1L << (RECOVER - 198)) | (1L << (EXPORT - 198)) | (1L << (IMPORT - 198)) | (1L << (LOAD - 198)) | (1L << (ROLE - 198)) | (1L << (ROLES - 198)) | (1L << (COMPACTIONS - 198)) | (1L << (PRINCIPALS - 198)) | (1L << (TRANSACTIONS - 198)) | (1L << (INDEX - 198)) | (1L << (INDEXES - 198)) | (1L << (LOCKS - 198)) | (1L << (OPTION - 198)) | (1L << (ANTI - 198)) | (1L << (LOCAL - 198)) | (1L << (INPATH - 198)) | (1L << (CURRENT_DATE - 198)) | (1L << (CURRENT_TIMESTAMP - 198)) | (1L << (STRING - 198)) | (1L << (BIGINT_LITERAL - 198)) | (1L << (SMALLINT_LITERAL - 198)) | (1L << (TINYINT_LITERAL - 198)) | (1L << (INTEGER_VALUE - 198)) | (1L << (DECIMAL_VALUE - 198)) | (1L << (DOUBLE_LITERAL - 198)) | (1L << (BIGDECIMAL_LITERAL - 198)) | (1L << (IDENTIFIER - 198)) | (1L << (BACKQUOTED_IDENTIFIER - 198)) | (1L << (SQUARE_BRACKET_IDENTIFIER - 198)))) != 0)) {
 					{
@@ -14175,10 +13966,7 @@ public class SqlScriptParser extends Parser {
 			_la = _input.LA(1);
 			if ( !(((((_la - 126)) & ~0x3f) == 0 && ((1L << (_la - 126)) & ((1L << (EQ - 126)) | (1L << (NSEQ - 126)) | (1L << (NEQ - 126)) | (1L << (NEQJ - 126)) | (1L << (LT - 126)) | (1L << (LTE - 126)) | (1L << (GT - 126)) | (1L << (GTE - 126)))) != 0)) ) {
 			_errHandler.recoverInline(this);
-			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
+			} else {
 				consume();
 			}
 			}
@@ -14235,10 +14023,7 @@ public class SqlScriptParser extends Parser {
 			_la = _input.LA(1);
 			if ( !(((((_la - 134)) & ~0x3f) == 0 && ((1L << (_la - 134)) & ((1L << (PLUS - 134)) | (1L << (MINUS - 134)) | (1L << (ASTERISK - 134)) | (1L << (SLASH - 134)) | (1L << (PERCENT - 134)) | (1L << (DIV - 134)) | (1L << (TILDE - 134)) | (1L << (AMPERSAND - 134)) | (1L << (PIPE - 134)) | (1L << (HAT - 134)))) != 0)) ) {
 			_errHandler.recoverInline(this);
-			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
+			} else {
 				consume();
 			}
 			}
@@ -14289,10 +14074,7 @@ public class SqlScriptParser extends Parser {
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << OR) | (1L << AND) | (1L << IN) | (1L << NOT))) != 0)) ) {
 			_errHandler.recoverInline(this);
-			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
+			} else {
 				consume();
 			}
 			}
@@ -14341,10 +14123,7 @@ public class SqlScriptParser extends Parser {
 			_la = _input.LA(1);
 			if ( !(_la==TRUE || _la==FALSE) ) {
 			_errHandler.recoverInline(this);
-			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
+			} else {
 				consume();
 			}
 			}
@@ -14524,7 +14303,6 @@ public class SqlScriptParser extends Parser {
 		int _la;
 		try {
 			setState(2213);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case PLUS:
 			case MINUS:
@@ -14533,7 +14311,6 @@ public class SqlScriptParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(2209);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==PLUS || _la==MINUS) {
 					{
@@ -14541,10 +14318,7 @@ public class SqlScriptParser extends Parser {
 					_la = _input.LA(1);
 					if ( !(_la==PLUS || _la==MINUS) ) {
 					_errHandler.recoverInline(this);
-					}
-					else {
-						if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-						_errHandler.reportMatch(this);
+					} else {
 						consume();
 					}
 					}
@@ -14554,10 +14328,7 @@ public class SqlScriptParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==INTEGER_VALUE || _la==DECIMAL_VALUE) ) {
 				_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
+				} else {
 					consume();
 				}
 				}
@@ -14614,7 +14385,6 @@ public class SqlScriptParser extends Parser {
 		enterRule(_localctx, 182, RULE_colPosition);
 		try {
 			setState(2218);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case FIRST:
 				enterOuterAlt(_localctx, 1);
@@ -14759,14 +14529,12 @@ public class SqlScriptParser extends Parser {
 				setState(2232);
 				((ComplexDataTypeContext)_localctx).complex = match(STRUCT);
 				setState(2239);
-				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case LT:
 					{
 					setState(2233);
 					match(LT);
 					setState(2235);
-					_errHandler.sync(this);
 					_la = _input.LA(1);
 					if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << SELECT) | (1L << FROM) | (1L << ADD) | (1L << AS) | (1L << ALL) | (1L << DISTINCT) | (1L << WHERE) | (1L << GROUP) | (1L << BY) | (1L << GROUPING) | (1L << SETS) | (1L << CUBE) | (1L << ROLLUP) | (1L << ORDER) | (1L << HAVING) | (1L << LIMIT) | (1L << AT) | (1L << OR) | (1L << AND) | (1L << IN) | (1L << NOT) | (1L << NO) | (1L << EXISTS) | (1L << BETWEEN) | (1L << LIKE) | (1L << RLIKE) | (1L << IS) | (1L << NULL) | (1L << TRUE) | (1L << FALSE) | (1L << NULLS) | (1L << ASC) | (1L << DESC) | (1L << FOR) | (1L << INTERVAL) | (1L << CASE) | (1L << WHEN) | (1L << THEN) | (1L << ELSE) | (1L << END) | (1L << JOIN) | (1L << CROSS) | (1L << OUTER) | (1L << INNER) | (1L << LEFT) | (1L << SEMI) | (1L << RIGHT) | (1L << FULL) | (1L << NATURAL))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (ON - 64)) | (1L << (LATERAL - 64)) | (1L << (WINDOW - 64)) | (1L << (OVER - 64)) | (1L << (PARTITION - 64)) | (1L << (RANGE - 64)) | (1L << (ROWS - 64)) | (1L << (UNBOUNDED - 64)) | (1L << (PRECEDING - 64)) | (1L << (FOLLOWING - 64)) | (1L << (CURRENT - 64)) | (1L << (FIRST - 64)) | (1L << (AFTER - 64)) | (1L << (LAST - 64)) | (1L << (ROW - 64)) | (1L << (WITH - 64)) | (1L << (VALUES - 64)) | (1L << (CREATE - 64)) | (1L << (TABLE - 64)) | (1L << (VIEW - 64)) | (1L << (REPLACE - 64)) | (1L << (INSERT - 64)) | (1L << (DELETE - 64)) | (1L << (INTO - 64)) | (1L << (DESCRIBE - 64)) | (1L << (EXPLAIN - 64)) | (1L << (FORMAT - 64)) | (1L << (LOGICAL - 64)) | (1L << (CODEGEN - 64)) | (1L << (COST - 64)) | (1L << (CAST - 64)) | (1L << (SHOW - 64)) | (1L << (TABLES - 64)) | (1L << (COLUMNS - 64)) | (1L << (COLUMN - 64)) | (1L << (USE - 64)) | (1L << (PARTITIONS - 64)) | (1L << (FUNCTIONS - 64)) | (1L << (DROP - 64)) | (1L << (UNION - 64)) | (1L << (EXCEPT - 64)) | (1L << (SETMINUS - 64)) | (1L << (INTERSECT - 64)) | (1L << (TO - 64)) | (1L << (TABLESAMPLE - 64)) | (1L << (STRATIFY - 64)) | (1L << (ALTER - 64)) | (1L << (RENAME - 64)) | (1L << (ARRAY - 64)) | (1L << (MAP - 64)) | (1L << (STRUCT - 64)) | (1L << (COMMENT - 64)) | (1L << (SET - 64)) | (1L << (RESET - 64)) | (1L << (DATA - 64)) | (1L << (START - 64)) | (1L << (TRANSACTION - 64)) | (1L << (COMMIT - 64)) | (1L << (ROLLBACK - 64)) | (1L << (MACRO - 64)) | (1L << (IGNORE - 64)) | (1L << (IF - 64)))) != 0) || ((((_la - 139)) & ~0x3f) == 0 && ((1L << (_la - 139)) & ((1L << (DIV - 139)) | (1L << (PERCENTLIT - 139)) | (1L << (BUCKET - 139)) | (1L << (OUT - 139)) | (1L << (OF - 139)) | (1L << (SORT - 139)) | (1L << (CLUSTER - 139)) | (1L << (DISTRIBUTE - 139)) | (1L << (OVERWRITE - 139)) | (1L << (TRANSFORM - 139)) | (1L << (REDUCE - 139)) | (1L << (USING - 139)) | (1L << (SERDE - 139)) | (1L << (SERDEPROPERTIES - 139)) | (1L << (RECORDREADER - 139)) | (1L << (RECORDWRITER - 139)) | (1L << (DELIMITED - 139)) | (1L << (FIELDS - 139)) | (1L << (TERMINATED - 139)) | (1L << (COLLECTION - 139)) | (1L << (ITEMS - 139)) | (1L << (KEYS - 139)) | (1L << (ESCAPED - 139)) | (1L << (LINES - 139)) | (1L << (SEPARATED - 139)) | (1L << (FUNCTION - 139)) | (1L << (EXTENDED - 139)) | (1L << (REFRESH - 139)) | (1L << (CLEAR - 139)) | (1L << (CACHE - 139)) | (1L << (UNCACHE - 139)) | (1L << (LAZY - 139)) | (1L << (FORMATTED - 139)) | (1L << (GLOBAL - 139)) | (1L << (TEMPORARY - 139)) | (1L << (OPTIONS - 139)) | (1L << (UNSET - 139)) | (1L << (TBLPROPERTIES - 139)) | (1L << (DBPROPERTIES - 139)) | (1L << (BUCKETS - 139)) | (1L << (SKEWED - 139)) | (1L << (STORED - 139)) | (1L << (DIRECTORIES - 139)) | (1L << (LOCATION - 139)) | (1L << (EXCHANGE - 139)) | (1L << (ARCHIVE - 139)) | (1L << (UNARCHIVE - 139)) | (1L << (FILEFORMAT - 139)) | (1L << (TOUCH - 139)) | (1L << (COMPACT - 139)) | (1L << (CONCATENATE - 139)) | (1L << (CHANGE - 139)) | (1L << (CASCADE - 139)) | (1L << (RESTRICT - 139)) | (1L << (CLUSTERED - 139)) | (1L << (SORTED - 139)) | (1L << (PURGE - 139)) | (1L << (INPUTFORMAT - 139)) | (1L << (OUTPUTFORMAT - 139)))) != 0) || ((((_la - 203)) & ~0x3f) == 0 && ((1L << (_la - 203)) & ((1L << (DATABASE - 203)) | (1L << (DATABASES - 203)) | (1L << (DFS - 203)) | (1L << (TRUNCATE - 203)) | (1L << (ANALYZE - 203)) | (1L << (COMPUTE - 203)) | (1L << (LIST - 203)) | (1L << (STATISTICS - 203)) | (1L << (PARTITIONED - 203)) | (1L << (EXTERNAL - 203)) | (1L << (DEFINED - 203)) | (1L << (REVOKE - 203)) | (1L << (GRANT - 203)) | (1L << (LOCK - 203)) | (1L << (UNLOCK - 203)) | (1L << (MSCK - 203)) | (1L << (REPAIR - 203)) | (1L << (RECOVER - 203)) | (1L << (EXPORT - 203)) | (1L << (IMPORT - 203)) | (1L << (LOAD - 203)) | (1L << (ROLE - 203)) | (1L << (ROLES - 203)) | (1L << (COMPACTIONS - 203)) | (1L << (PRINCIPALS - 203)) | (1L << (TRANSACTIONS - 203)) | (1L << (INDEX - 203)) | (1L << (INDEXES - 203)) | (1L << (LOCKS - 203)) | (1L << (OPTION - 203)) | (1L << (ANTI - 203)) | (1L << (LOCAL - 203)) | (1L << (INPATH - 203)) | (1L << (CURRENT_DATE - 203)) | (1L << (CURRENT_TIMESTAMP - 203)) | (1L << (IDENTIFIER - 203)) | (1L << (BACKQUOTED_IDENTIFIER - 203)) | (1L << (SQUARE_BRACKET_IDENTIFIER - 203)))) != 0)) {
 						{
@@ -15076,7 +14844,6 @@ public class SqlScriptParser extends Parser {
 			setState(2280);
 			dataType();
 			setState(2283);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==COMMENT) {
 				{
@@ -15358,7 +15125,6 @@ public class SqlScriptParser extends Parser {
 		int _la;
 		try {
 			setState(2345);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case SELECT:
 			case FROM:
@@ -15582,7 +15348,6 @@ public class SqlScriptParser extends Parser {
 				setState(2304);
 				match(T__1);
 				setState(2339);
-				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case CLUSTER:
 					{
@@ -15621,7 +15386,6 @@ public class SqlScriptParser extends Parser {
 				case DISTRIBUTE:
 					{
 					setState(2325);
-					_errHandler.sync(this);
 					_la = _input.LA(1);
 					if (_la==PARTITION || _la==DISTRIBUTE) {
 						{
@@ -15629,10 +15393,7 @@ public class SqlScriptParser extends Parser {
 						_la = _input.LA(1);
 						if ( !(_la==PARTITION || _la==DISTRIBUTE) ) {
 						_errHandler.recoverInline(this);
-						}
-						else {
-							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-							_errHandler.reportMatch(this);
+						} else {
 							consume();
 						}
 						setState(2316);
@@ -15661,7 +15422,6 @@ public class SqlScriptParser extends Parser {
 					}
 
 					setState(2337);
-					_errHandler.sync(this);
 					_la = _input.LA(1);
 					if (_la==ORDER || _la==SORT) {
 						{
@@ -15669,10 +15429,7 @@ public class SqlScriptParser extends Parser {
 						_la = _input.LA(1);
 						if ( !(_la==ORDER || _la==SORT) ) {
 						_errHandler.recoverInline(this);
-						}
-						else {
-							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-							_errHandler.reportMatch(this);
+						} else {
 							consume();
 						}
 						setState(2328);
@@ -15704,7 +15461,6 @@ public class SqlScriptParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				setState(2342);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==RANGE || _la==ROWS) {
 					{
@@ -15880,10 +15636,7 @@ public class SqlScriptParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==PRECEDING || _la==FOLLOWING) ) {
 					((FrameBoundContext)_localctx).boundType = (Token)_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
+				} else {
 					consume();
 				}
 				}
@@ -15907,10 +15660,7 @@ public class SqlScriptParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==PRECEDING || _la==FOLLOWING) ) {
 					((FrameBoundContext)_localctx).boundType = (Token)_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
+				} else {
 					consume();
 				}
 				}
@@ -16036,7 +15786,6 @@ public class SqlScriptParser extends Parser {
 		enterRule(_localctx, 208, RULE_identifier);
 		try {
 			setState(2397);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case SELECT:
 			case FROM:
@@ -16424,7 +16173,6 @@ public class SqlScriptParser extends Parser {
 		enterRule(_localctx, 210, RULE_strictIdentifier);
 		try {
 			setState(2403);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case IDENTIFIER:
 				_localctx = new UnquotedIdentifierContext(_localctx);
@@ -16856,7 +16604,6 @@ public class SqlScriptParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(2408);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==MINUS) {
 					{
@@ -16874,7 +16621,6 @@ public class SqlScriptParser extends Parser {
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(2412);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==MINUS) {
 					{
@@ -16892,7 +16638,6 @@ public class SqlScriptParser extends Parser {
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(2416);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==MINUS) {
 					{
@@ -16910,7 +16655,6 @@ public class SqlScriptParser extends Parser {
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(2420);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==MINUS) {
 					{
@@ -16928,7 +16672,6 @@ public class SqlScriptParser extends Parser {
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(2424);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==MINUS) {
 					{
@@ -16946,7 +16689,6 @@ public class SqlScriptParser extends Parser {
 				enterOuterAlt(_localctx, 6);
 				{
 				setState(2428);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==MINUS) {
 					{
@@ -16964,7 +16706,6 @@ public class SqlScriptParser extends Parser {
 				enterOuterAlt(_localctx, 7);
 				{
 				setState(2432);
-				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==MINUS) {
 					{
@@ -17050,7 +16791,10 @@ public class SqlScriptParser extends Parser {
 		public TerminalNode COST() { return getToken(SqlScriptParser.COST, 0); }
 		public TerminalNode TABLESAMPLE() { return getToken(SqlScriptParser.TABLESAMPLE, 0); }
 		public TerminalNode USE() { return getToken(SqlScriptParser.USE, 0); }
-		public TerminalNode TO() { return getToken(SqlScriptParser.TO, 0); }
+		public List<TerminalNode> TO() { return getTokens(SqlScriptParser.TO); }
+		public TerminalNode TO(int i) {
+			return getToken(SqlScriptParser.TO, i);
+		}
 		public TerminalNode BUCKET() { return getToken(SqlScriptParser.BUCKET, 0); }
 		public TerminalNode PERCENTLIT() { return getToken(SqlScriptParser.PERCENTLIT, 0); }
 		public TerminalNode OUT() { return getToken(SqlScriptParser.OUT, 0); }
@@ -17155,9 +16899,15 @@ public class SqlScriptParser extends Parser {
 		public TerminalNode NULL() { return getToken(SqlScriptParser.NULL, 0); }
 		public TerminalNode ORDER() { return getToken(SqlScriptParser.ORDER, 0); }
 		public TerminalNode OUTER() { return getToken(SqlScriptParser.OUTER, 0); }
-		public TerminalNode TABLE() { return getToken(SqlScriptParser.TABLE, 0); }
+		public List<TerminalNode> TABLE() { return getTokens(SqlScriptParser.TABLE); }
+		public TerminalNode TABLE(int i) {
+			return getToken(SqlScriptParser.TABLE, i);
+		}
 		public TerminalNode TRUE() { return getToken(SqlScriptParser.TRUE, 0); }
-		public TerminalNode WITH() { return getToken(SqlScriptParser.WITH, 0); }
+		public List<TerminalNode> WITH() { return getTokens(SqlScriptParser.WITH); }
+		public TerminalNode WITH(int i) {
+			return getToken(SqlScriptParser.WITH, i);
+		}
 		public TerminalNode RLIKE() { return getToken(SqlScriptParser.RLIKE, 0); }
 		public TerminalNode AND() { return getToken(SqlScriptParser.AND, 0); }
 		public TerminalNode CASE() { return getToken(SqlScriptParser.CASE, 0); }
@@ -17212,10 +16962,7 @@ public class SqlScriptParser extends Parser {
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << SELECT) | (1L << FROM) | (1L << ADD) | (1L << AS) | (1L << ALL) | (1L << DISTINCT) | (1L << WHERE) | (1L << GROUP) | (1L << BY) | (1L << GROUPING) | (1L << SETS) | (1L << CUBE) | (1L << ROLLUP) | (1L << ORDER) | (1L << HAVING) | (1L << LIMIT) | (1L << AT) | (1L << OR) | (1L << AND) | (1L << IN) | (1L << NOT) | (1L << NO) | (1L << EXISTS) | (1L << BETWEEN) | (1L << LIKE) | (1L << RLIKE) | (1L << IS) | (1L << NULL) | (1L << TRUE) | (1L << FALSE) | (1L << NULLS) | (1L << ASC) | (1L << DESC) | (1L << FOR) | (1L << INTERVAL) | (1L << CASE) | (1L << WHEN) | (1L << THEN) | (1L << ELSE) | (1L << END) | (1L << OUTER))) != 0) || ((((_la - 65)) & ~0x3f) == 0 && ((1L << (_la - 65)) & ((1L << (LATERAL - 65)) | (1L << (WINDOW - 65)) | (1L << (OVER - 65)) | (1L << (PARTITION - 65)) | (1L << (RANGE - 65)) | (1L << (ROWS - 65)) | (1L << (UNBOUNDED - 65)) | (1L << (PRECEDING - 65)) | (1L << (FOLLOWING - 65)) | (1L << (CURRENT - 65)) | (1L << (FIRST - 65)) | (1L << (AFTER - 65)) | (1L << (LAST - 65)) | (1L << (ROW - 65)) | (1L << (WITH - 65)) | (1L << (VALUES - 65)) | (1L << (CREATE - 65)) | (1L << (TABLE - 65)) | (1L << (VIEW - 65)) | (1L << (REPLACE - 65)) | (1L << (INSERT - 65)) | (1L << (DELETE - 65)) | (1L << (INTO - 65)) | (1L << (DESCRIBE - 65)) | (1L << (EXPLAIN - 65)) | (1L << (FORMAT - 65)) | (1L << (LOGICAL - 65)) | (1L << (CODEGEN - 65)) | (1L << (COST - 65)) | (1L << (CAST - 65)) | (1L << (SHOW - 65)) | (1L << (TABLES - 65)) | (1L << (COLUMNS - 65)) | (1L << (COLUMN - 65)) | (1L << (USE - 65)) | (1L << (PARTITIONS - 65)) | (1L << (FUNCTIONS - 65)) | (1L << (DROP - 65)) | (1L << (TO - 65)) | (1L << (TABLESAMPLE - 65)) | (1L << (STRATIFY - 65)) | (1L << (ALTER - 65)) | (1L << (RENAME - 65)) | (1L << (ARRAY - 65)) | (1L << (MAP - 65)) | (1L << (STRUCT - 65)) | (1L << (COMMENT - 65)) | (1L << (SET - 65)) | (1L << (RESET - 65)) | (1L << (DATA - 65)) | (1L << (START - 65)) | (1L << (TRANSACTION - 65)) | (1L << (COMMIT - 65)) | (1L << (ROLLBACK - 65)) | (1L << (MACRO - 65)) | (1L << (IGNORE - 65)) | (1L << (IF - 65)))) != 0) || ((((_la - 139)) & ~0x3f) == 0 && ((1L << (_la - 139)) & ((1L << (DIV - 139)) | (1L << (PERCENTLIT - 139)) | (1L << (BUCKET - 139)) | (1L << (OUT - 139)) | (1L << (OF - 139)) | (1L << (SORT - 139)) | (1L << (CLUSTER - 139)) | (1L << (DISTRIBUTE - 139)) | (1L << (OVERWRITE - 139)) | (1L << (TRANSFORM - 139)) | (1L << (REDUCE - 139)) | (1L << (USING - 139)) | (1L << (SERDE - 139)) | (1L << (SERDEPROPERTIES - 139)) | (1L << (RECORDREADER - 139)) | (1L << (RECORDWRITER - 139)) | (1L << (DELIMITED - 139)) | (1L << (FIELDS - 139)) | (1L << (TERMINATED - 139)) | (1L << (COLLECTION - 139)) | (1L << (ITEMS - 139)) | (1L << (KEYS - 139)) | (1L << (ESCAPED - 139)) | (1L << (LINES - 139)) | (1L << (SEPARATED - 139)) | (1L << (FUNCTION - 139)) | (1L << (EXTENDED - 139)) | (1L << (REFRESH - 139)) | (1L << (CLEAR - 139)) | (1L << (CACHE - 139)) | (1L << (UNCACHE - 139)) | (1L << (LAZY - 139)) | (1L << (FORMATTED - 139)) | (1L << (GLOBAL - 139)) | (1L << (TEMPORARY - 139)) | (1L << (OPTIONS - 139)) | (1L << (UNSET - 139)) | (1L << (TBLPROPERTIES - 139)) | (1L << (DBPROPERTIES - 139)) | (1L << (BUCKETS - 139)) | (1L << (SKEWED - 139)) | (1L << (STORED - 139)) | (1L << (DIRECTORIES - 139)) | (1L << (LOCATION - 139)) | (1L << (EXCHANGE - 139)) | (1L << (ARCHIVE - 139)) | (1L << (UNARCHIVE - 139)) | (1L << (FILEFORMAT - 139)) | (1L << (TOUCH - 139)) | (1L << (COMPACT - 139)) | (1L << (CONCATENATE - 139)) | (1L << (CHANGE - 139)) | (1L << (CASCADE - 139)) | (1L << (RESTRICT - 139)) | (1L << (CLUSTERED - 139)) | (1L << (SORTED - 139)) | (1L << (PURGE - 139)) | (1L << (INPUTFORMAT - 139)) | (1L << (OUTPUTFORMAT - 139)))) != 0) || ((((_la - 203)) & ~0x3f) == 0 && ((1L << (_la - 203)) & ((1L << (DATABASE - 203)) | (1L << (DATABASES - 203)) | (1L << (DFS - 203)) | (1L << (TRUNCATE - 203)) | (1L << (ANALYZE - 203)) | (1L << (COMPUTE - 203)) | (1L << (LIST - 203)) | (1L << (STATISTICS - 203)) | (1L << (PARTITIONED - 203)) | (1L << (EXTERNAL - 203)) | (1L << (DEFINED - 203)) | (1L << (REVOKE - 203)) | (1L << (GRANT - 203)) | (1L << (LOCK - 203)) | (1L << (UNLOCK - 203)) | (1L << (MSCK - 203)) | (1L << (REPAIR - 203)) | (1L << (RECOVER - 203)) | (1L << (EXPORT - 203)) | (1L << (IMPORT - 203)) | (1L << (LOAD - 203)) | (1L << (ROLE - 203)) | (1L << (ROLES - 203)) | (1L << (COMPACTIONS - 203)) | (1L << (PRINCIPALS - 203)) | (1L << (TRANSACTIONS - 203)) | (1L << (INDEX - 203)) | (1L << (INDEXES - 203)) | (1L << (LOCKS - 203)) | (1L << (OPTION - 203)) | (1L << (LOCAL - 203)) | (1L << (INPATH - 203)) | (1L << (CURRENT_DATE - 203)) | (1L << (CURRENT_TIMESTAMP - 203)))) != 0)) ) {
 			_errHandler.recoverInline(this);
-			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
+			} else {
 				consume();
 			}
 			}
@@ -17289,7 +17036,7 @@ public class SqlScriptParser extends Parser {
 
 	private static final int _serializedATNSegments = 2;
 	private static final String _serializedATNSegment0 =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\u0107\u098a\4\2\t"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\u0107\u098a\4\2\t"+
 		"\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -17477,8 +17224,8 @@ public class SqlScriptParser extends Parser {
 		"\u00fb\3\2)*\4\2\u0088\u0089\u008e\u008e\3\2\u008a\u008d\3\2\u0088\u0089"+
 		"\3\2\u00ee\u00ef\3\2\u0080\u0087\3\2\u0088\u0091\3\2\"%\3\2-.\4\2FF\u0098"+
 		"\u0098\4\2\36\36\u0096\u0096\3\2JK\n\2\218;;Chm\177\u008d\u008d\u0092"+
-		"\u00b3\u00b5\u00ea\u00ec\u00ef\2\u0b18\2\u00e0\3\2\2\2\4\u00e8\3\2\2\2"+
-		"\6\u00eb\3\2\2\2\b\u00f3\3\2\2\2\n\u0100\3\2\2\2\f\u0105\3\2\2\2\16\u010c"+
+		"\u00b3\u00b5\u00ea\u00ec\u00ef\u0b18\2\u00e0\3\2\2\2\4\u00e8\3\2\2\2\6"+
+		"\u00eb\3\2\2\2\b\u00f3\3\2\2\2\n\u0100\3\2\2\2\f\u0105\3\2\2\2\16\u010c"+
 		"\3\2\2\2\20\u010f\3\2\2\2\22\u011d\3\2\2\2\24\u0129\3\2\2\2\26\u0132\3"+
 		"\2\2\2\30\u0141\3\2\2\2\32\u0143\3\2\2\2\34\u0148\3\2\2\2\36\u014e\3\2"+
 		"\2\2 \u0151\3\2\2\2\"\u0154\3\2\2\2$\u0157\3\2\2\2&\u015a\3\2\2\2(\u03bb"+
@@ -18258,10 +18005,10 @@ public class SqlScriptParser extends Parser {
 		"\u092a\3\2\2\2\u092a\u092c\7\5\2\2\u092b\u0901\3\2\2\2\u092b\u0902\3\2"+
 		"\2\2\u092c\u00cb\3\2\2\2\u092d\u092e\7G\2\2\u092e\u093e\5\u00ceh\2\u092f"+
 		"\u0930\7H\2\2\u0930\u093e\5\u00ceh\2\u0931\u0932\7G\2\2\u0932\u0933\7"+
-		"(\2\2\u0933\u0934\5\u00ceh\2";
+		"(\2\2\u0933\u0934\5\u00ceh\2\u0934";
 	private static final String _serializedATNSegment1 =
-		"\u0934\u0935\7#\2\2\u0935\u0936\5\u00ceh\2\u0936\u093e\3\2\2\2\u0937\u0938"+
-		"\7H\2\2\u0938\u0939\7(\2\2\u0939\u093a\5\u00ceh\2\u093a\u093b\7#\2\2\u093b"+
+		"\u0935\7#\2\2\u0935\u0936\5\u00ceh\2\u0936\u093e\3\2\2\2\u0937\u0938\7"+
+		"H\2\2\u0938\u0939\7(\2\2\u0939\u093a\5\u00ceh\2\u093a\u093b\7#\2\2\u093b"+
 		"\u093c\5\u00ceh\2\u093c\u093e\3\2\2\2\u093d\u092d\3\2\2\2\u093d\u092f"+
 		"\3\2\2\2\u093d\u0931\3\2\2\2\u093d\u0937\3\2\2\2\u093e\u00cd\3\2\2\2\u093f"+
 		"\u0940\7I\2\2\u0940\u0947\t\31\2\2\u0941\u0942\7L\2\2\u0942\u0947\7P\2"+

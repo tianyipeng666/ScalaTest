@@ -36,7 +36,14 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    httpSourceDispose
+    val session = getSparkSession()
+    // session.conf.set("spark.sql.hive.metastore.version", "1.2.1")
+    session.sql("INSERT INTO bdp.antiJoinTest1 SELECT cast(id as string) as a FROM (SELECT EXPLODE(sequence(1,20000000)) AS id)")
+    // session.sql("select a as `编号` from bdp.antiJoinTest1").createOrReplaceTempView("temp1")
+    // session.sql("select a as `编号` from bdp.antiJoinTest2").createOrReplaceTempView("temp2")
+    // session.sql("select temp1.`编号` from temp1 anti join temp2 on `temp1`.`编号` = `temp2`.`编号`").createOrReplaceTempView("antiRes")
+    // val df = session.sql("select `编号` as a from antiRes")
+    // df.write.format("parquet").saveAsTable(s"antiRes_tmpTb_${System.currentTimeMillis()}")
   }
 
   private def getSparkSession(): SparkSession = {
@@ -56,18 +63,26 @@ object SparkMain extends LazyLogging {
     val tempSql2 =
       """
         |select DISTINCT(LEFT(`YF_DM`,4)) ND,ND SJ from `去重无用数据`
-        |UNION ALL select  DISTINCT(LEFT(`YF_DM`,4)) ND,ND-1 SJ from `去重无用数据`
-        |UNION ALL select  DISTINCT(LEFT(`YF_DM`,4)) ND,ND-2 SJ from `去重无用数据`
-        |UNION ALL select  DISTINCT(LEFT(`YF_DM`,4)) ND,ND-3 SJ from `去重无用数据`
-        |UNION ALL select  DISTINCT(LEFT(`YF_DM`,4)) ND,ND-4 SJ from `去重无用数据`
+        |UNION ALL
+        |select DISTINCT(LEFT(`YF_DM`,4)) ND,ND-1 SJ from `去重无用数据`
+        |UNION ALL
+        |select DISTINCT(LEFT(`YF_DM`,4)) ND,ND-2 SJ from `去重无用数据`
+        |UNION ALL
+        |select DISTINCT(LEFT(`YF_DM`,4)) ND,ND-3 SJ from `去重无用数据`
+        |UNION ALL
+        |select DISTINCT(LEFT(`YF_DM`,4)) ND,ND-4 SJ from `去重无用数据`
         |""".stripMargin
+    val tempSql3 =
+      """
+        |select '全市' as xzqh, count(distinct uni) tqyd from FRK_DWD group by xzqh
+        |UNION ALL
+        |select addr as xzqh, count(distinct uni) tqyd from FRK_DWD group by xzqh
+        |""".stripMargin
+    val tempSql4 = "select a,b from t1 union all select a, b from t2 union all select a, b from t3"
     val (parsedSql, relyBaseTables, replaceFields, tempTables, replaceTables,
-    variables, fieldVariables, moreFieldsTable) = SqlParserService.parseSql(tempSql1)
-    println(
-      s"""
-         |rely_tables==>${relyBaseTables}
+    variables, fieldVariables, moreFieldsTable) = SqlParserService.parseSql(tempSql3)
+    println(s"""
          |temp_tables==>${tempTables}
-         |replace_tables==>${replaceTables}
          |""".stripMargin)
   }
 

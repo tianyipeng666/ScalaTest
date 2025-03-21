@@ -1,10 +1,11 @@
 package sql.parser
 
 import antlr.sql.{SqlScriptBaseListener, SqlScriptParser}
+
 import java.util
 import scala.collection.JavaConverters._
 import scala.collection.mutable
-import scala.collection.mutable.ArrayBuffer
+import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 import scala.util.parsing.json._
 import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.misc.Interval
@@ -77,6 +78,8 @@ class SqlScriptProcessor(parser: SqlScriptParser) extends SqlScriptBaseListener 
   private var usedRelyTable = new util.HashSet[String]()
 
   private var inSubQuery = false
+
+  private val queryBuffer = ListBuffer[String]()
   /**
    * 修改状态, 表示现在已经进入解析字段
    */
@@ -125,13 +128,28 @@ class SqlScriptProcessor(parser: SqlScriptParser) extends SqlScriptBaseListener 
     }
   }
 
+  override def enterQuerySpecification(ctx: SqlScriptParser.QuerySpecificationContext): Unit = {
+    queryBuffer += ctx.getText
+  }
+
+  /**
+   * {@inheritDoc }
+   *
+   * <p>The default implementation does nothing.</p>
+   */
+  override def exitQuerySpecification(ctx: SqlScriptParser.QuerySpecificationContext): Unit = {
+    if (queryBuffer.lastOption.contains(ctx.getText)) {
+      queryBuffer.remove(queryBuffer.length - 1)
+    }
+  }
+
   /**
    * 针对字段的处理, status为3, 4时, 此处处理的是表别名, 并非真实字段
    */
   override def exitColumnReference(ctx: ColumnReferenceContext): Unit = {
     status match {
       case 3 =>
-        var tbName = transformChar(ctx.getText)
+        val tbName = transformChar(ctx.getText)
         currentField.put("rely_alias", tbName)
       case 4 =>
       case 5 =>
@@ -264,7 +282,9 @@ class SqlScriptProcessor(parser: SqlScriptParser) extends SqlScriptBaseListener 
             currentField.put("name", currentField("formula"))
           }
           val field = currentField
-          currentSelectFields.add(JSONObject(field.toMap))
+          if (queryBuffer.size == 1) {
+            currentSelectFields.add(JSONObject(field.toMap))
+          }
         }
     }
 
@@ -328,7 +348,10 @@ class SqlScriptProcessor(parser: SqlScriptParser) extends SqlScriptBaseListener 
     if (alaisWord.apply(ctx.getStop.getText.toUpperCase)) {
       throw new Exception("Exception: alais not valid")
     }
-    var tbAlias = transformChar(ctx.getStop.getText)
+    val tbAlias = transformChar(ctx.getStop.getText)
+    rely.put("tb_name", tbName)
+    rely.put("tb_alias", tbAlias)
+    currentRelyTables.add(JSONObject(rely.toMap))
     if (currentSelectFields.size() > 0) {
       var existsRely = true
       val selectLength = currentSelectFields.size()
@@ -339,10 +362,10 @@ class SqlScriptProcessor(parser: SqlScriptParser) extends SqlScriptBaseListener 
         if (currentRelyTables.size() > 0 && rely_alias == "") {
           for (i <- 0 until currentRelyTables.size()) {
             val tbNameMap = currentRelyTables.get(i).obj
-            if (tbNameMap.get("tb_alias").nonEmpty && tbNameMap.get("tb_alias").get.toString.equals(rely_alias)) {
+            if (tbNameMap.contains("tb_alias") && tbNameMap("tb_alias").toString.equals(rely_alias)) {
               existsRely = false
             }
-            if (tbNameMap.get("tb_name").nonEmpty && tbNameMap.get("tb_name").get.toString.equals(rely_alias)) {
+            if (tbNameMap.contains("tb_name") && tbNameMap("tb_name").toString.equals(rely_alias)) {
               existsRely = false
             }
           }
@@ -359,9 +382,7 @@ class SqlScriptProcessor(parser: SqlScriptParser) extends SqlScriptBaseListener 
         }
       }
     }
-    rely.put("tb_name", tbName)
-    rely.put("tb_alias", tbAlias)
-    currentRelyTables.add(JSONObject(rely.toMap))
+
     currentTable.put("rely_tables", currentRelyTables)
   }
 
