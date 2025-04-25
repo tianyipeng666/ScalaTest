@@ -19,4 +19,8 @@ object CollectUtils {
     map.keySet().toArray.sameElements(arr)
   }
 
+  def seqAppendStr(list: Seq[String], str: String): Seq[String] = {
+    list :+ str
+  }
+
 }

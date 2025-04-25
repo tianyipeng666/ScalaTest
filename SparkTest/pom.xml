@@ -202,20 +202,20 @@
         <dependency>
             <groupId>org.json4s</groupId>
             <artifactId>json4s-core_${scala.binary.version}</artifactId>
-            <version>3.7.0-M5</version>
+            <version>3.7.0-M11</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.json4s</groupId>
             <artifactId>json4s-jackson_${scala.binary.version}</artifactId>
-            <version>3.7.0-M5</version>
+            <version>3.7.0-M11</version>
             <scope>compile</scope>
         </dependency>
         <!-- 扩展包，用于枚举类序列化 -->
         <dependency>
             <groupId>org.json4s</groupId>
             <artifactId>json4s-ext_${scala.binary.version}</artifactId>
-            <version>3.7.0-M5</version>
+            <version>3.7.0-M11</version>
             <scope>compile</scope>
         </dependency>
         <!--fastJson-->
@@ -289,6 +289,14 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.12</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!--gbase-->
+        <dependency>
+            <groupId>com.haizhi</groupId>
+            <artifactId>gbase-connector-java</artifactId>
+            <version>9.5.0.7</version>
             <scope>compile</scope>
         </dependency>
 

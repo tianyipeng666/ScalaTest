@@ -12,6 +12,7 @@ import inter.UDFName
 import json.JsonService
 import _root_.log.LazyLogging
 import dataCreate.DataCreateUtils
+import gbase.GBaseUtils
 import jetty.HttpApi
 import jetty.web.JettyUtils
 import org.apache.spark.sql.execution.datasources.httpV1Filter.HttpPushDownRule
@@ -28,22 +29,18 @@ import org.json4s.JsonDSL._
 import org.json4s._
 import source.HttpSourceUtils
 import sql.SqlParserService
+import string.StringUtils
+import string.StringUtils.getTransformPartitionColumn
 
 import java.util.UUID
+import scala.collection.mutable.ArrayBuffer
 
 object SparkMain extends LazyLogging {
 
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    val session = getSparkSession()
-    // session.conf.set("spark.sql.hive.metastore.version", "1.2.1")
-    session.sql("INSERT INTO bdp.antiJoinTest1 SELECT cast(id as string) as a FROM (SELECT EXPLODE(sequence(1,20000000)) AS id)")
-    // session.sql("select a as `编号` from bdp.antiJoinTest1").createOrReplaceTempView("temp1")
-    // session.sql("select a as `编号` from bdp.antiJoinTest2").createOrReplaceTempView("temp2")
-    // session.sql("select temp1.`编号` from temp1 anti join temp2 on `temp1`.`编号` = `temp2`.`编号`").createOrReplaceTempView("antiRes")
-    // val df = session.sql("select `编号` as a from antiRes")
-    // df.write.format("parquet").saveAsTable(s"antiRes_tmpTb_${System.currentTimeMillis()}")
+
   }
 
   private def getSparkSession(): SparkSession = {
@@ -89,6 +86,11 @@ object SparkMain extends LazyLogging {
   private def jettyDispose(): Unit = {
     new HttpApi().mapRoutes()
     JettyUtils.startJettyServer("127.0.0.1", 8080, serverName = "LocalJetty")
+  }
+
+  private def gbaseDispose(): Unit = {
+    val connection = GBaseUtils.getGBaseConnection
+    println(GBaseUtils.getTableData("DESC gbaseTest1", connection))
   }
 
   private def schedulerDispose(): Unit = {
