@@ -36,4 +36,8 @@ object StringUtils {
     partitionStr
   }
 
+  def sliceArr(arr: Seq[String]): String = {
+    arr.slice(1, arr.size).mkString("/")
+  }
+
 }

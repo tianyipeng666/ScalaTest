@@ -40,7 +40,7 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-
+    println(GBaseUtils.getTableData("select `fkd2314fde` from d0c212afc8014470891a069c95de643f limit 10", GBaseUtils.getGBaseConnection))
   }
 
   private def getSparkSession(): SparkSession = {
