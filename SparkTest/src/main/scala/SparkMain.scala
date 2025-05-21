@@ -40,7 +40,7 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    println(GBaseUtils.getTableData("select `fkd2314fde` from d0c212afc8014470891a069c95de643f limit 10", GBaseUtils.getGBaseConnection))
+    gbaseDispose
   }
 
   private def getSparkSession(): SparkSession = {
@@ -90,7 +90,7 @@ object SparkMain extends LazyLogging {
 
   private def gbaseDispose(): Unit = {
     val connection = GBaseUtils.getGBaseConnection
-    println(GBaseUtils.getTableData("DESC gbaseTest1", connection))
+    println(GBaseUtils.getTableData("show databases", connection))
   }
 
   private def schedulerDispose(): Unit = {
