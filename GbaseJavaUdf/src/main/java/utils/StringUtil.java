@@ -1,4 +1,4 @@
-package stringUdf;
+package utils;
 
 import org.apache.commons.lang.StringUtils;
 

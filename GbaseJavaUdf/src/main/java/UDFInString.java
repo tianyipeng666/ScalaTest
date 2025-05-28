@@ -1,4 +1,4 @@
-import stringUdf.StringUtil;
+import utils.StringUtil;
 
 public class UDFInString {
 
