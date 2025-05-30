@@ -2,6 +2,10 @@ import com.alibaba.fastjson.JSONObject;
 
 public class UDFStrToJsonAPI {
 
+    public static void main(String[] args) {
+        System.out.println(str2json("Content-Type","application/json", "Accept", "*/*"));
+    }
+
     public static String str2json(String... args) {
         JSONObject jsonObject = new JSONObject();//创建json对象
         int length = args.length;

@@ -11,8 +11,8 @@ import java.util.concurrent.TimeUnit;
 public class UDFHttp {
     private static final String APPLICATION_JSON = "application/json; charset=utf-8";
     private static final OkHttpClient httpClient = new OkHttpClient.Builder()
-            .connectTimeout(UdfConf.udfApiConnectTimeout(), TimeUnit.SECONDS)
-            .readTimeout(UdfConf.udfApiReadTimeout(), TimeUnit.SECONDS)
+            .connectTimeout(UdfConf.udfApiConnectTimeout, TimeUnit.SECONDS)
+            .readTimeout(UdfConf.udfApiReadTimeout, TimeUnit.SECONDS)
             .build();
 
     private static String encode(String params) throws UnsupportedEncodingException {
@@ -41,7 +41,7 @@ public class UDFHttp {
         return map;
     }
 
-    public String evaluate(String requestUrl, String method, String params, String headerStr, String bodyStr) {
+    public static String httpRequest(String requestUrl, String method, String params, String headerStr, String bodyStr) {
         try {
             String url = requestUrl;
             HttpUrl httpUrl = HttpUrl.parse(requestUrl).newBuilder().build();
