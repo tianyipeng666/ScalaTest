@@ -30,7 +30,7 @@ object HiveUtil extends LazyLogging{
     println(alterLocationSql)
     session.sql(alterLocationSql)
 
-    session.sql(s""" MCSK REPAIR TABLE bdp.$tableName """)
+    session.sql(s""" MSCK REPAIR TABLE bdp.$tableName """)
     session.sql(s""" SELECT * FROM bdp.$tableName """)
       .show(10000)
   }
