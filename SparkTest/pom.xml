@@ -17,7 +17,7 @@
         <!--excel-->
         <excel.scala.version>2.12</excel.scala.version>
         <excel.spark.version>3.2.2</excel.spark.version>
-
+        <kafka.version>2.1.0</kafka.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -132,6 +132,25 @@
             <artifactId>spark-hive-thriftserver_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <!--kafka -->
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_${scala.binary.version}</artifactId>
+            <version>${kafka.version}</version>
+        </dependency>
+        <!-- spark-streaming-kafka-0-10:属于 Spark 1.x/2.x 时代的 DStream（基于 RDD）的Spark Streaming API的Kafka 0.10集成包-->
+        <!-- offsetRange -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-kafka-0-10_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        <!-- spark-sql-kafka-0-10:针对 Structured Streaming（以及批式查询）设计的DataFrame/Dataset API的Kafka源与汇（sink）-->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql-kafka-0-10_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
         </dependency>
 
         <!--ftp-->
@@ -261,19 +280,27 @@
             <groupId>org.eclipse.jetty.aggregate</groupId>
             <artifactId>jetty-all</artifactId>
             <version>9.2.30.v20200428</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-servlet</artifactId>
             <version>9.2.30.v20200428</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
             <version>9.2.30.v20200428</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- 连接池 -->
+        <!-- HikariCP -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>3.4.5</version>
         </dependency>
 
         <!--antlr-->

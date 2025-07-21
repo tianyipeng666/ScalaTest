@@ -9,6 +9,10 @@ import org.json4s.JsonDSL._
 
 import javax.servlet.http.HttpServletRequest
 
+/**
+  http://localhost:8080/http/v1/preview
+ */
+
 @Path("/http/v1")
 @Produces(value = Array("application/json"))
 class HttpApi extends RouteApi{

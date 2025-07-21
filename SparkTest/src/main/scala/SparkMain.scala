@@ -4,7 +4,7 @@ import org.apache.spark.sql.types.{DataType, DataTypes, StringType, StructField,
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.functions._
 import _root_.udf.UdfRegister
-import bean.{EnumBean, EnumJava, FieldInfo3, IncrementalPartitionType, Person, PersonSer, SerTestBean, TablePartitionInfo, YearPartitionKeyType}
+import bean.{EnumBean, EnumJava, FieldInfo3, IncrementalPartitionType, Person, PersonSer, SerTestBean, StreamingInfo, TablePartitionInfo, YearPartitionKeyType}
 import constant.{ConstantKey, ConstantPath}
 import excel.{ExcelCheckUtil, SparkExcelUtil}
 import hive.HiveUtil
@@ -12,9 +12,12 @@ import inter.UDFName
 import json.JsonService
 import _root_.log.LazyLogging
 import dataCreate.DataCreateUtils
+import dbConnect.DBConnectUtils
 import gbase.GBaseUtils
 import jetty.HttpApi
 import jetty.web.JettyUtils
+import json.JsonService.parse
+import org.apache.spark.sql.catalyst.util.CaseInsensitiveMap
 import org.apache.spark.sql.execution.datasources.httpV1Filter.HttpPushDownRule
 import org.apache.spark.storage.StorageLevel
 import org.json4s.{DefaultFormats, Formats}
@@ -22,16 +25,18 @@ import org.json4s.ext.EnumNameSerializer
 import redis.RedisServices
 import thread.ShutdownThread
 import thread.TheadLock.CurrentMapLock
-import thread.scheduler.CommitScheduler
+import thread.scheduler.{CommitScheduler, DesignatedTimeScheduler}
 import org.json4s.jackson.Json4sScalaModule
 import org.json4s.jackson.Serialization._
 import org.json4s.JsonDSL._
 import org.json4s._
 import source.HttpSourceUtils
 import sql.SqlParserService
+import streaming.StreamingUtils
 import string.StringUtils
 import string.StringUtils.getTransformPartitionColumn
 
+import java.sql.ResultSet
 import java.util.UUID
 import scala.collection.mutable.ArrayBuffer
 
@@ -40,7 +45,7 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    gbaseDispose
+    kafkaDataDispose
   }
 
   private def getSparkSession(): SparkSession = {
@@ -78,7 +83,8 @@ object SparkMain extends LazyLogging {
     val tempSql4 = "select a,b from t1 union all select a, b from t2 union all select a, b from t3"
     val (parsedSql, relyBaseTables, replaceFields, tempTables, replaceTables,
     variables, fieldVariables, moreFieldsTable) = SqlParserService.parseSql(tempSql3)
-    println(s"""
+    println(
+      s"""
          |temp_tables==>${tempTables}
          |""".stripMargin)
   }
@@ -207,6 +213,37 @@ object SparkMain extends LazyLogging {
     println(df.collect.mkString(","))
     println(dfLimit.collect.mkString(","))
     println(dfCount.collect.mkString(","))
+  }
+
+  private def kafkaDataDispose(): Unit = {
+    StreamingUtils.produceData("127.0.0.1:9092", "monitorInput")
+    // StreamingUtils.kafkaStreamProcess(getSparkSession, "192.168.1.165:9092", "monitorInput", "192.168.1.165:9092", "monitorOutput")
+    // StreamingUtils.getMonitorInfo()
+    // println(write(StreamingUtils.getOffsetInfo(getSparkSession, "192.168.1.165:9092", "monitorInput".split(","), "/tmp/monitorOutput")))
+  }
+
+  private def dbConnectDispose(): Unit = {
+    DBConnectUtils.init("com.mysql.cj.jdbc.Driver",
+      "jdbc:mysql://192.168.1.167:3306/mobius?characterEncoding=UTF-8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=false",
+      "bdp",
+      "h@izhi2dp#bdp-core")
+    val streamingIds = Seq("streaming_c46b6c759c6c48c7bf54c5cb2fc5adad",
+      "streaming_f003f87313ac408d9060835faf299dd4",
+      "streaming_ae8e53a2bc8244d68075ca126e884b87",
+      "streaming_f959781295d64f6cbd9c80d4bc2f2e08")
+    val formattedString = streamingIds.map(id => s"'$id'").mkString(", ")
+    val sql = s"SELECT `streaming_id`, `name`, `tb_id`, `ent_id` " +
+      s"FROM tassadar.STREAMING WHERE `streaming_id` in (${formattedString})"
+    val infoes = DBConnectUtils.executeQuery(sql) { rs: ResultSet =>
+      val streamingId = rs.getString("streaming_id")
+      val streamingName = rs.getString("name")
+      val tbIds = rs.getString("tb_id")
+      val entId = rs.getString("ent_id")
+      StreamingInfo(streamingId, streamingName, tbIds, entId)
+    }
+    infoes.foreach(elem => {
+      println(parse(elem.tbIds).extract[Seq[String]])
+    })
   }
 }
 

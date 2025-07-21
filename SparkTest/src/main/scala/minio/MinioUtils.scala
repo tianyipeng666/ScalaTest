@@ -1,0 +1,5 @@
+package minio
+
+object MinioUtils {
+
+}
