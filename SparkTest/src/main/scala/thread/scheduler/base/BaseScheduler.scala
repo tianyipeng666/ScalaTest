@@ -1,7 +1,7 @@
 package thread.scheduler.base
 
 import bean.EnumBean
-import redis.RedisServices
+import redis.RedisServices611
 
 import java.util.concurrent._
 import java.util.concurrent.atomic.{AtomicBoolean, AtomicInteger}
@@ -46,7 +46,7 @@ abstract class BaseScheduler(maxRunningNum: Int, threadName: String, queue: Stri
           var msg: String = null
           try {
             // 进行任务消费
-            msg = RedisServices.getAsyncTask(queue)
+            msg = RedisServices611.getAsyncTask(queue)
             if (msg != null) {
               logger.info(s"$threadName queueType: $queue, consume message: $msg")
               onReceive(msg)

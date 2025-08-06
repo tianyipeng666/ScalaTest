@@ -11,6 +11,7 @@ import hive.HiveUtil
 import inter.UDFName
 import json.JsonService
 import _root_.log.LazyLogging
+import conf.ConfParseUtils
 import dataCreate.DataCreateUtils
 import dbConnect.DBConnectUtils
 import gbase.GBaseUtils
@@ -22,7 +23,7 @@ import org.apache.spark.sql.execution.datasources.httpV1Filter.HttpPushDownRule
 import org.apache.spark.storage.StorageLevel
 import org.json4s.{DefaultFormats, Formats}
 import org.json4s.ext.EnumNameSerializer
-import redis.RedisServices
+import redis.{RedisServices450, RedisServices611}
 import thread.ShutdownThread
 import thread.TheadLock.CurrentMapLock
 import thread.scheduler.{CommitScheduler, DesignatedTimeScheduler}
@@ -45,7 +46,7 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    kafkaDataDispose
+    redisDispose
   }
 
   private def getSparkSession(): SparkSession = {
@@ -168,10 +169,24 @@ object SparkMain extends LazyLogging {
 
   private def redisDispose(): Unit = {
     // redis连通性测试
-    logger.info(RedisServices.checkConnection().toString)
-    logger.info(RedisServices.getAsyncTask(ConstantKey.ASYNC_COMMIT_TASK))
-    RedisServices.registerLuaScript()
-    logger.info(RedisServices.getOrDel("redisPrefix:m:commit:result:typ2:orc", "1"))
+    // RedisServices622.registerLuaScript()
+    // logger.info(RedisServices622.getOrDel("redisPrefix:m:commit:result:typ2:orc", "1"))
+
+    //450
+    //RedisServices450.subscribeChannel("redisChannelTest1")
+    //println(RedisServices450.putValue("typ2", "text"))
+    //println(RedisServices450.publish("redisChannelTest1", "text"))
+
+    //611
+    RedisServices611.addPubSubListener(RedisServices611.listener)
+    RedisServices611.subscribeChannel("redisChannelTest1")
+    println(RedisServices611.pushToList("typ2", "text"))
+    println(RedisServices611.publish("redisChannelTest1", "text"))
+    println(RedisServices611.setValue("typScriptTest", "1"))
+    println(RedisServices611.registerLuaScript())
+    println(RedisServices611.getOrDel("typScriptTest", "1"))
+    Thread.sleep(10000)
+
   }
 
   private def jsonDispose(): Unit = {

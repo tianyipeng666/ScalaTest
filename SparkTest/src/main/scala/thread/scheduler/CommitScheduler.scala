@@ -8,7 +8,7 @@ import org.json4s.{DefaultFormats, Formats}
 import org.json4s.ext.EnumNameSerializer
 import org.json4s.jackson.JsonMethods
 import org.slf4j.MDC
-import redis.RedisServices
+import redis.RedisServices611
 import thread.scheduler.base.BaseScheduler
 import thread.scheduler.callback.CommitCallback
 import thread.scheduler.runner.CommitRunner
@@ -25,7 +25,7 @@ class CommitScheduler(maxRunningNum: Int, threadName: String, queue: String) ext
     // 根据traceId跟踪日志，为每次请求（线程）生成一个唯一标识并在这次请求中输出的日志都打印这个唯一标识
     MDC.put("traceId", s"$traceId")
     logger.info(s"msg in tmp key:${ConstantKey.ASYNC_COMMIT_TMP_TASK}, msg==${msg}")
-    RedisServices.pushToList(ConstantKey.ASYNC_COMMIT_TMP_TASK, msg)
+    RedisServices611.pushToList(ConstantKey.ASYNC_COMMIT_TMP_TASK, msg)
     logger.info(s"consume commit task: $traceId")
     val commitInfo = JsonMethods.parse(parseMsg.data).extract[CommitInfo]
     val tbName = commitInfo.str
@@ -60,7 +60,7 @@ object CommitScheduler extends LazyLogging {
 
   def start(): Unit = {
     // 启动时从之前执行未终止任务恢复
-    RedisServices.recoveryTmpTask(ConstantKey.ASYNC_COMMIT_TMP_TASK, ConstantKey.ASYNC_COMMIT_TASK).foreach {task =>
+    RedisServices611.recoveryTmpTask(ConstantKey.ASYNC_COMMIT_TMP_TASK, ConstantKey.ASYNC_COMMIT_TASK).foreach { task =>
       val parseMsg = JsonMethods.parse(task).extract[AsyncQueueMessage]
       val syncInfo = JsonMethods.parse(parseMsg.data).extract[CommitInfo]
       logger.warn(s"recovery commit task: ${syncInfo.str} [${syncInfo.enumType.toString}]")
