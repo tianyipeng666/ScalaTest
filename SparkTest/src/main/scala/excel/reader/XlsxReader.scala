@@ -1,6 +1,7 @@
 package excel.reader
 
-import excel.hander.XlsxHander
+import excel.bean.ExcelConfig
+import excel.handler.XlsxHandler
 import org.apache.poi.openxml4j.opc.{OPCPackage, PackageAccess}
 import org.apache.poi.openxml4j.util.ZipSecureFile
 import org.apache.poi.xssf.eventusermodel.XSSFReader
@@ -10,12 +11,16 @@ import org.xml.sax.InputSource
 import java.io.{File, InputStream}
 import javax.xml.parsers.SAXParserFactory
 
-class XlsxReader(path: String, maxRecords: Int = Int.MaxValue) {
+class XlsxReader(config: ExcelConfig,
+                 rowHandler: (Int, Array[String]) => Unit,
+                 sheetEndHandler: (String, Int, String) => Unit,
+                 sheetStartHandler: (String) => Unit,
+                 maxRecords: Int = Int.MaxValue)
+  extends ExcelReader(config, rowHandler, sheetEndHandler, sheetStartHandler, maxRecords) {
 
   def doRead(): Unit = {
-    // 这里下载到本地是为了防止解析内存爆仓
     ZipSecureFile.setMinInflateRatio(0)
-    val xlsxPackage = OPCPackage.open(new File(path), PackageAccess.READ)
+    val xlsxPackage = OPCPackage.open(new File(config.filePath), PackageAccess.READ)
     try {
       val xssfReader = new XSSFReader(xlsxPackage)
       val sst = xssfReader.getSharedStringsTable
@@ -33,17 +38,22 @@ class XlsxReader(path: String, maxRecords: Int = Int.MaxValue) {
   }
 
   private def parseSheet(st: StylesTable, sst: SharedStrings, in: InputStream, sheetName: String): Unit = {
-    val xlsxHander = new XlsxHander(st, sst, maxRecords)
+    var errorMsg = ""
+    val xlsxHandler = new XlsxHandler(st, sst, maxRecords, rowHandler)
     try {
+      sheetStartHandler(sheetName)
       val saxFactory = SAXParserFactory.newInstance()
       val saxParser = saxFactory.newSAXParser()
       val sheetParser = saxParser.getXMLReader()
-      sheetParser.setContentHandler(xlsxHander)
+      sheetParser.setContentHandler(xlsxHandler)
       val sheetSource = new InputSource(in)
       sheetParser.parse(sheetSource)
     } catch {
       case e: Exception => if (e.getMessage == null || !e.getMessage.startsWith("sheetEnd")) {
+        logger.error(s"parse XLSX error, config=$config", e)
+        errorMsg = s"parse error, msg=${e.printStackTrace()}"
       }
     }
+    sheetEndHandler(sheetName, xlsxHandler.getRowNum, errorMsg)
   }
 }

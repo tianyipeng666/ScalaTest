@@ -1,4 +1,4 @@
-package excel.hander
+package excel.handler
 
 import data.DataSetUtils
 import org.apache.poi.ss.usermodel.{BuiltinFormats, DateUtil}
@@ -10,9 +10,10 @@ import org.xml.sax.helpers.DefaultHandler
 import java.text.{DecimalFormat, SimpleDateFormat}
 import scala.collection.mutable.ArrayBuffer
 
-private[excel] class XlsxHander(st: StylesTable,
-                                sst: SharedStrings,
-                                maxRecords: Int) extends DefaultHandler {
+private[excel] class XlsxHandler(st: StylesTable,
+                                 sst: SharedStrings,
+                                 maxRecords: Int,
+                                 rowHandler: (Int, Array[String]) => Unit) extends DefaultHandler {
 
   private object XssfDataType extends Enumeration {
     val BOOLEAN, ERROR, FORMULA, INLINE_STRING, SST_STRING, NUMBER, DATETIME = Value
@@ -127,7 +128,9 @@ private[excel] class XlsxHander(st: StylesTable,
     } else if ("row".equals(name)) {
       val rowData = rowBuffer.toArray
       if (DataSetUtils.checkRowNotEmpty(rowData)) {
-        println(rowNum + "==>" + DataSetUtils.dataTrim(rowData).mkString(","))
+        // 每行解析，添加
+        // println(rowNum + "==>" + DataSetUtils.dataTrim(rowData).mkString(","))
+        rowHandler(rowNum, DataSetUtils.dataTrim(rowData))
         rowNum += 1
       }
       rowBuffer.clear()

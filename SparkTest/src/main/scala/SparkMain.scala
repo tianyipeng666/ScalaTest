@@ -6,7 +6,7 @@ import org.apache.spark.sql.functions._
 import _root_.udf.UdfRegister
 import bean.{EnumBean, EnumJava, FieldInfo3, IncrementalPartitionType, Person, PersonSer, SerTestBean, StreamingInfo, TablePartitionInfo, YearPartitionKeyType}
 import constant.{ConstantKey, ConstantPath}
-import excel.{ExcelCheckUtil, SparkExcelUtil}
+import excel.{ExcelCheckUtil, ExcelParseUtil, SparkExcelUtil}
 import hive.HiveUtil
 import inter.UDFName
 import json.JsonService
@@ -46,7 +46,7 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    redisDispose
+    excelDispose()
   }
 
   private def getSparkSession(): SparkSession = {
@@ -137,10 +137,11 @@ object SparkMain extends LazyLogging {
     threadThird.start
   }
 
-  private def excelDispose(session: SparkSession): Unit = {
+  private def excelDispose(): Unit = {
     // excel
-    val columnStr = "`行号`,`交易机构名称`,`户  名`,`账  号`,`交易机构号`,`子账户序号`"
-    SparkExcelUtil.excelResolve(session, columnStr, true, ConstantPath.macOSPath, ConstantPath.macOSPathOut)
+    // val columnStr = "`行号`,`交易机构名称`,`户  名`,`账  号`,`交易机构号`,`子账户序号`"
+    // SparkExcelUtil.excelResolve(session, columnStr, true, ConstantPath.macOSPath, ConstantPath.macOSPathOut)
+    ExcelParseUtil.excelParse("/Users/tianyipeng/IdeaProjects/ScalaSTest/SparkTest/testFiles/parse.xlsx", ".XLSX", 100)
   }
 
   private def udfDispose(session: SparkSession): Unit = {

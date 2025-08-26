@@ -1,6 +1,5 @@
 package excel
 
-import bean.Schema
 import com.crealytics.spark.excel.WorkbookReader
 import org.apache.spark.sql.{SaveMode, SparkSession}
 import org.apache.spark.sql.types.StructField
