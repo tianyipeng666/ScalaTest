@@ -141,7 +141,7 @@ object SparkMain extends LazyLogging {
     // excel
     // val columnStr = "`行号`,`交易机构名称`,`户  名`,`账  号`,`交易机构号`,`子账户序号`"
     // SparkExcelUtil.excelResolve(session, columnStr, true, ConstantPath.macOSPath, ConstantPath.macOSPathOut)
-    ExcelParseUtil.excelParse("/Users/tianyipeng/IdeaProjects/ScalaSTest/SparkTest/testFiles/parse.xlsx", ".XLSX", 100)
+    ExcelParseUtil.excelParse("/Users/tianyipeng/IdeaProjects/ScalaSTest/SparkTest/testFiles/huge_500k_60cols.xlsx", ".XLSX", 100)
   }
 
   private def udfDispose(session: SparkSession): Unit = {
