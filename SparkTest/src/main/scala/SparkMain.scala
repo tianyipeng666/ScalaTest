@@ -46,7 +46,9 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    excelDispose()
+    val dt = java.time.LocalDate.now.minusDays(1)
+      .format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd"))
+    println(dt)
   }
 
   private def getSparkSession(): SparkSession = {

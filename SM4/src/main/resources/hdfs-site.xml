@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+
+    <property>
+        <name>dfs.nameservices</name>
+        <value>hdcluster</value>
+    </property>
+    <property>
+        <name>dfs.ha.namenodes.hdcluster</name>
+        <value>namenode1,namenode2</value>
+    </property>
+        <property>
+        <name>dfs.namenode.rpc-address.hdcluster.namenode1</name>
+        <value>bdp-namenode1:8020</value>
+    </property>
+    <property>
+        <name>dfs.namenode.servicerpc-address.hdcluster.namenode1</name>
+        <value>bdp-namenode1:53310</value>
+    </property>
+    <property>
+        <name>dfs.namenode.http-address.hdcluster.namenode1</name>
+        <value>bdp-namenode1:50070</value>
+    </property>
+        <property>
+        <name>dfs.namenode.rpc-address.hdcluster.namenode2</name>
+        <value>bdp-namenode2:8020</value>
+    </property>
+    <property>
+        <name>dfs.namenode.servicerpc-address.hdcluster.namenode2</name>
+        <value>bdp-namenode2:53310</value>
+    </property>
+    <property>
+        <name>dfs.namenode.http-address.hdcluster.namenode2</name>
+        <value>bdp-namenode2:50070</value>
+    </property>
+        <property>
+        <name>dfs.namenode.shared.edits.dir</name>
+        <value>qjournal://bdp-journal2:8485/hdcluster</value>
+    </property>
+    <property>
+        <name>dfs.client.failover.proxy.provider.hdcluster</name>
+        <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+    </property>
+    <property>
+        <name>dfs.journalnode.edits.dir</name>
+        <value>/home/bdp/data/hdfs/journal/data</value>
+    </property>
+    <property>
+        <name>dfs.ha.fencing.methods</name>
+        <value>sshfence</value>
+    </property>
+    <property>
+        <name>dfs.ha.fencing.ssh.private-key-files</name>
+        <value>/home/bdp/.ssh/bdp</value>
+    </property>
+    <property>
+        <name>dfs.ha.fencing.ssh.connect-timeout</name>
+        <value>30000</value>
+    </property>
+    <property>
+        <name>dfs.ha.automatic-failover.enabled</name>
+        <value>true</value>
+    </property>
+ 
+    <property>
+        <name>ha.failover-controller.cli-check.rpc-timeout.ms</name>
+        <value>60000</value>
+    </property>
+ 
+    <property>
+        <name>ipc.client.connect.timeout</name>
+        <value>60000</value>
+    </property>
+ 
+    <property>
+        <name>dfs.image.transfer.bandwidthPerSec</name>
+        <value>4194304</value>
+    </property>
+
+    <property>
+        <name>dfs.qjournal.write-txns.timeout.ms</name>
+        <value>60000</value>
+    </property>
+
+    <property>
+        <name>dfs.qjournal.select-input-streams.timeout.ms</name>
+        <value>60000</value>
+    </property>
+
+    <property>
+        <name>dfs.qjournal.start-segment.timeout.ms</name>
+        <value>60000</value>
+    </property>
+    <property>
+        <name>dfs.replication</name>
+        <value>3</value>
+    </property>
+
+
+    <property>
+        <name>dfs.home.dir</name>
+        <value>/home/bdp/data/hdfs</value>
+        <description>namenode meta and datanode data prefix dir define</description>
+    </property>
+    <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>/home/bdp/data/hdfs/name</value>
+    </property>
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>/home/bdp/data/hdfs/data</value>
+    </property>
+    <property>
+       <name>dfs.permissions</name>
+       <value>false</value>
+    </property>
+    <property>
+        <name>dfs.webhdfs.enabled</name>
+        <value>true</value>
+    </property>
+ 
+    <property>
+        <name>dfs.permissions.enabled</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>dfs.hosts</name>
+        <value>/home/bdp/cluster/hadoop/etc/hadoop/includes</value>
+    </property>
+    <property>
+        <name>dfs.hosts.exclude</name>
+        <value>/home/bdp/cluster/hadoop/etc/hadoop/excludes</value>
+    </property>
+    <property>
+        <name>dfs.balance.bandwidthPerSec</name>
+        <value>5242880</value>
+    </property>
+    <property>
+        <name>dfs.namenode.datanode.registration.ip-hostname-check</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>dfs.permissions.superusergroup</name>
+        <value>bdp</value>
+    </property>
+    <property>
+        <name>dfs.nfs.exports.allowed.hosts</name>
+        <value>* rw</value>
+    </property>
+    <property>
+        <name>dfs.access.time.precision</name>
+        <value>3600000</value>
+    </property>
+    <property>
+    　　 <name>dfs.datanode.max.transfer.threads</name>
+    　　 <value>8192</value>
+    </property>
+    <property>
+        <name>fs.hdfs.impl</name>
+        <value>org.apache.hadoop.hdfs.DistributedFileSystem</value>
+    </property>
+    <property>
+        <name>dfs.blocksize</name>
+        <value>134217728</value>
+    </property>
+
+    <property>
+        <name>dfs.namenode.handler.count</name>
+        <value>78</value>
+        <!-- python -c 'import math ; print int(math.log(50) * 20)' -->
+    </property>
+    <property>
+        <name>dfs.datanode.handler.count</name>
+        <value>20</value>
+    </property>
+    <property>
+        <name>dfs.datanode.du.reserved</name>
+        <value>53687091200</value>
+        <description>Reserved space in bytes per volume. Always leave this much space free for non dfs use.</description>
+    </property>
+    <property>
+        <name>dfs.client.block.write.replace-datanode-on-failure.policy</name>
+        <value>NEVER</value>
+    </property>
+
+    <!-- shortcircuit read support
+    <property>
+        <name>dfs.client.read.shortcircuit</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>dfs.domain.socket.path</name>
+        <value>/home/bdp/cluster/hadoop-hdfs/dn_socket</value>
+    </property>
+    <property>
+        <name>dfs.client.read.shortcircuit.streams.cache.size</name>
+        <value>1024</value>
+    </property>
+    <property>
+        <name>dfs.client.read.shortcircuit.streams.cache.expiry.ms</name>
+        <value>10000</value>
+    </property>
+    -->
+    <property>
+      <name>dfs.namenode.fs-limits.max-directory-items</name>
+      <value>6400000</value>
+    </property>
+
+  <!--将 org.apache.hadoop.security.AuthenticationFilterInitializer 初始值设定项类添加到此属性。-->
+  <property>
+      <name>hadoop.http.filter.initializers</name>
+      <value>org.apache.hadoop.security.AuthenticationFilterInitializer</value>
+  </property>
+ 
+  <!--定义用于HTTP Web控制台的身份验证,支持的值是: simple、kerberos -->
+  <property>
+      <name>hadoop.http.authentication.type</name>
+      <value>com.haizhi.auth.HaiZhiAuthenticationHandler</value>
+  </property>
+ 
+  <!--用于签署身份验证令牌的签名密钥文件，集群中的所有节点、ResourceManager、NameNode、DataNode和NodeManager都应该使用相同的密钥，只有运行守护进程的Unix用户才能读取该文件-->
+  <property>
+     <name>hadoop.http.authentication.signature.secret.file</name>
+     <value>/home/bdp/cluster/hadoop/secret/hadoop-http-auth-signature-secret</value>
+  </property>
+ 
+  <!-- 指示在使用“简单”身份验证时是否允许匿名请求。 -->
+  <property>
+     <name>hadoop.http.authentication.simple.anonymous.allowed</name>
+     <value>false</value>
+  </property> 
+<!--token过期时间s-->
+    <property>
+        <name>hadoop.http.authentication.token.validity</name>
+        <value>604800</value>
+    </property>
+<!-- nfs 相关 -->
+    <property>
+        <name>dfs.namenode.accesstime.precision</name>
+        <value>3600000</value>
+        <description>The access time for HDFS file is precise upto this value. The default value is 1 hour.
+        Setting a value of 0 disables access times for HDFS.
+        </description>
+     </property>
+     <property>
+        <name>nfs.dump.dir</name>
+        <value>/tmp/.hdfs-nfs</value>
+     </property>
+     <property>
+        <name>nfs.exports.allowed.hosts</name>
+        <value>* rw</value>
+     </property>
+     <!-- <property>
+        <name>nfs.port.monitoring.disabled</name>
+        <value>true</value>
+    </property> -->
+    <!-- uid gid 映射 -->
+     <!-- <property>
+        <name>static.id.mapping.file</name>
+        <value>/etc/nfs.map</value>
+     </property> -->
+     <!-- <property>
+        <name>nfs.superuser</name>
+        <value>*</value>
+    </property> -->
+    <!-- kerberos 认证 -->
+  <!-- <property>
+    <name>nfs.keytab.file</name>
+    <value>/etc/hadoop/conf/nfsserver.keytab</value> 
+  </property>
+
+  <property>
+    <name>nfs.kerberos.principal</name>
+    <value>nfsserver/_HOST@YOUR-REALM.COM</value>
+  </property> -->
+</configuration>

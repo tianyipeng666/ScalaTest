@@ -84,7 +84,7 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
             <version>2.19.0</version>
-            <scope>compile</scope>
+            <scope>complie</scope>
         </dependency>
 
         <!--excel-->
@@ -180,13 +180,27 @@
             <version>1.3.5-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!--将该包打入项目内会导致找不到主类，-->
+        <!-- 将该包打入项目内会导致找不到主类 -->
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk18on</artifactId>
             <version>1.77</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
+        <!-- sm2加密解密 -->
+<!--        <dependency>-->
+<!--            <groupId>org.bouncycastle</groupId>-->
+<!--            <artifactId>bcprov-jdk15on</artifactId>-->
+<!--            <version>1.58</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
+        <!-- sm4 -->
+<!--        <dependency>-->
+<!--            <groupId>com.haizhi</groupId>-->
+<!--            <artifactId>sm4-x86</artifactId>-->
+<!--            <version>0.0.2</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
 
         <!--hdfs-->
         <dependency>
@@ -400,6 +414,12 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
         <plugins>
             <!-- java compile -->
             <plugin>
@@ -410,6 +430,16 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <nonFilteredFileExtensions>
+                        <nonFilteredFileExtension>so</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>dylib</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>dll</nonFilteredFileExtension>
+                    </nonFilteredFileExtensions>
                 </configuration>
             </plugin>
 
