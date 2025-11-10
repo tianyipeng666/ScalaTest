@@ -9,14 +9,20 @@
     <name>SparkTest</name>
 
     <properties>
-        <!--主要修改版本-->
+        <!--主要修改版本2.4.6-->
+        <!--        <scala.binary.version>2.11</scala.binary.version>-->
+        <!--        <scala.version>2.11.12</scala.version>-->
+        <!--        <spark.version>2.4.6</spark.version>-->
+        <!--        <excel.scala.version>2.11</excel.scala.version>-->
+        <!--        <excel.spark.version>2.4.6</excel.spark.version>-->
+
+        <!--主要修改版本3.2.2-->
         <scala.binary.version>2.12</scala.binary.version>
         <scala.version>2.12.17</scala.version>
         <spark.version>3.2.2</spark.version>
-
-        <!--excel-->
         <excel.scala.version>2.12</excel.scala.version>
         <excel.spark.version>3.2.2</excel.spark.version>
+
         <kafka.version>2.1.0</kafka.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -88,6 +94,7 @@
         </dependency>
 
         <!--excel-->
+        <!-- 需要保证META-INF/services中的org.apache.spark.sql.sources.DataSourceRegister包含对应的类地址-->
         <dependency>
             <groupId>com.haizhi</groupId>
             <artifactId>spark-excel_${excel.scala.version}</artifactId>
@@ -95,12 +102,12 @@
             <scope>compile</scope>
         </dependency>
         <!-- 原始 -->
-<!--            <dependency>-->
-<!--                <groupId>com.crealytics</groupId>-->
-<!--                <artifactId>spark-excel_2.12</artifactId>-->
-<!--                <version>3.2.2_0.18.5</version>-->
-<!--                <scope>compile</scope>-->
-<!--            </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.crealytics</groupId>-->
+        <!--            <artifactId>spark-excel_2.12</artifactId>-->
+        <!--            <version>3.2.2_0.18.5</version>-->
+        <!--            <scope>compile</scope>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
@@ -114,23 +121,30 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- 上服务器时需要置为provided的包 -->
         <!--spark-->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
+            <!--            <scope>provided</scope>-->
+            <!-- 上服务器时provided-->
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-hive_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
+            <!--            <scope>provided</scope>-->
+            <!-- 上服务器时provided-->
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
+            <!--            <scope>provided</scope>-->
+            <!-- 上服务器时provided-->
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
@@ -143,13 +157,76 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-hive-thriftserver_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
+            <!--            <scope>provided</scope>-->
+            <!-- 上服务器时provided-->
             <scope>compile</scope>
         </dependency>
+
+        <!--hdfs-->
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
+            <version>${hdfs.version}</version>
+            <!--            <scope>provided</scope>-->
+            <!-- 上服务器时provided-->
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-client</artifactId>
+            <version>${hdfs.version}</version>
+            <!--            <scope>provided</scope>-->
+            <!-- 上服务器时provided-->
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-hdfs</artifactId>
+            <version>${hdfs.version}</version>
+            <!--            <scope>provided</scope>-->
+            <!-- 上服务器时provided-->
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- json 同spark的冲突了, 使用spark版本-->
+        <!-- 2.4.6=>3.5.3 3.1.3=>3.7.0-M5 3.2.2=>3.7.0-M11-->
+        <dependency>
+            <groupId>org.json4s</groupId>
+            <artifactId>json4s-core_${scala.binary.version}</artifactId>
+            <!--            <version>3.5.3</version>-->
+            <version>3.7.0-M11</version>
+            <!--            <scope>provided</scope>-->
+            <!-- 上服务器时provided-->
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.json4s</groupId>
+            <artifactId>json4s-jackson_${scala.binary.version}</artifactId>
+            <!--            <version>3.5.3</version>-->
+            <version>3.7.0-M11</version>
+            <!--            <scope>provided</scope>-->
+            <!-- 上服务器时provided-->
+            <scope>compile</scope>
+        </dependency>
+        <!-- 扩展包，用于枚举类序列化 -->
+        <dependency>
+            <groupId>org.json4s</groupId>
+            <artifactId>json4s-ext_${scala.binary.version}</artifactId>
+            <!--            <version>3.5.3</version>-->
+            <version>3.7.0-M11</version>
+            <!--            <scope>provided</scope>-->
+            <!-- 上服务器时provided-->
+            <scope>compile</scope>
+        </dependency>
+        <!-- 上服务器时需要置为provided的包 -->
+
+
         <!--kafka -->
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka_${scala.binary.version}</artifactId>
             <version>${kafka.version}</version>
+            <scope>provided</scope>
         </dependency>
         <!-- spark-streaming-kafka-0-10:属于 Spark 1.x/2.x 时代的 DStream（基于 RDD）的Spark Streaming API的Kafka 0.10集成包-->
         <!-- offsetRange -->
@@ -157,12 +234,14 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-streaming-kafka-0-10_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
+            <scope>provided</scope>
         </dependency>
         <!-- spark-sql-kafka-0-10:针对 Structured Streaming（以及批式查询）设计的DataFrame/Dataset API的Kafka源与汇（sink）-->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql-kafka-0-10_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!--ftp-->
@@ -188,53 +267,33 @@
             <scope>provided</scope>
         </dependency>
         <!-- sm2加密解密 -->
-<!--        <dependency>-->
-<!--            <groupId>org.bouncycastle</groupId>-->
-<!--            <artifactId>bcprov-jdk15on</artifactId>-->
-<!--            <version>1.58</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.bouncycastle</groupId>-->
+        <!--            <artifactId>bcprov-jdk15on</artifactId>-->
+        <!--            <version>1.58</version>-->
+        <!--            <scope>compile</scope>-->
+        <!--        </dependency>-->
         <!-- sm4 -->
-<!--        <dependency>-->
-<!--            <groupId>com.haizhi</groupId>-->
-<!--            <artifactId>sm4-x86</artifactId>-->
-<!--            <version>0.0.2</version>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
-
-        <!--hdfs-->
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-common</artifactId>
-            <version>${hdfs.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-client</artifactId>
-            <version>${hdfs.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-hdfs</artifactId>
-            <version>${hdfs.version}</version>
-            <scope>compile</scope>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.haizhi</groupId>-->
+        <!--            <artifactId>sm4-x86</artifactId>-->
+        <!--            <version>0.0.2</version>-->
+        <!--            <scope>provided</scope>-->
+        <!--        </dependency>-->
 
         <!-- redis -->
         <dependency>
             <groupId>io.lettuce</groupId>
             <artifactId>lettuce-core</artifactId>
             <version>6.1.1.RELEASE</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <!-- redis old-->
         <dependency>
             <groupId>biz.paluch.redis</groupId>
             <artifactId>lettuce</artifactId>
             <version>4.5.0.Final</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <!-- 连接池依赖 低版本该包的GenericPool会存在编译不通过情况-->
         <dependency>
@@ -243,27 +302,6 @@
             <version>2.7.0</version>
         </dependency>
 
-        <!-- json 同spark的冲突了, 使用spark版本-->
-        <!-- 2.4.6=>3.5.3 3.1.3=>3.7.0-M5 3.2.2=>3.7.0-M11-->
-        <dependency>
-            <groupId>org.json4s</groupId>
-            <artifactId>json4s-core_${scala.binary.version}</artifactId>
-            <version>3.7.0-M11</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.json4s</groupId>
-            <artifactId>json4s-jackson_${scala.binary.version}</artifactId>
-            <version>3.7.0-M11</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- 扩展包，用于枚举类序列化 -->
-        <dependency>
-            <groupId>org.json4s</groupId>
-            <artifactId>json4s-ext_${scala.binary.version}</artifactId>
-            <version>3.7.0-M11</version>
-            <scope>compile</scope>
-        </dependency>
         <!--fastJson-->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -283,43 +321,43 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20180813</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
 
         <!-- jetty new jdk版本兼容问题-->
-<!--        <dependency>-->
-<!--            <groupId>org.eclipse.jetty</groupId>-->
-<!--            <artifactId>jetty-server</artifactId>-->
-<!--            <version>11.0.20</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.eclipse.jetty</groupId>-->
-<!--            <artifactId>jetty-servlet</artifactId>-->
-<!--            <version>11.0.20</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.eclipse.jetty.aggregate</groupId>-->
-<!--            <artifactId>jetty-all</artifactId>-->
-<!--            <version>9.4.54.v20240208</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.eclipse.jetty</groupId>-->
+        <!--            <artifactId>jetty-server</artifactId>-->
+        <!--            <version>11.0.20</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.eclipse.jetty</groupId>-->
+        <!--            <artifactId>jetty-servlet</artifactId>-->
+        <!--            <version>11.0.20</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.eclipse.jetty.aggregate</groupId>-->
+        <!--            <artifactId>jetty-all</artifactId>-->
+        <!--            <version>9.4.54.v20240208</version>-->
+        <!--        </dependency>-->
         <!-- jetty old-->
         <dependency>
             <groupId>org.eclipse.jetty.aggregate</groupId>
             <artifactId>jetty-all</artifactId>
             <version>9.2.30.v20200428</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-servlet</artifactId>
             <version>9.2.30.v20200428</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
             <version>9.2.30.v20200428</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
 
         <!-- 连接池 -->
@@ -343,7 +381,7 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.12</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
 
         <!--gbase-->
@@ -351,7 +389,7 @@
             <groupId>com.haizhi</groupId>
             <artifactId>gbase-connector-java</artifactId>
             <version>9.5.0.7</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
 
         <!--http-->
@@ -444,28 +482,28 @@
             </plugin>
 
             <!-- scala compile 添加导致自测报错, 只能有一个源目录（scala与java就导致问题）:is already defined as object -->
-<!--            <plugin>-->
-<!--                <groupId>net.alchim31.maven</groupId>-->
-<!--                <artifactId>scala-maven-plugin</artifactId>-->
-<!--                <version>3.4.6</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>scala-compile-first</id>-->
-<!--                        <phase>process-resources</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>add-source</goal>-->
-<!--                            <goal>compile</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                    <execution>-->
-<!--                        <id>scala-test-compile</id>-->
-<!--                        <phase>process-test-resources</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>testCompile</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <!--            <plugin>-->
+            <!--                <groupId>net.alchim31.maven</groupId>-->
+            <!--                <artifactId>scala-maven-plugin</artifactId>-->
+            <!--                <version>3.4.6</version>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>scala-compile-first</id>-->
+            <!--                        <phase>process-resources</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>add-source</goal>-->
+            <!--                            <goal>compile</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                    <execution>-->
+            <!--                        <id>scala-test-compile</id>-->
+            <!--                        <phase>process-test-resources</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>testCompile</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
 
             <!-- assembly -->
             <plugin>
@@ -504,7 +542,8 @@
                 </executions>
                 <configuration>
                     <sourceDirectory>${basedir}/src/main/resources</sourceDirectory>
-                    <outputDirectory>${project.build.directory}/generated-sources/antlr4/zmj/test/antlr4/parser</outputDirectory>
+                    <outputDirectory>${project.build.directory}/generated-sources/antlr4/zmj/test/antlr4/parser
+                    </outputDirectory>
                     <listener>true</listener>
                     <visitor>true</visitor>
                     <treatWarningsAsErrors>true</treatWarningsAsErrors>

@@ -20,6 +20,7 @@ import jetty.web.JettyUtils
 import json.JsonService.parse
 import org.apache.spark.sql.catalyst.util.CaseInsensitiveMap
 import org.apache.spark.sql.execution.datasources.httpV1Filter.HttpPushDownRule
+import org.apache.spark.sql.internal.SQLConf
 import org.apache.spark.storage.StorageLevel
 import org.json4s.{DefaultFormats, Formats}
 import org.json4s.ext.EnumNameSerializer
@@ -38,7 +39,7 @@ import string.StringUtils
 import string.StringUtils.getTransformPartitionColumn
 
 import java.sql.ResultSet
-import java.util.UUID
+import java.util.{Date, Locale, UUID}
 import scala.collection.mutable.ArrayBuffer
 
 object SparkMain extends LazyLogging {
@@ -46,9 +47,7 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    val dt = java.time.LocalDate.now.minusDays(1)
-      .format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd"))
-    println(dt)
+    getDataCreate(getSparkSession, 10, "hdfs://hdcluster/user/hive/warehouse/bdp.db", "typDataTestPar")
   }
 
   private def getSparkSession(): SparkSession = {
@@ -56,8 +55,9 @@ object SparkMain extends LazyLogging {
     SparkSession.builder().config(conf).enableHiveSupport().getOrCreate()
   }
 
-  private def getDataCreate(session: SparkSession, fileNum: Int, path: String): Unit = {
-    DataCreateUtils.getDataSample(session, fileNum, path)
+  private def getDataCreate(session: SparkSession, fileNum: Int, path: String, tableName: String): Unit = {
+    // getDataCreate(getSparkSession, 4, "hdfs://hdcluster/user/hive/warehouse/bdp.db", "typDataTest")
+    DataCreateUtils.getDataSampleParquet(session, fileNum, path, tableName)
   }
 
   private def sqlDispose(): Unit = {

@@ -1,7 +1,8 @@
 package excel
 
 import com.crealytics.spark.excel.WorkbookReader
-import org.apache.spark.sql.{SaveMode, SparkSession}
+import org.apache.hadoop.fs.Path
+import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
 import org.apache.spark.sql.types.StructField
 
 import java.io.File
@@ -77,5 +78,19 @@ object SparkExcelUtil {
       })
 
     }
+  }
+
+  def writeExcel(df: DataFrame, hdfsPath: String): Unit = {
+    df.repartition(1)
+      .write
+      //.format("com.crealytics.spark.excel")
+      .format("excel")
+      .mode(SaveMode.Overwrite)
+      .option("header", true)
+      .option("dataAddress", "'Sheet1'!A1")
+      .option("maxRowsInMemory", 40000)
+      // 关闭科学计数法
+      .option("usePlainNumberFormat", true)
+      .save(hdfsPath)
   }
 }

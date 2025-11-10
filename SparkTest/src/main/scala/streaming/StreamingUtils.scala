@@ -157,9 +157,8 @@ object StreamingUtils extends LazyLogging{
                 .takeRight(math.min(recentProcess.length, 20))
                 .reverse
               val streamingMonitorInfo: Array[StreamingMonitorInfo] = latestSlice.map { batch =>
-                // 平均落后offset
-                val avgBehind = batch.sources.head.metrics
-                  .getOrDefault("avgOffsetsBehindLatest", "0")
+                // 平均落后offset(spark2.4.6没有)
+                // val avgBehind = batch.sources.head.metrics.getOrDefault("avgOffsetsBehindLatest", "0")
                 // 带有时区时间戳转换
                 val odt = OffsetDateTime.parse(batch.timestamp)
                 val local = odt.atZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime
@@ -171,7 +170,8 @@ object StreamingUtils extends LazyLogging{
                   batch.numInputRows.toInt,
                   batch.durationMs.getOrDefault("triggerExecution", 0L)
                     .toInt,
-                  avgBehind.toDouble.toLong,
+                  10,
+                  //avgBehind.toDouble.toLong,
                   batch.inputRowsPerSecond.toInt,
                   batch.processedRowsPerSecond.toInt
                 )
