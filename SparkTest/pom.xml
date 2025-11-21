@@ -20,6 +20,7 @@
         <scala.binary.version>2.12</scala.binary.version>
         <scala.version>2.12.17</scala.version>
         <spark.version>3.2.2</spark.version>
+        <hive.version>2.3.9</hive.version>
         <excel.scala.version>2.12</excel.scala.version>
         <excel.spark.version>3.2.2</excel.spark.version>
 
@@ -186,6 +187,25 @@
             <!--            <scope>provided</scope>-->
             <!-- 上服务器时provided-->
             <scope>compile</scope>
+        </dependency>
+
+        <!-- hive -->
+        <dependency>
+            <groupId>org.apache.hive</groupId>
+            <artifactId>hive-exec</artifactId>
+            <version>${hive.version}</version>
+            <scope>compile</scope>
+            <!-- 会与SparkSql的对应版本冲突导致执行失败-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.codehaus.janino</groupId>
+                    <artifactId>janino</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.codehaus.janino</groupId>
+                    <artifactId>commons-compiler</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- json 同spark的冲突了, 使用spark版本-->

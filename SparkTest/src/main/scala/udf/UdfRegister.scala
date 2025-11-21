@@ -2,6 +2,7 @@ package udf
 
 import bean.Person
 import inter.UDFName
+import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.{SQLContext, SparkSession}
 
 import java.util
@@ -12,20 +13,20 @@ object UdfRegister {
 
   def udfArray(session: SparkSession, clazzMap: util.HashMap[String, String]): Unit = {
     // 临时udf注册
-    //    val getListUDF = udf((tbName: String, path: String) => {
-    //      val list = new util.ArrayList[String]()
-    //      list.add(tbName)
-    //      list.add(path)
-    //      list
-    //    })
-    //    session.udf.register("getList", getListUDF)
+    val getListUDF = udf((tbName: String, path: String) => {
+      val list = new util.ArrayList[String]()
+      list.add(tbName)
+      list.add(path)
+      list
+    })
+    session.udf.register("getList", getListUDF)
 
     //自定义udf注册
-//    clazzMap.entrySet().forEach(entry => {
-//      val tempSql = s"CREATE OR REPLACE FUNCTION ${entry.getKey} AS '${entry.getValue}'"
-//      println(tempSql)
-//      session.sql(tempSql)
-//    })
+    clazzMap.entrySet().forEach(entry => {
+      val tempSql = s"CREATE OR REPLACE FUNCTION ${entry.getKey} AS '${entry.getValue}'"
+      println(tempSql)
+      session.sql(tempSql)
+    })
 
     val df = session.createDataFrame(Seq(Person("Michael", "29"), Person("Andy", "30"), Person("Justin", "19")))
     //scala的Seq数据转为Df

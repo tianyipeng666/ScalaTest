@@ -3,7 +3,7 @@ import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.types.{DataType, DataTypes, StringType, StructField, StructType}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.functions._
-import _root_.udf.UdfRegister
+import _root_.udf.{DynamicUdfRegister, UdfRegister}
 import bean.{EnumBean, EnumJava, FieldInfo3, IncrementalPartitionType, Person, PersonSer, SerTestBean, StreamingInfo, TablePartitionInfo, YearPartitionKeyType}
 import constant.{ConstantKey, ConstantPath}
 import excel.{ExcelCheckUtil, ExcelParseUtil, SparkExcelUtil}
@@ -20,6 +20,7 @@ import jetty.web.JettyUtils
 import json.JsonService.parse
 import org.apache.spark.sql.catalyst.util.CaseInsensitiveMap
 import org.apache.spark.sql.execution.datasources.httpV1Filter.HttpPushDownRule
+import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.sql.internal.SQLConf
 import org.apache.spark.storage.StorageLevel
 import org.json4s.{DefaultFormats, Formats}
@@ -47,7 +48,28 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    getDataCreate(getSparkSession, 10, "hdfs://hdcluster/user/hive/warehouse/bdp.db", "typDataTestPar")
+    val session = getSparkSession
+    println(session.sparkContext.master)
+  }
+
+  private def dynamicUdfRegisterDispose() = {
+    val session = getSparkSession
+    var running = true
+    val registerScheduler = new DynamicUdfRegister(new HiveContext(session.sparkContext), "/Users/tianyipeng/IdeaProjects/ScalaSTest/data")
+    registerScheduler.start()
+    while (running) {
+      if (session.catalog.functionExists("truncate_str") &&
+        session.catalog.functionExists("ip_prefix") &&
+        session.catalog.functionExists("json_pair")) {
+        session.sql("select truncate_str('tianyipeng', 3)").show()
+        session.sql("select ip_prefix('192.168.1.100')").show()
+        session.sql("select json_pair('name', 'tianyipeng')").show()
+        running = false
+      }
+      Thread.sleep(10 * 1000)
+    }
+    println("complete test...")
+    registerScheduler.stop()
   }
 
   private def getSparkSession(): SparkSession = {
