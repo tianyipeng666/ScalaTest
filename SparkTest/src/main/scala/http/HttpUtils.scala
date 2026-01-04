@@ -1,6 +1,6 @@
 package http
 
-import org.json._
+import com.alibaba.fastjson.JSONObject
 import com.github.lianjiatech.retrofit.spring.boot.exception.ReadResponseBodyException
 import com.github.lianjiatech.retrofit.spring.boot.util.RetrofitUtils
 import okhttp3.{FormBody, MediaType, OkHttpClient, Request, RequestBody}

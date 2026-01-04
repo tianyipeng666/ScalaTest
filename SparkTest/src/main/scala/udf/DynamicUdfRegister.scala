@@ -59,9 +59,9 @@ class DynamicUdfRegister(spark: HiveContext, udfBaseDir: String, scanIntervalSec
       return
     }
 
-    val jars = dir.listFiles { f =>
+    val jars = dir.listFiles.filter(f =>
       f.isFile && f.getName.toLowerCase.endsWith(".jar")
-    }
+    )
 
     if (jars == null || jars.isEmpty) return
 
@@ -93,7 +93,7 @@ class DynamicUdfRegister(spark: HiveContext, udfBaseDir: String, scanIntervalSec
     val absPath = jarFile.getAbsolutePath
 
     // 1) 下发 jar 到 executors
-    spark.sql(s"ADD JAR '$absPath'")
+    spark.sql(s"ADD JAR $absPath")
     // spark.sparkContext.addJar(absPath) // 可选：双保险
 
     // 2) 打开 udf.properties

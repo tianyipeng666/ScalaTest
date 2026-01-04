@@ -1,6 +1,6 @@
 import ftp.FtpUtils
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.types.{DataType, DataTypes, StringType, StructField, StructType}
+import org.apache.spark.sql.types.{DataType, DataTypes, IntegerType, StringType, StructField, StructType}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.functions._
 import _root_.udf.{DynamicUdfRegister, UdfRegister}
@@ -18,8 +18,10 @@ import gbase.GBaseUtils
 import jetty.HttpApi
 import jetty.web.JettyUtils
 import json.JsonService.parse
+import org.apache.spark.sql.catalyst.expressions.PythonUDF
 import org.apache.spark.sql.catalyst.util.CaseInsensitiveMap
 import org.apache.spark.sql.execution.datasources.httpV1Filter.HttpPushDownRule
+import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.sql.internal.SQLConf
 import org.apache.spark.storage.StorageLevel
@@ -48,8 +50,7 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    val session = getSparkSession
-    println(session.sparkContext.master)
+    dynamicUdfRegisterDispose
   }
 
   private def dynamicUdfRegisterDispose() = {
@@ -58,6 +59,7 @@ object SparkMain extends LazyLogging {
     val registerScheduler = new DynamicUdfRegister(new HiveContext(session.sparkContext), "/Users/tianyipeng/IdeaProjects/ScalaSTest/data")
     registerScheduler.start()
     while (running) {
+      println("don't have waiting...")
       if (session.catalog.functionExists("truncate_str") &&
         session.catalog.functionExists("ip_prefix") &&
         session.catalog.functionExists("json_pair")) {

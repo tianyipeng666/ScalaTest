@@ -22,11 +22,11 @@ object UdfRegister {
     session.udf.register("getList", getListUDF)
 
     //自定义udf注册
-    clazzMap.entrySet().forEach(entry => {
-      val tempSql = s"CREATE OR REPLACE FUNCTION ${entry.getKey} AS '${entry.getValue}'"
-      println(tempSql)
-      session.sql(tempSql)
-    })
+//    clazzMap.entrySet().forEach(entry => {
+//      val tempSql = s"CREATE OR REPLACE FUNCTION ${entry.getKey} AS '${entry.getValue}'"
+//      println(tempSql)
+//      session.sql(tempSql)
+//    })
 
     val df = session.createDataFrame(Seq(Person("Michael", "29"), Person("Andy", "30"), Person("Justin", "19")))
     //scala的Seq数据转为Df

@@ -8,7 +8,7 @@ import antlr.sql.SqlScriptParser._
 import java.util
 import scala.collection.JavaConverters._
 import scala.collection.mutable
-import scala.util.parsing.json.JSONObject
+import json.source.JSONObject
 
 class OriginSqlScriptProcessor(parser: SqlScriptParser) extends SqlScriptBaseListener {
   private val tokens = parser.getTokenStream.asInstanceOf[BufferedTokenStream]

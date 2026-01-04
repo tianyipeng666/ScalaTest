@@ -2,6 +2,7 @@ package com.typ.udf;
 
 
 import org.apache.spark.sql.api.java.UDF2;
+import org.apache.spark.sql.api.java.UDF22;
 
 // truncate_str(str, len) -> 把 str 截断到 len 长度
 public class TruncateStrUdf implements UDF2<String, Integer, String> {

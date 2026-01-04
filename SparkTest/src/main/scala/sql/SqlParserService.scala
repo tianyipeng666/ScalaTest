@@ -5,7 +5,7 @@ import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTreeWalker
 import sql.parser.{ANTLRNoCaseStringStream, OriginSqlScriptProcessor}
 
-import scala.util.parsing.json.JSONObject
+import json.source.JSONObject
 
 object SqlParserService {
 
