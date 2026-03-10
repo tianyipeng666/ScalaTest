@@ -12,9 +12,9 @@
         <!--主要修改版本2.4.6-->
 <!--        <scala.binary.version>2.11</scala.binary.version>-->
 <!--        <scala.version>2.11.12</scala.version>-->
-<!--        <spark.version>2.4.6</spark.version>-->
+<!--        <spark.version>2.3.0</spark.version>-->
 <!--        <excel.scala.version>2.11</excel.scala.version>-->
-<!--        <excel.spark.version>2.4.6</excel.spark.version>-->
+<!--        <excel.spark.version>2.3.0</excel.spark.version>-->
 <!--        <hive.version>1.2.1</hive.version>-->
 
         <!--主要修改版本3.2.2-->
@@ -401,7 +401,7 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.12</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
 
         <!--gbase-->
@@ -409,7 +409,7 @@
             <groupId>com.haizhi</groupId>
             <artifactId>gbase-connector-java</artifactId>
             <version>9.5.0.7</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
 
         <!--http-->

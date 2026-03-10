@@ -7,14 +7,17 @@ import json.GsonUtils;
 import sm4.com.travelsky.alid.Sm4DecryptApp;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class JavaMain {
     public static void main(String[] args) {
-        String ftpPath = "/typ/sm4/BKOBJ-202310301345.txt";
-        String hdfsPath = "/typ/BKOBJ-202310301345DEN.txt";
-        sm4Dispose(ftpPath, hdfsPath);
+        System.out.println(Base64.getUrlEncoder().encodeToString("超级管理员".getBytes(StandardCharsets.UTF_8)));
+        System.out.println(new String(Base64.getUrlDecoder().decode("6LaF57qn566h55CG5ZGY"), StandardCharsets.UTF_8));
+//        String ftpPath = "/typ/sm4/BKOBJ-202310301345.txt";
+//        String hdfsPath = "/typ/BKOBJ-202310301345DEN.txt";
+//        sm4Dispose(ftpPath, hdfsPath);
     }
 
     public static void sm4Dispose(String ftpPath, String hdfsPath) {

@@ -24,18 +24,18 @@ object SparkExcelUtil {
       df.show(10000)
     } else {
       // 获取指定文件的sheetNames, 只能读取本地
-      val sheetNames = WorkbookReader(Map("path" -> src)
-        , session.sparkContext.hadoopConfiguration
-      ).sheetNames
-      sheetNames.foreach(elem => {
-        val df = session.read
-          .format("excel")
-          .option("dataAddress", s"'${elem}'!A6")
-          .option("header", "true")
-          .option("columnNameOfRowNumber", "行号")
-          .load(src)
-        df.show(10000)
-      })
+//      val sheetNames = WorkbookReader(Map("path" -> src)
+//        , session.sparkContext.hadoopConfiguration
+//      ).sheetNames
+//      sheetNames.foreach(elem => {
+//        val df = session.read
+//          .format("excel")
+//          .option("dataAddress", s"'${elem}'!A6")
+//          .option("header", "true")
+//          .option("columnNameOfRowNumber", "行号")
+//          .load(src)
+//        df.show(10000)
+//      })
     }
   }
 

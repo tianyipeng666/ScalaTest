@@ -61,6 +61,13 @@
             <version>${hive.version}</version>
             <scope>provided</scope>
         </dependency>
+        <!-- sm4 -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>1.77</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 

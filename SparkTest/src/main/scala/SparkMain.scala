@@ -18,7 +18,6 @@ import gbase.GBaseUtils
 import jetty.HttpApi
 import jetty.web.JettyUtils
 import json.JsonService.parse
-import org.apache.spark.sql.catalyst.expressions.PythonUDF
 import org.apache.spark.sql.catalyst.util.CaseInsensitiveMap
 import org.apache.spark.sql.execution.datasources.httpV1Filter.HttpPushDownRule
 import org.apache.spark.sql.expressions.UserDefinedFunction
@@ -50,8 +49,9 @@ object SparkMain extends LazyLogging {
   import JsonService.formats
 
   def main(args: Array[String]): Unit = {
-    dynamicUdfRegisterDispose
+    gbaseDispose()
   }
+
 
   private def dynamicUdfRegisterDispose() = {
     val session = getSparkSession
@@ -122,8 +122,9 @@ object SparkMain extends LazyLogging {
   }
 
   private def gbaseDispose(): Unit = {
+    // GBaseUtils.insertTmpData
     val connection = GBaseUtils.getGBaseConnection
-    println(GBaseUtils.getTableData("show databases", connection))
+    GBaseUtils.getTableData("select * from test", connection)
   }
 
   private def schedulerDispose(): Unit = {
@@ -167,7 +168,7 @@ object SparkMain extends LazyLogging {
     // excel
     // val columnStr = "`行号`,`交易机构名称`,`户  名`,`账  号`,`交易机构号`,`子账户序号`"
     // SparkExcelUtil.excelResolve(session, columnStr, true, ConstantPath.macOSPath, ConstantPath.macOSPathOut)
-    ExcelParseUtil.excelParse("/Users/tianyipeng/IdeaProjects/ScalaSTest/SparkTest/testFiles/huge_500k_60cols.xlsx", ".XLSX", 100)
+    ExcelParseUtil.excelParse("/Users/tianyipeng/IdeaProjects/ScalaSTest/SparkTest/testFiles/parse.xlsx", ".XLSX", 100)
   }
 
   private def udfDispose(session: SparkSession): Unit = {
